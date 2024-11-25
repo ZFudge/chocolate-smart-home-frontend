@@ -11,12 +11,10 @@ import {
   IoSparklesSharp,
   IoSpeedometerOutline,
 } from 'react-icons/io5';
-import { Button, ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
-import classes from './NeoPixel.module.css';
+import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
 
-export interface IndexableObj {
-  [key: string]: any;
-}
+import { ToggleButton } from 'src/components/ToggleButton';
+import classes from './NeoPixel.module.css';
 
 export interface NeoPixelObject {
   id: number;
@@ -54,36 +52,6 @@ function Palette({ device }: { device: NeoPixelObject }) {
           <Flex key={`${i}-${device.id}-pallete-span`}>{c}</Flex>
         ))}
     </Flex>
-  );
-}
-
-const toggleSetting = ({ device, lookupName }: { device: NeoPixelObject; lookupName: string }) => {
-  const url = `/neopixel/${device.id}/`;
-  const postData = {
-    [lookupName]: !(device as IndexableObj)[lookupName],
-  };
-  console.log(url, postData, device, lookupName, (device as IndexableObj)[lookupName]);
-};
-
-function ToggleButton({
-  device,
-  lookupName,
-  children,
-}: {
-  device: NeoPixelObject;
-  lookupName: string;
-  children?: React.ReactNode;
-}) {
-  return (
-    <Button
-      onClick={() => toggleSetting({ device, lookupName })}
-      color={(device as IndexableObj)[lookupName] ? 'teal' : 'gray'}
-      variant="outline"
-      size="xs"
-      radius="lg"
-    >
-      {children}
-    </Button>
   );
 }
 

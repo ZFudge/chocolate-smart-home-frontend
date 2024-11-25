@@ -33,7 +33,7 @@ const data: NeoPixelObject[] = [
 ];
 
 describe('Neo pixel Device component', () => {
-  it('has correct Vite guide link', () => {
+  it('', () => {
     render(<NeoPixelTable data={data} />);
   });
 });
