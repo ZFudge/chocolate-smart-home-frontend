@@ -11,25 +11,10 @@ import {
   IoSparklesSharp,
   IoSpeedometerOutline,
 } from 'react-icons/io5';
-import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
-
 import { ToggleButton } from 'src/components/ToggleButton';
+import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
+import NeoPixelObject from './NeoPixelObject';
 import classes from './NeoPixel.module.css';
-
-export interface NeoPixelObject {
-  id: number;
-  name: string;
-  space: string;
-  palette: string[];
-  ms: number;
-  brightness: number;
-  on: boolean;
-  online: boolean;
-  twinkle: boolean;
-  transform: boolean;
-  white?: boolean;
-  scheduled: boolean | undefined;
-}
 
 type FlexDirection = 'row-reverse' | undefined;
 
@@ -75,14 +60,14 @@ function SplitTableCell({
   );
 }
 
-export const NeoPixelTableRow = ({
+const NeoPixelTableRow = ({
   device,
   selection,
   toggleRow,
 }: {
   device: NeoPixelObject;
   selection: number[];
-  toggleRow: Function;
+  toggleRow: (id: number) => void;
 }) => {
   return (
     <Table.Tr
@@ -116,7 +101,7 @@ export const NeoPixelTableRow = ({
   );
 };
 
-export function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
+export default function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
   const [selection, setSelection] = useState([1]);
   const toggleRow = (id: number) =>
     setSelection((current) =>
@@ -131,7 +116,10 @@ export function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
         <Table withTableBorder className={classes['mantine-Table-table']}>
           <Table.Tbody>
             {data.map((device: NeoPixelObject, i) => (
-              <NeoPixelTableRow key={`${i}-tr-${device.id}`} {...{ device, selection, toggleRow }} />
+              <NeoPixelTableRow
+                key={`${i}-tr-${device.id}`}
+                {...{ device, selection, toggleRow }}
+              />
             ))}
           </Table.Tbody>
         </Table>

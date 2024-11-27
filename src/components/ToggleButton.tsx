@@ -1,4 +1,3 @@
-
 import { Button } from '@mantine/core';
 
 export interface IndexableObj {

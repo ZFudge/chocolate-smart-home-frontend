@@ -1,4 +1,5 @@
-import { NeoPixelObject, NeoPixelTable } from '../components/NeoPixels/NeoPixelTable';
+import NeoPixelObject from '../components/NeoPixels/NeoPixelObject';
+import NeoPixelTable from '../components/NeoPixels/NeoPixelTable';
 
 export default {
   title: 'NeoPixel',

@@ -1,5 +1,6 @@
-import { render, screen } from '@test-utils';
-import { NeoPixelObject, NeoPixelTable } from './NeoPixelTable';
+import { render } from '@test-utils';
+import NeoPixelObject from './NeoPixelObject';
+import NeoPixelTable from './NeoPixelTable';
 
 const data: NeoPixelObject[] = [
   {
