@@ -1,5 +1,5 @@
 import NeoPixelObject from 'src/components/NeoPixels/NeoPixelObject';
-import PaletteModal from '../components/NeoPixels/PaletteModal';
+import EditPaletteModal from '../components/NeoPixels/EditPaletteModal';
 
 export default {
   title: 'PaletteModal',
@@ -30,4 +30,4 @@ const device: NeoPixelObject = {
   ],
 };
 
-export const Palette = () => <PaletteModal device={device} opened close={() => {}} />;
+export const OpenModal = () => <EditPaletteModal device={device} close={() => {}} />;

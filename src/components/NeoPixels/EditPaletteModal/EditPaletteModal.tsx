@@ -3,17 +3,9 @@ import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { postUpdate } from '@/api';
 import NeoPixelObject from '../NeoPixelObject';
-import classes from './PaletteModal.module.css';
+import classes from './EditPaletteModal.module.css';
 
-export default function PaletteModal({
-  device,
-  opened,
-  close,
-}: {
-  device: NeoPixelObject;
-  opened: boolean;
-  close: () => void;
-}) {
+function EditPaletteModal({ device, close }: { device: NeoPixelObject; close: () => void }) {
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: Object.fromEntries(Object.entries(device.palette)),
@@ -29,7 +21,7 @@ export default function PaletteModal({
   return (
     <>
       <Modal
-        opened={opened}
+        opened
         onClose={close}
         title={device.name}
         withCloseButton={false}
@@ -65,3 +57,5 @@ export default function PaletteModal({
     </>
   );
 }
+
+export default EditPaletteModal;

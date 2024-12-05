@@ -10,7 +10,7 @@ describe('Neo Pixel Device component', () => {
   afterEach(vi.clearAllMocks);
 
   it('should add/remove rows from selection when clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable data={mockNeoPixelsData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const firstRow: HTMLElement = getByTestId('1-tr');
     const secondRow: HTMLElement = getByTestId('2-tr');
     act(() => {
@@ -27,7 +27,7 @@ describe('Neo Pixel Device component', () => {
   });
 
   it('should call api.postUpdate when power button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable data={mockNeoPixelsData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const powerButton: HTMLElement = getByTestId('1-on-toggle');
     const apiModule = await import('@/api');
     act(() => {
@@ -38,7 +38,7 @@ describe('Neo Pixel Device component', () => {
   });
 
   it('should call api.postUpdate when twinkle button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable data={mockNeoPixelsData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const twinkleButton: HTMLElement = getByTestId('1-twinkle-toggle');
     const apiModule = await import('@/api');
     act(() => {
@@ -49,7 +49,7 @@ describe('Neo Pixel Device component', () => {
   });
 
   it('should call api.postUpdate when transform button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable data={mockNeoPixelsData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const transformButton: HTMLElement = getByTestId('1-transform-toggle');
     const apiModule = await import('@/api');
     act(() => {

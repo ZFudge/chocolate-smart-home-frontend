@@ -12,18 +12,30 @@ import {
   IoSpeedometerOutline,
 } from 'react-icons/io5';
 import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
-import { ToggleButton } from '@/components/ToggleButton';
+import ToggleButton from '@/components/ToggleButton';
+import EditPaletteModal from './EditPaletteModal';
 import NeoPixelObject from './NeoPixelObject';
 import classes from './NeoPixel.module.css';
 
 type FlexDirection = 'row-reverse' | undefined;
 
-function Palette({ device }: { device: NeoPixelObject }) {
+function Palette({
+  device,
+  openPaletteModal,
+}: {
+  device: NeoPixelObject;
+  openPaletteModal: () => void;
+}) {
   return (
-    <Flex wrap="wrap" direction="column">
+    <Flex
+      wrap="wrap"
+      direction="column"
+      onClick={openPaletteModal}
+      className={cx(classes.paletteStatus)}
+    >
       {device.palette
         .map((color, i) => (
-          <ColorSwatch color={color} size="10" key={`${i}-${device.id}-${color}`} />
+          <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.id}`} />
         ))
         .reduce((arr: React.ReactNode[][], v, i) => {
           const rowIndex = Math.floor(i / 3);
@@ -34,7 +46,7 @@ function Palette({ device }: { device: NeoPixelObject }) {
           return arr;
         }, [])
         .map((c, i) => (
-          <Flex key={`${i}-${device.id}-pallete-span`}>{c}</Flex>
+          <Flex key={`pallete-span-${i}-${device.id}`}>{c}</Flex>
         ))}
     </Flex>
   );
@@ -64,10 +76,12 @@ const NeoPixelTableRow = ({
   device,
   selected,
   toggleRow,
+  openPaletteModal,
 }: {
   device: NeoPixelObject;
   selected: boolean;
   toggleRow: (id: number) => void;
+  openPaletteModal: () => void;
 }) => {
   return (
     <Table.Tr
@@ -84,7 +98,7 @@ const NeoPixelTableRow = ({
         <ToggleButton device={device} lookupName="on">
           <FaPowerOff />
         </ToggleButton>,
-        <Palette device={device} />,
+        <Palette device={device} openPaletteModal={openPaletteModal} />,
         <ToggleButton device={device} lookupName="twinkle">
           {device.twinkle ? <IoSparklesSharp /> : <IoSparklesOutline />}
         </ToggleButton>,
@@ -94,36 +108,40 @@ const NeoPixelTableRow = ({
         <SplitTableCell text={device.ms} Icon={IoSpeedometerOutline} />,
         <SplitTableCell text={device.brightness} Icon={BsBrightnessHigh} />,
         <SplitTableCell text={device.space} Icon={IoLocationOutline} />,
-      ].map((c, i) => (
-        <Table.Td key={`${i}`}>{c}</Table.Td>
+      ].map((tableCell, i) => (
+        <Table.Td key={`td-${i}-${device.id}`}>{tableCell}</Table.Td>
       ))}
     </Table.Tr>
   );
 };
 
-export default function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
+export default function NeoPixelTable({ neoPixelData }: { neoPixelData: NeoPixelObject[] }) {
   const [selection, setSelection] = useState<number[]>([]);
+  const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
+
   const toggleRow = (id: number) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     );
-  // const toggleAll = () =>
-  //   setSelection((current) => (current.length === data.length ? [] : data.map((item) => item.id)));
 
   return (
     <ScrollArea>
       <Flex className={classes.flexTable}>
         <Table withTableBorder className={classes['mantine-Table-table']}>
           <Table.Tbody>
-            {data.map((device: NeoPixelObject, i) => (
+            {neoPixelData.map((device: NeoPixelObject, i) => (
               <NeoPixelTableRow
-                key={`${i}-tr-${device.id}`}
+                key={`tr-${i}-${device.id}`}
                 selected={selection.includes(device.id)}
+                openPaletteModal={() => setEditPaletteDevice(device)}
                 {...{ device, toggleRow }}
               />
             ))}
           </Table.Tbody>
         </Table>
+        {editPaletteDevice && (
+          <EditPaletteModal device={editPaletteDevice} close={() => setEditPaletteDevice(null)} />
+        )}
       </Flex>
     </ScrollArea>
   );

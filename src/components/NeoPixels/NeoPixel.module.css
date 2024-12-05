@@ -10,3 +10,7 @@
 .mantine-Table-table {
   width: auto;
 }
+
+.paletteStatus {
+  cursor: pointer;
+}

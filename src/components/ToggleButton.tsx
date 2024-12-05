@@ -10,7 +10,7 @@ const toggleSetting = ({ device, lookupName }: { device: IndexableObj; lookupNam
   postUpdate({ id: device.id, value: newValue, name: lookupName });
 };
 
-export function ToggleButton({
+function ToggleButton({
   device,
   lookupName,
   children,
@@ -32,3 +32,5 @@ export function ToggleButton({
     </Button>
   );
 }
+
+export default ToggleButton;
