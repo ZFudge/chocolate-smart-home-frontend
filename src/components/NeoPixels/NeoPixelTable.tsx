@@ -11,8 +11,8 @@ import {
   IoSparklesSharp,
   IoSpeedometerOutline,
 } from 'react-icons/io5';
-import { ToggleButton } from 'src/components/ToggleButton';
 import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
+import { ToggleButton } from '@/components/ToggleButton';
 import NeoPixelObject from './NeoPixelObject';
 import classes from './NeoPixel.module.css';
 
@@ -62,18 +62,18 @@ function SplitTableCell({
 
 const NeoPixelTableRow = ({
   device,
-  selection,
+  selected,
   toggleRow,
 }: {
   device: NeoPixelObject;
-  selection: number[];
+  selected: boolean;
   toggleRow: (id: number) => void;
 }) => {
   return (
     <Table.Tr
-      key={device.id}
-      className={cx({ [classes.rowSelected]: selection.includes(device.id) })}
+      className={cx({ [classes.rowSelected]: selected })}
       onClick={() => toggleRow(device.id)}
+      data-testid={`${device.id}-tr`}
     >
       {[
         <SplitTableCell
@@ -102,7 +102,7 @@ const NeoPixelTableRow = ({
 };
 
 export default function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
-  const [selection, setSelection] = useState([1]);
+  const [selection, setSelection] = useState<number[]>([]);
   const toggleRow = (id: number) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
@@ -118,7 +118,8 @@ export default function NeoPixelTable({ data }: { data: NeoPixelObject[] }) {
             {data.map((device: NeoPixelObject, i) => (
               <NeoPixelTableRow
                 key={`${i}-tr-${device.id}`}
-                {...{ device, selection, toggleRow }}
+                selected={selection.includes(device.id)}
+                {...{ device, toggleRow }}
               />
             ))}
           </Table.Tbody>

@@ -1,15 +1,13 @@
 import { Button } from '@mantine/core';
+import { postUpdate } from '@/api';
 
 export interface IndexableObj {
   [key: string]: any;
 }
 
 const toggleSetting = ({ device, lookupName }: { device: IndexableObj; lookupName: string }) => {
-  const url = `/neopixel/${device.id}/`;
-  const postData = {
-    [lookupName]: !device[lookupName],
-  };
-  console.log(url, postData, device, lookupName, device[lookupName]);
+  const newValue = !device[lookupName];
+  postUpdate({ id: device.id, value: newValue, name: lookupName });
 };
 
 export function ToggleButton({
@@ -28,6 +26,7 @@ export function ToggleButton({
       variant="outline"
       size="xs"
       radius="lg"
+      data-testid={`${device.id}-${lookupName}-toggle`}
     >
       {children}
     </Button>
