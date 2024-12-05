@@ -12,7 +12,7 @@ import {
   IoSpeedometerOutline,
 } from 'react-icons/io5';
 import { JSX } from 'react/jsx-runtime';
-import { Button, ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
+import { Button, Checkbox, ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
 import ToggleButton from '@/components/ToggleButton';
 import EditPaletteModal from './EditPaletteModal';
 import NeoPixelObject from './NeoPixelObject';
@@ -97,12 +97,13 @@ const NeoPixelTableRow = ({
   openPaletteModal: () => void;
 }) => {
   return (
-    <Table.Tr
-      className={cx({ [classes.rowSelected]: selected })}
-      onClick={() => toggleRow(device.id)}
-      data-testid={`${device.id}-tr`}
-    >
+    <Table.Tr className={cx({ [classes.rowSelected]: selected })} data-testid={`${device.id}-tr`}>
       {[
+        <Checkbox
+          checked={selected}
+          onChange={() => toggleRow(device.id)}
+          data-testid={`${device.id}-checkbox`}
+        />,
         <SplitTableCell
           text={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}

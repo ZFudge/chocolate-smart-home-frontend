@@ -6,19 +6,21 @@ import mockNeoPixelsData from './mockData';
 
 vi.mock('@/api', { spy: true });
 
-describe('Neo Pixel Device component', () => {
+describe('NeoPixelTable component', () => {
   afterEach(vi.clearAllMocks);
 
   it('should add/remove rows from selection when clicked', async () => {
     const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const firstRow: HTMLElement = getByTestId('1-tr');
     const secondRow: HTMLElement = getByTestId('2-tr');
-    act(() => fireEvent.click(firstRow));
+    const firstCheckbox: HTMLElement = getByTestId('1-checkbox');
+    const secondCheckbox: HTMLElement = getByTestId('2-checkbox');
+    act(() => fireEvent.click(firstCheckbox));
     expect(firstRow).toHaveClass(cx(classes.rowSelected));
     expect(secondRow).not.toHaveClass(cx(classes.rowSelected));
     act(() => {
-      fireEvent.click(firstRow);
-      fireEvent.click(secondRow);
+      fireEvent.click(firstCheckbox);
+      fireEvent.click(secondCheckbox);
     });
     expect(firstRow).not.toHaveClass(cx(classes.rowSelected));
     expect(secondRow).toHaveClass(cx(classes.rowSelected));
