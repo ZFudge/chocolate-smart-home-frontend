@@ -27,6 +27,7 @@ function EditPaletteModal({ device, close }: { device: NeoPixelObject; close: ()
         withCloseButton={false}
         centered
         className={cx(classes['palette-modal'])}
+        data-testid="palette-modal"
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <FocusTrap.InitialFocus />

@@ -11,13 +11,12 @@ import {
   IoSparklesSharp,
   IoSpeedometerOutline,
 } from 'react-icons/io5';
-import { ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
+import { JSX } from 'react/jsx-runtime';
+import { Button, ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
 import ToggleButton from '@/components/ToggleButton';
 import EditPaletteModal from './EditPaletteModal';
 import NeoPixelObject from './NeoPixelObject';
 import classes from './NeoPixel.module.css';
-
-type FlexDirection = 'row-reverse' | undefined;
 
 function Palette({
   device,
@@ -27,48 +26,62 @@ function Palette({
   openPaletteModal: () => void;
 }) {
   return (
-    <Flex
-      wrap="wrap"
-      direction="column"
+    <Button
+      variant="transparent"
+      data-testid={`${device.id}-palette-button`}
+      className={cx(classes['neo-pixel-table-palette-status'])}
       onClick={openPaletteModal}
-      className={cx(classes.paletteStatus)}
     >
-      {device.palette
-        .map((color, i) => (
-          <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.id}`} />
-        ))
-        .reduce((arr: React.ReactNode[][], v, i) => {
-          const rowIndex = Math.floor(i / 3);
-          if (!Array.isArray(arr[rowIndex])) {
-            arr[rowIndex] = [];
-          }
-          arr[rowIndex].push(v);
-          return arr;
-        }, [])
-        .map((c, i) => (
-          <Flex key={`pallete-span-${i}-${device.id}`}>{c}</Flex>
-        ))}
-    </Flex>
+      <Flex wrap="wrap" direction="column">
+        {device.palette
+          .map((color, i) => (
+            <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.id}`} />
+          ))
+          .reduce((arr: React.ReactNode[][], v, i) => {
+            const rowIndex = Math.floor(i / 3);
+            if (!Array.isArray(arr[rowIndex])) {
+              arr[rowIndex] = [];
+            }
+            arr[rowIndex].push(v);
+            return arr;
+          }, [])
+          .map((c, i) => (
+            <Flex key={`pallete-span-${i}-${device.id}`}>{c}</Flex>
+          ))}
+      </Flex>
+    </Button>
   );
 }
 
 function SplitTableCell({
   children,
-  direction,
   Icon,
   text,
 }: {
   children?: React.ReactNode;
-  direction?: FlexDirection | undefined;
   Icon: IconType;
   text: string | number;
 }) {
   return (
-    <Flex columnGap={5} justify="flex-end" align="center" direction={direction}>
+    <Flex columnGap={5} justify="flex-end" align="center" direction="row-reverse">
       {text && <Text ta="right">{text}</Text>}
       <Icon />
       {children}
     </Flex>
+  );
+}
+
+function SplitTableCellButton(
+  props: JSX.IntrinsicAttributes & {
+    children?: React.ReactNode;
+    Icon: IconType;
+    text: string | number;
+  }
+) {
+  return (
+    <Button variant="transparent" className={cx(classes['split-button'])}>
+      <SplitTableCell {...props} />
+    </Button>
   );
 }
 
@@ -91,7 +104,6 @@ const NeoPixelTableRow = ({
     >
       {[
         <SplitTableCell
-          direction="row-reverse"
           text={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}
         />,
@@ -105,8 +117,8 @@ const NeoPixelTableRow = ({
         <ToggleButton device={device} lookupName="transform">
           {device.transform ? <GiTransform /> : <GiTransform />}
         </ToggleButton>,
-        <SplitTableCell text={device.ms} Icon={IoSpeedometerOutline} />,
-        <SplitTableCell text={device.brightness} Icon={BsBrightnessHigh} />,
+        <SplitTableCellButton text={device.ms} Icon={IoSpeedometerOutline} />,
+        <SplitTableCellButton text={device.brightness} Icon={BsBrightnessHigh} />,
         <SplitTableCell text={device.space} Icon={IoLocationOutline} />,
       ].map((tableCell, i) => (
         <Table.Td key={`td-${i}-${device.id}`}>{tableCell}</Table.Td>

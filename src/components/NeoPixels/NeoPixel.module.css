@@ -11,6 +11,6 @@
   width: auto;
 }
 
-.paletteStatus {
-  cursor: pointer;
+.neo-pixel-table-palette-status, .split-button {
+  padding: 0;
 }
