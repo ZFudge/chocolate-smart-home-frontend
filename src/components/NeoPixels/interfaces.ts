@@ -1,4 +1,4 @@
-export default interface NeoPixelObject {
+export interface NeoPixelObject {
   id: number;
   name: string;
   space: string;
@@ -11,4 +11,8 @@ export default interface NeoPixelObject {
   transform: boolean;
   white?: boolean;
   scheduled: boolean | undefined;
+}
+
+export interface IndexableObj {
+  [key: string]: any;
 }

@@ -14,3 +14,11 @@
 .neo-pixel-table-palette-status, .split-button {
   padding: 0;
 }
+
+.slider-button-group {
+  justify-content: center;
+}
+
+.number-slider {
+  margin: 1em 0;
+}

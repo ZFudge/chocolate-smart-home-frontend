@@ -12,10 +12,23 @@ import {
   IoSpeedometerOutline,
 } from 'react-icons/io5';
 import { JSX } from 'react/jsx-runtime';
-import { Button, Checkbox, ColorSwatch, Flex, ScrollArea, Table, Text } from '@mantine/core';
+import {
+  Button,
+  Checkbox,
+  ColorSwatch,
+  Flex,
+  Popover,
+  ScrollArea,
+  Table,
+  Text,
+  Tooltip,
+  TooltipProps,
+} from '@mantine/core';
+import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import ToggleButton from '@/components/ToggleButton';
 import EditPaletteModal from './EditPaletteModal';
-import NeoPixelObject from './NeoPixelObject';
+import { IndexableObj, NeoPixelObject } from './interfaces';
+import SliderForm from './SliderForm';
 import classes from './NeoPixel.module.css';
 
 function Palette({
@@ -45,8 +58,8 @@ function Palette({
             arr[rowIndex].push(v);
             return arr;
           }, [])
-          .map((c, i) => (
-            <Flex key={`pallete-span-${i}-${device.id}`}>{c}</Flex>
+          .map((row, i) => (
+            <Flex key={`${device.id}-${i}-pallete-span`}>{row}</Flex>
           ))}
       </Flex>
     </Button>
@@ -56,34 +69,60 @@ function Palette({
 function SplitTableCell({
   children,
   Icon,
-  text,
+  value,
 }: {
   children?: React.ReactNode;
   Icon: IconType;
-  text: string | number;
+  value: string | number;
 }) {
   return (
     <Flex columnGap={5} justify="flex-end" align="center" direction="row-reverse">
-      {text && <Text ta="right">{text}</Text>}
+      {value && <Text ta="right">{value}</Text>}
       <Icon />
       {children}
     </Flex>
   );
 }
 
-function SplitTableCellButton(
+function PopoverSlider(
   props: JSX.IntrinsicAttributes & {
     children?: React.ReactNode;
     Icon: IconType;
-    text: string | number;
+    device: IndexableObj;
+    name: string;
   }
 ) {
+  const [opened, { close, open }] = useDisclosure(false);
+  const ref = useClickOutside(() => close());
+
   return (
-    <Button variant="transparent" className={cx(classes['split-button'])}>
-      <SplitTableCell {...props} />
-    </Button>
+    <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
+      <Popover.Target>
+        <Button
+          onClick={open}
+          variant="transparent"
+          className={cx(classes['split-button'])}
+          data-testid={`${props.device.id}-${props.name}-slider-button`}
+        >
+          <SplitTableCell {...props} value={props.device[props.name]} />
+        </Button>
+      </Popover.Target>
+      <Popover.Dropdown ref={ref}>
+        <SliderForm name={props.name} device={props.device} close={close} />
+      </Popover.Dropdown>
+    </Popover>
   );
 }
+
+const CustomComponentTooltipWrapper = (props: TooltipProps) => {
+  /* Wraps custom components in nested span tag to prevent ref error
+  https://mantine.dev/core/tooltip/#tooltip-children */
+  return (
+    <Tooltip {...props}>
+      <span>{props.children}</span>
+    </Tooltip>
+  );
+};
 
 const NeoPixelTableRow = ({
   device,
@@ -105,22 +144,34 @@ const NeoPixelTableRow = ({
           data-testid={`${device.id}-checkbox`}
         />,
         <SplitTableCell
-          text={device.name}
+          value={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}
         />,
-        <ToggleButton device={device} lookupName="on">
-          <FaPowerOff />
-        </ToggleButton>,
-        <Palette device={device} openPaletteModal={openPaletteModal} />,
-        <ToggleButton device={device} lookupName="twinkle">
-          {device.twinkle ? <IoSparklesSharp /> : <IoSparklesOutline />}
-        </ToggleButton>,
-        <ToggleButton device={device} lookupName="transform">
-          {device.transform ? <GiTransform /> : <GiTransform />}
-        </ToggleButton>,
-        <SplitTableCellButton text={device.ms} Icon={IoSpeedometerOutline} />,
-        <SplitTableCellButton text={device.brightness} Icon={BsBrightnessHigh} />,
-        <SplitTableCell text={device.space} Icon={IoLocationOutline} />,
+        <CustomComponentTooltipWrapper label="Toggle Power">
+          <ToggleButton device={device} lookupName="on">
+            <FaPowerOff />
+          </ToggleButton>
+        </CustomComponentTooltipWrapper>,
+        <CustomComponentTooltipWrapper label="Update Palette">
+          <Palette device={device} openPaletteModal={openPaletteModal} />
+        </CustomComponentTooltipWrapper>,
+        <CustomComponentTooltipWrapper label="Toggle Twinkle">
+          <ToggleButton device={device} lookupName="twinkle">
+            {device.twinkle ? <IoSparklesSharp /> : <IoSparklesOutline />}
+          </ToggleButton>
+        </CustomComponentTooltipWrapper>,
+        <CustomComponentTooltipWrapper label="Toggle Transform">
+          <ToggleButton device={device} lookupName="transform">
+            {device.transform ? <GiTransform /> : <GiTransform />}
+          </ToggleButton>
+        </CustomComponentTooltipWrapper>,
+        <CustomComponentTooltipWrapper label="Set Milliseconds">
+          <PopoverSlider name="ms" device={device} Icon={IoSpeedometerOutline} />
+        </CustomComponentTooltipWrapper>,
+        <CustomComponentTooltipWrapper label="Set Brightness">
+          <PopoverSlider name="brightness" device={device} Icon={BsBrightnessHigh} />
+        </CustomComponentTooltipWrapper>,
+        <SplitTableCell value={device.space} Icon={IoLocationOutline} />,
       ].map((tableCell, i) => (
         <Table.Td key={`td-${i}-${device.id}`}>{tableCell}</Table.Td>
       ))}
@@ -144,7 +195,7 @@ export default function NeoPixelTable({ neoPixelData }: { neoPixelData: NeoPixel
           <Table.Tbody>
             {neoPixelData.map((device: NeoPixelObject, i) => (
               <NeoPixelTableRow
-                key={`tr-${i}-${device.id}`}
+                key={`${device.id}-${i}-tr`}
                 selected={selection.includes(device.id)}
                 openPaletteModal={() => setEditPaletteDevice(device)}
                 {...{ device, toggleRow }}

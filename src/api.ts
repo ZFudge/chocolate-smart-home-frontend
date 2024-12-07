@@ -1,6 +1,6 @@
 interface PostData {
   id: number;
-  value: boolean | string[];
+  value: number | boolean | string[];
   name: string;
 }
 

@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@test-utils';
+import { act, fireEvent, render, userEvent } from '@test-utils';
 import cx from 'clsx';
 import classes from '@/components/NeoPixels/NeoPixel.module.css';
 import NeoPixelTable from '@/components/NeoPixels/NeoPixelTable';
@@ -35,6 +35,14 @@ describe('NeoPixelTable component', () => {
     expect(apiModule.postUpdate).toHaveBeenCalledWith({ id: 1, value: false, name: 'on' });
   });
 
+  it('should open/close palette modal', async () => {
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
+    const paletteButton: HTMLElement = getByTestId('1-palette-button');
+    fireEvent.click(paletteButton);
+    const paletteModal = getByTestId('palette-modal');
+    expect(paletteModal).toBeTruthy();
+  });
+
   it('should call api.postUpdate when twinkle button clicked', async () => {
     const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
     const twinkleButton: HTMLElement = getByTestId('1-twinkle-toggle');
@@ -53,11 +61,31 @@ describe('NeoPixelTable component', () => {
     expect(apiModule.postUpdate).toHaveBeenCalledWith({ id: 1, value: false, name: 'transform' });
   });
 
-  it('should open/close palette modal', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={mockNeoPixelsData} />);
-    const paletteButton: HTMLElement = getByTestId('1-palette-button');
-    act(() => fireEvent.click(paletteButton));
-    const paletteModal = getByTestId('palette-modal');
-    expect(paletteModal).toBeTruthy();
+  it('should set ms', async () => {
+    const { getByTestId, findByTestId } = render(
+      <NeoPixelTable neoPixelData={mockNeoPixelsData} />
+    );
+    const msButton: HTMLElement = getByTestId('1-ms-slider-button');
+    fireEvent.click(msButton);
+    const submitButton = await findByTestId('1-ms-submit-button');
+    const apiModule = await import('@/api');
+    await userEvent.keyboard('[ArrowUp]');
+    fireEvent.click(submitButton);
+    expect(apiModule.postUpdate).toHaveBeenCalledOnce();
+    expect(apiModule.postUpdate).toHaveBeenCalledWith({ id: 1, value: 6, name: 'ms' });
+  });
+
+  it('should set brightness', async () => {
+    const { getByTestId, findByTestId } = render(
+      <NeoPixelTable neoPixelData={mockNeoPixelsData} />
+    );
+    const brightnessButton: HTMLElement = getByTestId('1-brightness-slider-button');
+    fireEvent.click(brightnessButton);
+    const submitButton = await findByTestId('1-brightness-submit-button');
+    const apiModule = await import('@/api');
+    await userEvent.keyboard('[ArrowUp]');
+    fireEvent.click(submitButton);
+    expect(apiModule.postUpdate).toHaveBeenCalledOnce();
+    expect(apiModule.postUpdate).toHaveBeenCalledWith({ id: 1, value: 128, name: 'brightness' });
   });
 });

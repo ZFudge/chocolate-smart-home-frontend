@@ -1,4 +1,4 @@
-import NeoPixelObject from 'src/components/NeoPixels/NeoPixelObject';
+import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 import EditPaletteModal from '../components/NeoPixels/EditPaletteModal';
 
 export default {
