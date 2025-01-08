@@ -2,11 +2,11 @@ import { act, fireEvent, render } from '@test-utils';
 import { vi } from 'vitest';
 import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal/EditPaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import mockNeoPixelsData from './mockData';
+import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/api', { spy: true });
 
-const device: NeoPixelObject = mockNeoPixelsData[0];
+const device: NeoPixelObject = neoPixelsMockData[0];
 
 describe('Palette Modal component', () => {
   afterEach(vi.clearAllMocks);

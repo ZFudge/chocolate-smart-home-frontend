@@ -108,7 +108,7 @@ function PopoverSlider(
         </Button>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <SliderForm name={props.name} device={props.device} close={close} />
+        <SliderForm name={props.name} device={props.device} close={close} Icon={props.Icon} />
       </Popover.Dropdown>
     </Popover>
   );
@@ -179,7 +179,15 @@ const NeoPixelTableRow = ({
   );
 };
 
-export default function NeoPixelTable({ neoPixelData }: { neoPixelData: NeoPixelObject[] }) {
+export interface NeoPixelTableProps {
+  /** Device data */
+  neoPixelData: NeoPixelObject[];
+  /** Optional click handler */
+  onClick?: () => void;
+}
+
+/** Primary component for Neo Pixel user interaction */
+export default function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
 

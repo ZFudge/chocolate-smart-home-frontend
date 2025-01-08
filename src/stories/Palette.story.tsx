@@ -1,5 +1,5 @@
-import { fn } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 
@@ -34,10 +34,10 @@ const meta: Meta<typeof EditPaletteModal> = {
 
 export default meta;
 type Story = StoryObj<typeof EditPaletteModal>;
- 
+
 export const EditPaletteModalStory: Story = {
   args: {
-    device: device,
+    device,
     close: fn(),
   },
 };

@@ -1,6 +1,6 @@
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 
-const mockNeoPixelsData: NeoPixelObject[] = [
+const neoPixelsMockData: NeoPixelObject[] = [
   {
     id: 1,
     name: 'NeoPixel 1',
@@ -51,4 +51,4 @@ const mockNeoPixelsData: NeoPixelObject[] = [
   },
 ];
 
-export default mockNeoPixelsData;
+export default neoPixelsMockData;

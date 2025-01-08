@@ -1,5 +1,6 @@
 import cx from 'clsx';
-import { Button, Group, Slider, Text } from '@mantine/core';
+import { IconType } from 'react-icons';
+import { Button, Group, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/api';
 import { IndexableObj } from './interfaces';
@@ -8,10 +9,12 @@ import classes from './NeoPixel.module.css';
 function SliderForm({
   device,
   name,
+  Icon,
   close,
 }: {
   device: IndexableObj;
   name: string;
+  Icon: IconType;
   close: () => void;
 }) {
   const field = useField({
@@ -30,11 +33,15 @@ function SliderForm({
         {name}: {device[name]}
       </Text>
       <Slider
+        {...field.getInputProps()}
         min={0}
         max={255}
         key={field.key}
-        {...field.getInputProps()}
+        label={null}
         className={cx(classes['number-slider'])}
+        thumbChildren={<Icon size="1rem" />}
+        thumbSize={26}
+        styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
       />
       <Group className={cx(classes['slider-button-group'])}>
         <Button
