@@ -16,3 +16,10 @@ export const MixedView: Story = {
     onClick: fn(),
   },
 };
+
+export const Empty: Story = {
+  args: {
+    neoPixelData: [],
+    onClick: fn(),
+  },
+};

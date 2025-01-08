@@ -13,7 +13,9 @@ import {
 } from 'react-icons/io5';
 import { JSX } from 'react/jsx-runtime';
 import {
+  Box,
   Button,
+  Center,
   Checkbox,
   ColorSwatch,
   Flex,
@@ -26,10 +28,19 @@ import {
 } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import ToggleButton from '@/components/ToggleButton';
+import { boolToOnOff } from '@/utils';
 import EditPaletteModal from './EditPaletteModal';
 import { IndexableObj, NeoPixelObject } from './interfaces';
 import SliderForm from './SliderForm';
 import classes from './NeoPixel.module.css';
+
+function Empty() {
+  return (
+    <Center maw={400} h={100}>
+      <Box>No Neo Pixel Devices found.</Box>
+    </Center>
+  );
+}
 
 function Palette({
   device,
@@ -147,7 +158,7 @@ const NeoPixelTableRow = ({
           value={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}
         />,
-        <CustomComponentTooltipWrapper label="Toggle Power">
+        <CustomComponentTooltipWrapper label={`Power ${boolToOnOff(!device.online)}`}>
           <ToggleButton device={device} lookupName="on">
             <FaPowerOff />
           </ToggleButton>
@@ -155,12 +166,12 @@ const NeoPixelTableRow = ({
         <CustomComponentTooltipWrapper label="Update Palette">
           <Palette device={device} openPaletteModal={openPaletteModal} />
         </CustomComponentTooltipWrapper>,
-        <CustomComponentTooltipWrapper label="Toggle Twinkle">
+        <CustomComponentTooltipWrapper label={`Twinkle ${boolToOnOff(!device.twinkle)}`}>
           <ToggleButton device={device} lookupName="twinkle">
             {device.twinkle ? <IoSparklesSharp /> : <IoSparklesOutline />}
           </ToggleButton>
         </CustomComponentTooltipWrapper>,
-        <CustomComponentTooltipWrapper label="Toggle Transform">
+        <CustomComponentTooltipWrapper label={`Transform ${boolToOnOff(!device.transform)}`}>
           <ToggleButton device={device} lookupName="transform">
             {device.transform ? <GiTransform /> : <GiTransform />}
           </ToggleButton>
@@ -199,24 +210,30 @@ export default function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
   return (
     <ScrollArea>
       <Flex className={classes.flexTable}>
-        <Table withTableBorder className={classes['mantine-Table-table']}>
-          <Table.Tbody>
-            {neoPixelData.map((device: NeoPixelObject, i) => (
-              <NeoPixelTableRow
-                key={`${device.id}-${i}-tr`}
-                selected={selection.includes(device.id)}
-                openPaletteModal={() => setEditPaletteDevice(device)}
-                {...{ device, toggleRow }}
+        {!neoPixelData.length ? (
+          <Empty />
+        ) : (
+          <>
+            <Table withTableBorder className={classes['mantine-Table-table']}>
+              <Table.Tbody>
+                {neoPixelData.map((device: NeoPixelObject, i) => (
+                  <NeoPixelTableRow
+                    key={`${device.id}-${i}-tr`}
+                    selected={selection.includes(device.id)}
+                    openPaletteModal={() => setEditPaletteDevice(device)}
+                    {...{ device, toggleRow }}
+                  />
+                ))}
+              </Table.Tbody>
+            </Table>
+            {editPaletteDevice && (
+              <EditPaletteModal
+                presetOptions={[]}
+                device={editPaletteDevice}
+                close={() => setEditPaletteDevice(null)}
               />
-            ))}
-          </Table.Tbody>
-        </Table>
-        {editPaletteDevice && (
-          <EditPaletteModal
-            presetOptions={[]}
-            device={editPaletteDevice}
-            close={() => setEditPaletteDevice(null)}
-          />
+            )}
+          </>
         )}
       </Flex>
     </ScrollArea>
