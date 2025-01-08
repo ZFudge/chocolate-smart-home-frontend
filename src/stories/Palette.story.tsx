@@ -1,9 +1,7 @@
+import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react';
+import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import EditPaletteModal from '../components/NeoPixels/EditPaletteModal';
-
-export default {
-  title: 'PaletteModal',
-};
 
 const device: NeoPixelObject = {
   id: 1,
@@ -30,4 +28,16 @@ const device: NeoPixelObject = {
   ],
 };
 
-export const OpenModal = () => <EditPaletteModal device={device} close={() => {}} />;
+const meta: Meta<typeof EditPaletteModal> = {
+  component: EditPaletteModal,
+};
+
+export default meta;
+type Story = StoryObj<typeof EditPaletteModal>;
+ 
+export const EditPaletteModalStory: Story = {
+  args: {
+    device: device,
+    close: fn(),
+  },
+};
