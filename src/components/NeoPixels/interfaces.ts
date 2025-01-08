@@ -16,3 +16,20 @@ export interface NeoPixelObject {
 export interface IndexableObj {
   [key: string]: any;
 }
+
+export type PresetFormValuesType = [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+];
+
+export interface PalettePreset {
+  value: PresetFormValuesType;
+  label: string;
+}

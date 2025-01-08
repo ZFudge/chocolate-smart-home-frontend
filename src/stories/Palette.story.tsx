@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
+import { palettePresetsMockData } from '@/tests/placeholder-data';
 
 const device: NeoPixelObject = {
   id: 1,
@@ -38,6 +39,7 @@ type Story = StoryObj<typeof EditPaletteModal>;
 export const EditPaletteModalStory: Story = {
   args: {
     device,
+    presetOptions: palettePresetsMockData,
     close: fn(),
   },
 };

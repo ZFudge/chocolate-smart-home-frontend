@@ -212,7 +212,11 @@ export default function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
           </Table.Tbody>
         </Table>
         {editPaletteDevice && (
-          <EditPaletteModal device={editPaletteDevice} close={() => setEditPaletteDevice(null)} />
+          <EditPaletteModal
+            presetOptions={[]}
+            device={editPaletteDevice}
+            close={() => setEditPaletteDevice(null)}
+          />
         )}
       </Flex>
     </ScrollArea>

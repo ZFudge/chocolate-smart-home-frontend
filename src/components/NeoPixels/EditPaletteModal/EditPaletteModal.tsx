@@ -2,12 +2,20 @@ import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { postUpdate } from '@/api';
-import { NeoPixelObject } from '../interfaces';
+import { NeoPixelObject, PalettePreset } from '../interfaces';
+import PalettePresets from './PalettePresets';
 import classes from './EditPaletteModal.module.css';
 
-function EditPaletteModal({ device, close }: { device: NeoPixelObject; close: () => void }) {
+interface EditPaletteModalProps {
+  device: NeoPixelObject;
+  close: () => void;
+  presetOptions: PalettePreset[];
+}
+
+function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProps) {
   const form = useForm({
     mode: 'uncontrolled',
+    name: 'edit-palette',
     initialValues: Object.fromEntries(Object.entries(device.palette)),
   });
 
@@ -42,6 +50,7 @@ function EditPaletteModal({ device, close }: { device: NeoPixelObject; close: ()
               />
             ))}
           </div>
+          <PalettePresets presets={presetOptions} />
           <Group className={cx(classes['modal-button-group'])}>
             <Button type="submit" data-testid="submit">
               Submit
