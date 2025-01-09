@@ -1,0 +1,39 @@
+.palette-modal-content {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  --square-size: 12em;
+  width: var(--square-size);
+  height: var(--square-size);
+  margin: auto;
+  margin-bottom: 1em;
+  border: 1px solid var(--mantine-color-default-color);
+}
+
+.palette-modal > div > section > header {
+  justify-content: center;
+  user-select: none;
+}
+
+.modal-button-group {
+  justify-content: center;
+  margin-top: 1em;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+input[type="color" i] {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--mantine-color-default-color);
+  cursor: pointer;
+}
+
+input[type="color" i]:hover {
+  border: 1.75px solid var(--mantine-color-default-color);
+}
+
+input::-webkit-color-swatch {
+  border: none;
+}
