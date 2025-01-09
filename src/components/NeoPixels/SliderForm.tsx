@@ -2,7 +2,7 @@ import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { Button, Group, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
-import { postUpdate } from '@/api';
+import { postUpdate } from '@/lib/api';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
 

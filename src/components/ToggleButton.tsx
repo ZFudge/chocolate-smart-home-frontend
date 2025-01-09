@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { postUpdate } from '@/api';
+import { postUpdate } from '@/lib/api';
 import { IndexableObj } from './NeoPixels/interfaces';
 
 const toggleSetting = ({ device, lookupName }: { device: IndexableObj; lookupName: string }) => {

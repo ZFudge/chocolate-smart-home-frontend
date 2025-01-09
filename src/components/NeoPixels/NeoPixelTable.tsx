@@ -28,7 +28,7 @@ import {
 } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import ToggleButton from '@/components/ToggleButton';
-import { boolToOnOff } from '@/utils';
+import { boolToOnOff } from '@/lib/utils';
 import EditPaletteModal from './EditPaletteModal';
 import { IndexableObj, NeoPixelObject } from './interfaces';
 import SliderForm from './SliderForm';
