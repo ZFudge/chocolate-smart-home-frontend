@@ -4,7 +4,7 @@ import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal/EditPalett
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 import { neoPixelsMockData } from './placeholder-data';
 
-vi.mock('@/api', { spy: true });
+vi.mock('@/lib/api', { spy: true });
 
 const device: NeoPixelObject = neoPixelsMockData[0];
 
@@ -16,7 +16,7 @@ describe('Palette Modal component', () => {
       <EditPaletteModal presetOptions={[]} device={device} close={() => {}} />
     );
     const submitButton: HTMLElement = getByTestId('submit');
-    const apiModule = await import('@/api');
+    const apiModule = await import('@/lib/api');
     act(() => {
       fireEvent.click(submitButton);
     });
@@ -34,7 +34,7 @@ describe('Palette Modal component', () => {
     );
     const firstColorInput: HTMLElement = getByTestId(0);
     const submitButton: HTMLElement = getByTestId('submit');
-    const apiModule = await import('@/api');
+    const apiModule = await import('@/lib/api');
     act(() => {
       fireEvent.change(firstColorInput, { target: { value: '#332211' } });
       fireEvent.click(submitButton);
@@ -56,7 +56,7 @@ describe('Palette Modal component', () => {
     const firstColorInput: HTMLElement = getByTestId(0);
     const resetButton: HTMLElement = getByTestId('reset');
     const submitButton: HTMLElement = getByTestId('submit');
-    const apiModule = await import('@/api');
+    const apiModule = await import('@/lib/api');
     act(() => {
       fireEvent.change(firstColorInput, { target: { value: '#332211' } });
       fireEvent.click(resetButton);

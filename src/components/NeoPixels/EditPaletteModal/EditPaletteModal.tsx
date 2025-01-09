@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { postUpdate } from '@/api';
+import { postUpdate } from '@/lib/api';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
 import classes from './EditPaletteModal.module.css';
