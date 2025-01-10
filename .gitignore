@@ -129,4 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Storybook
+storybook-static
+
 .DS_Store
