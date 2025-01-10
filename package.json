@@ -1,10 +1,10 @@
 {
-  "name": "mantine-vite-template",
+  "name": "chocolate-smart-home-frontend",
   "private": true,
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host=0.0.0.0",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
@@ -16,7 +16,7 @@
     "vitest": "vitest run",
     "vitest:watch": "vitest",
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --ci",
     "storybook:build": "storybook build"
   },
   "dependencies": {
