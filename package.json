@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
+  "description": "Chocolate Smart Home Frontend",
+  "proxy": "http://csm-fastapi-server:8000",
   "scripts": {
     "dev": "vite --host=0.0.0.0",
     "build": "tsc && vite build",
