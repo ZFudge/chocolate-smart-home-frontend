@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import NeoPixelTable from '@/components/NeoPixels/NeoPixelTable';
-import useWebsocket from '@/websocket/useWebsocket';
+import useWebsocket from '@/useWebsocket';
 
 export function NeoPixelsPage() {
   const onWebSocketMessage = (msgEvent: MessageEvent) => {
     const data = JSON.parse(msgEvent.data);
     console.log('onWSMessage', msgEvent, data);
   };
-  const { setFreshWebSocket } = useWebsocket(onWebSocketMessage);
+  const { connect } = useWebsocket(onWebSocketMessage);
 
-  useEffect(setFreshWebSocket, []);
+  useEffect(connect, []);
 
   return (
     <>
