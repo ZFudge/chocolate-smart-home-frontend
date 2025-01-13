@@ -10,7 +10,7 @@ help:
 	@echo "Targets:"
 	@echo "  help                         Print this help message"
 	@echo ""
-	@echo "  run                          Run the app in development mode"
+	@echo "  run                          Run the app in development mode, in container"
 	@echo ""
 	@echo "  dev                          Start development server"
 	@echo "  storybook                    Start storybook"
