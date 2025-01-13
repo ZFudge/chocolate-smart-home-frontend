@@ -1,13 +1,14 @@
 import { useState } from 'react';
 
 const RETRY_TIMEOUT = 3000;
+const RETRY_COUNT = 3;
 const DOMAIN = 'localhost';
 const WEBSOCKET_URL = `ws://${DOMAIN}:8000/ws`;
 
 const useWebsocket = (onmessage: (msgEvent: MessageEvent) => void) => {
   const [websocket, setWebsocket] = useState<WebSocket | null>(null);
 
-  const connect = (retries = 3) => {
+  const connect = (retries = RETRY_COUNT) => {
     console.log(
       `attempting websocket connection on ${WEBSOCKET_URL}. ${retries} retries remaining...`
     );
@@ -17,16 +18,24 @@ const useWebsocket = (onmessage: (msgEvent: MessageEvent) => void) => {
     ws.onmessage = onmessage;
     ws.onerror = console.error;
 
+    /**
+     * This is a workaround that allows retries to be reset if a connection is successful,
+     * in a way that avoids issues referencing stale state variables in the setTimeout closure
+     * and is also type-safe.
+     */
+    let retriesReset = 0;
+
     ws.onopen = () => {
       console.log(`opened websocket connection on ${WEBSOCKET_URL}`);
       setWebsocket(ws);
-      retries = 3;
+      retriesReset = RETRY_COUNT;
     };
 
     ws.onclose = (ev: CloseEvent) => {
       console.log('websocket closed', ev);
       if (retries) {
-        window.setTimeout(() => connect(retries - 1), RETRY_TIMEOUT);
+        // Retry connection.
+        window.setTimeout(() => connect(Math.max(retries - 1, retriesReset)), RETRY_TIMEOUT);
       }
     };
   };
