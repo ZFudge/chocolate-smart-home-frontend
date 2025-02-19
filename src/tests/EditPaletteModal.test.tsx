@@ -22,7 +22,7 @@ describe('Palette Modal component', () => {
     });
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      id: device.id,
+      mqtt_id: device.mqtt_id,
       value: device.palette,
       name: 'palette',
     });
@@ -43,7 +43,7 @@ describe('Palette Modal component', () => {
     const expectedPaletteValue: string[] = ['#332211'].concat(device.palette.slice(1));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      id: device.id,
+      mqtt_id: device.mqtt_id,
       value: expectedPaletteValue,
       name: 'palette',
     });
@@ -64,7 +64,7 @@ describe('Palette Modal component', () => {
     });
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      id: device.id,
+      mqtt_id: device.mqtt_id,
       value: device.palette,
       name: 'palette',
     });

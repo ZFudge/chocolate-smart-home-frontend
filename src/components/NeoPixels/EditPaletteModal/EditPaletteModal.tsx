@@ -1,7 +1,9 @@
+import { useContext } from 'react';
 import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
+import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
 import classes from './EditPaletteModal.module.css';
@@ -19,11 +21,23 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
     initialValues: Object.fromEntries(Object.entries(device.palette)),
   });
 
+  const websocket = useContext(WebSocketContext);
+
   const handleSubmit = (values: typeof form.values) => {
     const value: string[] = Array.from({ length: Object.keys(values).length }).map(
       (_, i) => values[i.toString()]
     );
-    postUpdate({ value, id: device.id, name: 'palette' });
+    const data = {
+      mqtt_id: device.mqtt_id,
+      name: 'palette',
+      value,
+      device_type_name: 'neo_pixel',
+    };
+    if (websocket) {
+      websocket.send(JSON.stringify(data));
+    } else {
+      postUpdate(data);
+    }
   };
 
   return (

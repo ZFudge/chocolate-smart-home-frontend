@@ -1,8 +1,8 @@
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 
-const neoPixelsMockData: NeoPixelObject[] = [
-  {
-    id: 1,
+const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
+  '1': {
+    mqtt_id: 1,
     name: 'NeoPixel 1',
     space: 'bedroom',
     online: true,
@@ -25,8 +25,8 @@ const neoPixelsMockData: NeoPixelObject[] = [
       '#FF9900',
     ],
   },
-  {
-    id: 2,
+  '2': {
+    mqtt_id: 2,
     name: 'NeoPixel 2',
     space: 'hallway',
     online: false,
@@ -49,6 +49,6 @@ const neoPixelsMockData: NeoPixelObject[] = [
       '#9900FF',
     ],
   },
-];
+};
 
 export default neoPixelsMockData;

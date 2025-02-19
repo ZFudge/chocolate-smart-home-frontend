@@ -1,8 +1,10 @@
+import { useContext } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { Button, Group, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
+import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
 
@@ -17,13 +19,24 @@ function SliderForm({
   Icon: IconType;
   close: () => void;
 }) {
+  const websocket = useContext(WebSocketContext);
   const field = useField({
     mode: 'uncontrolled',
     initialValue: device[name],
   });
 
   const handleSubmit = () => {
-    postUpdate({ name, value: field.getValue(), id: device.id });
+    const data = {
+      name,
+      value: field.getValue(),
+      mqtt_id: device.mqtt_id,
+      device_type_name: device.device_type_name,
+    };
+    if (websocket) {
+      websocket.send(JSON.stringify(data));
+    } else {
+      postUpdate(data);
+    }
     close();
   };
 
@@ -47,7 +60,7 @@ function SliderForm({
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid={`${device.id}-${name}-submit-button`}
+          data-testid={`${device.mqtt_id}-${name}-submit-button`}
         >
           Submit
         </Button>
