@@ -32,7 +32,12 @@ describe('NeoPixelTable component', () => {
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(powerButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
-    expect(apiModule.postUpdate).toHaveBeenCalledWith({ mqtt_id: 1, value: false, name: 'on' });
+    expect(apiModule.postUpdate).toHaveBeenCalledWith({
+      mqtt_id: [1],
+      device_type_name: 'neo_pixel',
+      value: false,
+      name: 'on',
+    });
   });
 
   it('should open/close palette modal', async () => {
@@ -50,7 +55,8 @@ describe('NeoPixelTable component', () => {
     act(() => fireEvent.click(twinkleButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: 1,
+      mqtt_id: [1],
+      device_type_name: 'neo_pixel',
       value: false,
       name: 'twinkle',
     });
@@ -63,7 +69,8 @@ describe('NeoPixelTable component', () => {
     act(() => fireEvent.click(transformButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: 1,
+      mqtt_id: [1],
+      device_type_name: 'neo_pixel',
       value: false,
       name: 'transform',
     });
@@ -81,7 +88,12 @@ describe('NeoPixelTable component', () => {
     await userEvent.keyboard('[ArrowUp]');
     fireEvent.click(submitButton);
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
-    expect(apiModule.postUpdate).toHaveBeenCalledWith({ mqtt_id: 1, value: 7, name: 'ms' });
+    expect(apiModule.postUpdate).toHaveBeenCalledWith({
+      mqtt_id: 1,
+      device_type_name: 'neo_pixel',
+      value: 7,
+      name: 'ms',
+    });
   });
 
   it('should set brightness', async () => {
@@ -98,6 +110,7 @@ describe('NeoPixelTable component', () => {
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,
+      device_type_name: 'neo_pixel',
       value: 129,
       name: 'brightness',
     });

@@ -19,7 +19,6 @@ function SliderForm({
   Icon: IconType;
   close: () => void;
 }) {
-
   const websocket = useContext(WebSocketContext);
 
   const [value, setValue] = useState(device[name]);

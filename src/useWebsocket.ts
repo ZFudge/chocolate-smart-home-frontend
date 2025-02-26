@@ -35,7 +35,10 @@ const useWebsocket = () => {
       console.log('websocket closed', ev);
       if (retries) {
         // Retry connection.
-        window.setTimeout(() => connect(onmessage, Math.max(retries - 1, retriesReset)), RETRY_TIMEOUT);
+        window.setTimeout(
+          () => connect(onmessage, Math.max(retries - 1, retriesReset)),
+          RETRY_TIMEOUT
+        );
       }
     };
   };

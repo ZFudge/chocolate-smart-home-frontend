@@ -7,6 +7,7 @@ import { palettePresetsMockData } from '@/tests/placeholder-data';
 const device: NeoPixelObject = {
   mqtt_id: 1,
   name: 'NeoPixel Name 1',
+  device_type_name: 'neo_pixel',
   space: 'bedroom',
   online: true,
   on: true,

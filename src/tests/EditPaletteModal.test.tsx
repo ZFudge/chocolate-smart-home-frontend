@@ -6,7 +6,7 @@ import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
 
-const device: NeoPixelObject = neoPixelsMockData[0];
+const device: NeoPixelObject = neoPixelsMockData['1'];
 
 describe('Palette Modal component', () => {
   afterEach(vi.clearAllMocks);
@@ -25,6 +25,7 @@ describe('Palette Modal component', () => {
       mqtt_id: device.mqtt_id,
       value: device.palette,
       name: 'palette',
+      device_type_name: 'neo_pixel',
     });
   });
 
@@ -46,6 +47,7 @@ describe('Palette Modal component', () => {
       mqtt_id: device.mqtt_id,
       value: expectedPaletteValue,
       name: 'palette',
+      device_type_name: 'neo_pixel',
     });
   });
 
@@ -67,6 +69,7 @@ describe('Palette Modal component', () => {
       mqtt_id: device.mqtt_id,
       value: device.palette,
       name: 'palette',
+      device_type_name: 'neo_pixel',
     });
   });
 
