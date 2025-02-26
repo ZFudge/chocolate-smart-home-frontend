@@ -19,7 +19,7 @@ export const MixedView: Story = {
 
 export const Empty: Story = {
   args: {
-    neoPixelData: [],
+    neoPixelData: {},
     onClick: fn(),
   },
 };

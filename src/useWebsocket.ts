@@ -5,10 +5,10 @@ const RETRY_COUNT = 3;
 const DOMAIN = 'localhost';
 const WEBSOCKET_URL = `ws://${DOMAIN}:8000/ws`;
 
-const useWebsocket = (onmessage: (msgEvent: MessageEvent) => void) => {
+const useWebsocket = () => {
   const [websocket, setWebsocket] = useState<WebSocket | null>(null);
 
-  const connect = (retries = RETRY_COUNT) => {
+  const connect = (onmessage: (msgEvent: MessageEvent) => void, retries = RETRY_COUNT) => {
     console.log(
       `attempting websocket connection on ${WEBSOCKET_URL}. ${retries} retries remaining...`
     );
@@ -35,7 +35,10 @@ const useWebsocket = (onmessage: (msgEvent: MessageEvent) => void) => {
       console.log('websocket closed', ev);
       if (retries) {
         // Retry connection.
-        window.setTimeout(() => connect(Math.max(retries - 1, retriesReset)), RETRY_TIMEOUT);
+        window.setTimeout(
+          () => connect(onmessage, Math.max(retries - 1, retriesReset)),
+          RETRY_TIMEOUT
+        );
       }
     };
   };

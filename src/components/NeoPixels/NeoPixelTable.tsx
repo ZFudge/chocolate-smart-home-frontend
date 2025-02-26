@@ -52,14 +52,14 @@ function Palette({
   return (
     <Button
       variant="transparent"
-      data-testid={`${device.id}-palette-button`}
+      data-testid={`${device.mqtt_id}-palette-button`}
       className={cx(classes['neo-pixel-table-palette-status'])}
       onClick={openPaletteModal}
     >
       <Flex wrap="wrap" direction="column">
         {device.palette
           .map((color, i) => (
-            <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.id}`} />
+            <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.mqtt_id}`} />
           ))
           .reduce((arr: React.ReactNode[][], v, i) => {
             const rowIndex = Math.floor(i / 3);
@@ -70,7 +70,7 @@ function Palette({
             return arr;
           }, [])
           .map((row, i) => (
-            <Flex key={`${device.id}-${i}-pallete-span`}>{row}</Flex>
+            <Flex key={`${device.mqtt_id}-${i}-pallete-span`}>{row}</Flex>
           ))}
       </Flex>
     </Button>
@@ -84,7 +84,7 @@ function SplitTableCell({
 }: {
   children?: React.ReactNode;
   Icon: IconType;
-  value: string | number;
+  value: string | number | undefined;
 }) {
   return (
     <Flex columnGap={5} justify="flex-end" align="center" direction="row-reverse">
@@ -113,7 +113,7 @@ function PopoverSlider(
           onClick={open}
           variant="transparent"
           className={cx(classes['split-button'])}
-          data-testid={`${props.device.id}-${props.name}-slider-button`}
+          data-testid={`${props.device.mqtt_id}-${props.name}-slider-button`}
         >
           <SplitTableCell {...props} value={props.device[props.name]} />
         </Button>
@@ -143,16 +143,19 @@ const NeoPixelTableRow = ({
 }: {
   device: NeoPixelObject;
   selected: boolean;
-  toggleRow: (id: number) => void;
+  toggleRow: (mqtt_id: number) => void;
   openPaletteModal: () => void;
 }) => {
   return (
-    <Table.Tr className={cx({ [classes.rowSelected]: selected })} data-testid={`${device.id}-tr`}>
+    <Table.Tr
+      className={cx({ [classes.rowSelected]: selected })}
+      data-testid={`${device.mqtt_id}-tr`}
+    >
       {[
         <Checkbox
           checked={selected}
-          onChange={() => toggleRow(device.id)}
-          data-testid={`${device.id}-checkbox`}
+          onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
+          data-testid={`${device.mqtt_id}-checkbox`}
         />,
         <SplitTableCell
           value={device.name}
@@ -184,7 +187,7 @@ const NeoPixelTableRow = ({
         </CustomComponentTooltipWrapper>,
         <SplitTableCell value={device.space} Icon={IoLocationOutline} />,
       ].map((tableCell, i) => (
-        <Table.Td key={`td-${i}-${device.id}`}>{tableCell}</Table.Td>
+        <Table.Td key={`td-${i}-${device.mqtt_id}`}>{tableCell}</Table.Td>
       ))}
     </Table.Tr>
   );
@@ -192,7 +195,7 @@ const NeoPixelTableRow = ({
 
 export interface NeoPixelTableProps {
   /** Device data */
-  neoPixelData: NeoPixelObject[];
+  neoPixelData: { [key: string]: NeoPixelObject };
   /** Optional click handler */
   onClick?: () => void;
 }
@@ -202,26 +205,27 @@ export default function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
 
-  const toggleRow = (id: number) =>
+  const toggleRow = (mqtt_id: number) =>
     setSelection((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
+      current.includes(mqtt_id) ? current.filter((item) => item !== mqtt_id) : [...current, mqtt_id]
     );
 
   return (
     <ScrollArea>
       <Flex className={classes.flexTable}>
-        {!neoPixelData.length ? (
+        {!Object.keys(neoPixelData).length ? (
           <Empty />
         ) : (
           <>
             <Table withTableBorder className={classes['mantine-Table-table']}>
               <Table.Tbody>
-                {neoPixelData.map((device: NeoPixelObject, i) => (
+                {Object.values(neoPixelData).map((device: NeoPixelObject, i) => (
                   <NeoPixelTableRow
-                    key={`${device.id}-${i}-tr`}
-                    selected={selection.includes(device.id)}
+                    key={`${device.mqtt_id}-${i}-tr`}
+                    selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
                     openPaletteModal={() => setEditPaletteDevice(device)}
-                    {...{ device, toggleRow }}
+                    device={device}
+                    toggleRow={toggleRow}
                   />
                 ))}
               </Table.Tbody>
