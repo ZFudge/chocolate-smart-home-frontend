@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { Button, Group, rem, Slider, Text } from '@mantine/core';
@@ -19,10 +19,15 @@ function SliderForm({
   Icon: IconType;
   close: () => void;
 }) {
+
   const websocket = useContext(WebSocketContext);
+
+  const [value, setValue] = useState(device[name]);
+
   const field = useField({
     mode: 'uncontrolled',
     initialValue: device[name],
+    onValueChange: setValue,
   });
 
   const handleSubmit = () => {
@@ -43,7 +48,7 @@ function SliderForm({
   return (
     <>
       <Text size="sm">
-        {name}: {device[name]}
+        {name}: {value}
       </Text>
       <Slider
         {...field.getInputProps()}
