@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import NeoPixelTable from '@/components/NeoPixels/NeoPixelTable';
+import NeoPixelTable from '@/components/NeoPixels/Table/NeoPixelTable';
 import useWebsocket from '@/useWebsocket';
 import WebSocketContext from '@/WebsocketContext';
 import useNeoPixels from './useNeoPixels';

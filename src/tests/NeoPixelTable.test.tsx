@@ -1,7 +1,7 @@
 import { act, fireEvent, render, userEvent } from '@test-utils';
 import cx from 'clsx';
 import classes from '@/components/NeoPixels/NeoPixel.module.css';
-import NeoPixelTable from '@/components/NeoPixels/NeoPixelTable';
+import NeoPixelTable from '@/components/NeoPixels/Table/NeoPixelTable';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });

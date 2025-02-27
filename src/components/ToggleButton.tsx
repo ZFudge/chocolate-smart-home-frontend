@@ -16,8 +16,9 @@ function ToggleButton({
 
   const toggleSetting = () => {
     const newValue = !device[lookupName];
+    const mqttIds = Array.isArray(device.mqtt_id) ? device.mqtt_id : [device.mqtt_id];
     const data = {
-      mqtt_id: [device.mqtt_id],
+      mqtt_id: mqttIds,
       name: lookupName,
       device_type_name: device.device_type_name,
       value: newValue,
