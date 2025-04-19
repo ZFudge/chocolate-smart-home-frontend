@@ -16,7 +16,7 @@ export function NeoPixelsPage() {
 
   return (
     <WebSocketContext.Provider value={websocket}>
-      <NeoPixelTable neoPixelData={neoPixelData} />
+      <NeoPixelTable neoPixelData={Object.values(neoPixelData)} />
     </WebSocketContext.Provider>
   );
 }

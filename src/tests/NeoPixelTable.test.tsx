@@ -10,7 +10,7 @@ describe('NeoPixelTable component', () => {
   afterEach(vi.clearAllMocks);
 
   it('should add/remove rows from selection when clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={neoPixelsMockData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />);
     const firstRow: HTMLElement = getByTestId('1-tr');
     const secondRow: HTMLElement = getByTestId('2-tr');
     const firstCheckbox: HTMLElement = getByTestId('1-checkbox');
@@ -27,7 +27,7 @@ describe('NeoPixelTable component', () => {
   });
 
   it('should call api.postUpdate when power button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={neoPixelsMockData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />);
     const powerButton: HTMLElement = getByTestId('1-on-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(powerButton));
@@ -41,7 +41,7 @@ describe('NeoPixelTable component', () => {
   });
 
   it('should open/close palette modal', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={neoPixelsMockData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />);
     const paletteButton: HTMLElement = getByTestId('1-palette-button');
     fireEvent.click(paletteButton);
     const paletteModal = getByTestId('palette-modal');
@@ -49,7 +49,7 @@ describe('NeoPixelTable component', () => {
   });
 
   it('should call api.postUpdate when twinkle button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={neoPixelsMockData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />);
     const twinkleButton: HTMLElement = getByTestId('1-twinkle-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(twinkleButton));
@@ -63,7 +63,7 @@ describe('NeoPixelTable component', () => {
   });
 
   it('should call api.postUpdate when transform button clicked', async () => {
-    const { getByTestId } = render(<NeoPixelTable neoPixelData={neoPixelsMockData} />);
+    const { getByTestId } = render(<NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />);
     const transformButton: HTMLElement = getByTestId('1-transform-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(transformButton));
@@ -78,7 +78,7 @@ describe('NeoPixelTable component', () => {
 
   it('should set ms', async () => {
     const { getByTestId, findByTestId } = render(
-      <NeoPixelTable neoPixelData={neoPixelsMockData} />
+      <NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />
     );
     const msButton: HTMLElement = getByTestId('1-ms-slider-button');
     fireEvent.click(msButton);
@@ -98,7 +98,7 @@ describe('NeoPixelTable component', () => {
 
   it('should set brightness', async () => {
     const { getByTestId, findByTestId } = render(
-      <NeoPixelTable neoPixelData={neoPixelsMockData} />
+      <NeoPixelTable neoPixelData={Object.values(neoPixelsMockData)} />
     );
     const brightnessButton: HTMLElement = getByTestId('1-brightness-slider-button');
     fireEvent.click(brightnessButton);

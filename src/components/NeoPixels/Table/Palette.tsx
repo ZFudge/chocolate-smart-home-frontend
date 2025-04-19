@@ -1,7 +1,8 @@
 import cx from 'clsx';
 import { Button, ColorSwatch, Flex } from '@mantine/core';
-import { NeoPixelObject } from '../interfaces';
+
 import classes from '../NeoPixel.module.css';
+import { NeoPixelObject } from '../interfaces';
 
 function Palette({
   device,

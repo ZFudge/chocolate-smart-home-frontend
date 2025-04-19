@@ -3,10 +3,11 @@ import { IconType } from 'react-icons';
 import { JSX } from 'react/jsx-runtime';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
+
+import classes from '../NeoPixel.module.css';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import SplitTableCell from './SplitTableCell';
-import classes from '../NeoPixel.module.css';
 
 function PopoverSlider(
   props: JSX.IntrinsicAttributes & {

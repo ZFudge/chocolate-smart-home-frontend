@@ -1,12 +1,14 @@
 import { useContext } from 'react';
-import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import cx from 'clsx';
+
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
 import classes from './EditPaletteModal.module.css';
+
 
 interface EditPaletteModalProps {
   device: NeoPixelObject;
@@ -14,7 +16,7 @@ interface EditPaletteModalProps {
   presetOptions: PalettePreset[];
 }
 
-function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProps) {
+const EditPaletteModal = ({ device, close, presetOptions }: EditPaletteModalProps) => {
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
@@ -80,6 +82,6 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
       </Modal>
     </>
   );
-}
+};
 
 export default EditPaletteModal;

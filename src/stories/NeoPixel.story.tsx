@@ -12,14 +12,14 @@ type Story = StoryObj<typeof NeoPixelTable>;
 
 export const MixedView: Story = {
   args: {
-    neoPixelData: neoPixelsMockData,
+    neoPixelData: Object.values(neoPixelsMockData),
     onClick: fn(),
   },
 };
 
 export const Empty: Story = {
   args: {
-    neoPixelData: {},
+    neoPixelData: [],
     onClick: fn(),
   },
 };

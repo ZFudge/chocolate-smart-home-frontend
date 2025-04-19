@@ -19,7 +19,7 @@ import PopoverSlider from './PopoverSlider';
 import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
 
-const NeoPixelTableRow = ({
+const TableRow = ({
   device,
   selected,
   toggleRow,
@@ -77,4 +77,4 @@ const NeoPixelTableRow = ({
   );
 };
 
-export default NeoPixelTableRow;
+export default TableRow;

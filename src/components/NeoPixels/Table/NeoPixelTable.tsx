@@ -1,23 +1,23 @@
 import { useState } from 'react';
-import { Checkbox, Flex, ScrollArea, Table } from '@mantine/core';
+import { Flex, ScrollArea, Table } from '@mantine/core';
+
+import classes from '../NeoPixel.module.css';
 import EditPaletteModal from '../EditPaletteModal';
 import { NeoPixelObject } from '../interfaces';
 import Empty from './Empty';
-import NeoPixelTableRow from './NeoPixelTableRow';
-import classes from '../NeoPixel.module.css';
+import HeaderRow from './HeaderRow';
+import TableRow from './TableRow';
+
 
 interface NeoPixelTableProps {
-  /** Device data */
-  neoPixelData: { [key: string]: NeoPixelObject };
-  /** Optional click handler */
+  neoPixelData: NeoPixelObject[];
   onClick?: () => void;
 }
 
-/** Primary component for Neo Pixel user interaction */
-function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
+
+const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
-
   const toggleAll = () =>
     setSelection((current) =>
       current.length === Object.keys(neoPixelData).length
@@ -39,32 +39,17 @@ function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
           <>
             <Table withTableBorder className={classes['mantine-Table-table']}>
               <Table.Tbody>
-                <Table.Tr>
-                  <Table.Th w={40}>
-                    <Checkbox
-                      onChange={toggleAll}
-                      checked={selection.length === Object.keys(neoPixelData).length}
-                      indeterminate={
-                        selection.length > 0 &&
-                        selection.length !== Object.keys(neoPixelData).length
-                      }
-                    />
-                  </Table.Th>
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                  <Table.Th />
-                </Table.Tr>
+                <HeaderRow
+                  toggleAll={toggleAll}
+                  selection={selection}
+                  neoPixelData={neoPixelData}
+                />
               </Table.Tbody>
               <Table.Tbody>
-                {Object.values(neoPixelData).map((device: NeoPixelObject, i) => (
-                  <NeoPixelTableRow
-                    key={`${device.mqtt_id}-${i}-tr`}
-                    selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
+                {Object.values(neoPixelData).map((device: NeoPixelObject, index) => (
+                  <TableRow
+                    key={`${device.mqtt_id}-${index}-tr`}
+                    selected={device.mqtt_id !== undefined && selection.includes(index)}
                     openPaletteModal={() => setEditPaletteDevice(device)}
                     device={device}
                     toggleRow={toggleRow}
@@ -84,6 +69,6 @@ function NeoPixelTable({ neoPixelData }: NeoPixelTableProps) {
       </Flex>
     </ScrollArea>
   );
-}
+};
 
 export default NeoPixelTable;
