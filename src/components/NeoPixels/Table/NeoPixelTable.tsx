@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
 
 import classes from '../NeoPixel.module.css';
+
 import EditPaletteModal from '../EditPaletteModal';
 import { NeoPixelObject } from '../interfaces';
 import Empty from './Empty';
-import HeaderRow from './HeaderRow';
+import Header from './Header';
 import TableRow from './TableRow';
 
 
@@ -18,16 +19,19 @@ interface NeoPixelTableProps {
 const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
+
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === Object.keys(neoPixelData).length
+      current.length === neoPixelData.length
         ? []
-        : Object.keys(neoPixelData).map(Number)
+        : neoPixelData.map((np) => np.mqtt_id)
     );
 
   const toggleRow = (mqtt_id: number) =>
     setSelection((current) =>
-      current.includes(mqtt_id) ? current.filter((item) => item !== mqtt_id) : [...current, mqtt_id]
+      current.includes(mqtt_id) ?
+        current.filter((item) => item !== mqtt_id) :
+        [...current, mqtt_id]
     );
 
   return (
@@ -39,17 +43,17 @@ const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
           <>
             <Table withTableBorder className={classes['mantine-Table-table']}>
               <Table.Tbody>
-                <HeaderRow
+                <Header
                   toggleAll={toggleAll}
                   selection={selection}
                   neoPixelData={neoPixelData}
                 />
               </Table.Tbody>
               <Table.Tbody>
-                {Object.values(neoPixelData).map((device: NeoPixelObject, index) => (
+                {Object.values(neoPixelData).map((device: NeoPixelObject, index: number) => (
                   <TableRow
                     key={`${device.mqtt_id}-${index}-tr`}
-                    selected={device.mqtt_id !== undefined && selection.includes(index)}
+                    selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
                     openPaletteModal={() => setEditPaletteDevice(device)}
                     device={device}
                     toggleRow={toggleRow}

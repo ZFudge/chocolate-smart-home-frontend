@@ -54,3 +54,16 @@
     }
   }
 }
+
+.visibility-transition {
+  transition: opacity 250ms ease-in-out;
+}
+
+.hidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}

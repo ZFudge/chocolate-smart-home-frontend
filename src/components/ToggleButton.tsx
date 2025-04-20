@@ -3,27 +3,74 @@ import { Button } from '@mantine/core';
 
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
+import { IndexableObj } from './NeoPixels/interfaces';
 
-function ToggleButton({
-  device,
-  lookupName,
-  children,
-}: {
-  device: { [key: string]: any };
-  lookupName: string;
+interface ToggleButtonProps {
+  device: { [key: string]: any } | object[];
+  settingName: string;
   children?: React.ReactNode;
-}) {
+}
+
+const ToggleButton = ({
+  device,
+  settingName,
+  children,
+}: ToggleButtonProps) => {
   const websocket = useContext(WebSocketContext);
+  const multiple: boolean = Array.isArray(device);
+
+  let color: string = 'teal';
+  let dataTestId: string;
+  if (multiple) {
+    const allTrue = device.every((d: IndexableObj) => d[settingName]);
+    const allFalse = device.every((d: IndexableObj) => !d[settingName]);
+    if (allTrue) {
+      color = 'red';
+    } else if (allFalse) {
+      color = 'teal';
+    }
+    dataTestId = `all-${settingName}-toggle`;
+  } else {
+    color = (device as IndexableObj)[settingName] ? 'teal' : 'gray';
+    dataTestId = `${(device as IndexableObj).mqtt_id}-${settingName}-toggle`;
+  }
 
   const toggleSetting = () => {
-    const newValue = !device[lookupName];
-    const mqttIds = Array.isArray(device.mqtt_id) ? device.mqtt_id : [device.mqtt_id];
+    let mqttIds: number | number[];
+    let newValue: boolean;
+    let deviceType: string;
+
+    if (Array.isArray(device)) {
+      deviceType = device[0].device_type_name;
+      mqttIds = device.map((d: IndexableObj) => d.mqtt_id);
+      const uniqueValues = Array.from(
+        new Set(
+          device.map((d: IndexableObj) => d[settingName])
+        )
+      );
+      const singleValue = uniqueValues.length === 1;
+      if (singleValue) {
+        newValue = !uniqueValues[0];
+      } else {
+        if (uniqueValues.includes(true)) {
+          newValue = false;
+        } else {
+          newValue = true;
+        }
+      }
+    } else {
+      deviceType = device.device_type_name;
+      mqttIds = device.mqtt_id;
+      newValue = !device[settingName];
+    }
+
     const data = {
       mqtt_id: mqttIds,
-      name: lookupName,
-      device_type_name: device.device_type_name,
+      name: settingName,
+      device_type_name: deviceType,
       value: newValue,
     };
+
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
@@ -34,15 +81,15 @@ function ToggleButton({
   return (
     <Button
       onClick={toggleSetting}
-      color={device[lookupName] ? 'teal' : 'gray'}
+      color={color}
       variant="outline"
       size="xs"
       radius="lg"
-      data-testid={`${device.mqtt_id}-${lookupName}-toggle`}
+      data-testid={dataTestId}
     >
       {children}
     </Button>
   );
-}
+};
 
 export default ToggleButton;
