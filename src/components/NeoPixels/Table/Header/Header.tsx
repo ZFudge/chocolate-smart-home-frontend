@@ -4,11 +4,11 @@ import { FaPowerOff } from "react-icons/fa";
 import { GiTransform } from "react-icons/gi";
 import { IoSparklesSharp, IoSpeedometerOutline } from "react-icons/io5";
 
+import TooltipWrapper from "@/components/TooltipWrapper";
 import classes from '../../NeoPixel.module.css';
 import { NeoPixelObject } from "../../interfaces";
 import HeaderColumnToggler from "./HeaderColumnToggler";
 import PopoverSlider from "../PopoverSlider";
-import TooltipWrapper from "../TooltipWrapper";
 
 interface HeaderProps {
   toggleAll: () => void;
@@ -22,6 +22,7 @@ const Header = ({
   neoPixelData,
 }: HeaderProps) => {
   const trSettingsClass = (selection.length < 2 ? classes.hidden : classes.visible) + ' ' + classes['visibility-transition'];
+  const selectedDevices = neoPixelData.filter((device) => selection.includes(device.mqtt_id));
 
   return (
     <Table.Tr>
@@ -38,7 +39,6 @@ const Header = ({
       <Table.Th key="device-names" />
       <HeaderColumnToggler
         settingName="on"
-        label="left to turn all selected devices off, right to turn them on"
         Icon={FaPowerOff}
         selection={selection}
         neoPixelData={neoPixelData}
@@ -47,7 +47,6 @@ const Header = ({
       <Table.Th key="palette" />
       <HeaderColumnToggler
         settingName="twinkle"
-        label="left to turn off all selected devices' twinkle setting, right to turn on"
         Icon={IoSparklesSharp}
         selection={selection}
         neoPixelData={neoPixelData}
@@ -55,26 +54,25 @@ const Header = ({
       />
       <HeaderColumnToggler
         settingName="transform"
-        label="left to turn off all selected devices' transform setting, right to turn on"
         Icon={GiTransform}
         selection={selection}
         neoPixelData={neoPixelData}
         trSettingsClass={trSettingsClass}
       />
       <Table.Th key="ms" className={trSettingsClass}>
-        <TooltipWrapper label="ms setting on all selected devices">
+        <TooltipWrapper label="adjust speed">
           <PopoverSlider
             name="ms"
-            device={selection}
+            device={selectedDevices}
             Icon={IoSpeedometerOutline}
           />
         </TooltipWrapper>
       </Table.Th>
       <Table.Th key="brightness" className={trSettingsClass}>
-        <TooltipWrapper label="brightness setting on all selected devices">
+        <TooltipWrapper label="adjust brightness">
           <PopoverSlider
             name="brightness"
-            device={selection}
+            device={selectedDevices}
             Icon={BsBrightnessHigh}
           />
         </TooltipWrapper>

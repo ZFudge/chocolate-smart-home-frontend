@@ -4,17 +4,22 @@ import { Button } from '@mantine/core';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './NeoPixels/interfaces';
+import TooltipWrapper from './TooltipWrapper';
 
 interface ToggleButtonProps {
   device: { [key: string]: any } | object[];
   settingName: string;
   children?: React.ReactNode;
+  label?: string;
+  Icon?: React.ElementType;
 }
 
 const ToggleButton = ({
   device,
   settingName,
   children,
+  label,
+  Icon,
 }: ToggleButtonProps) => {
   const websocket = useContext(WebSocketContext);
   const multiple: boolean = Array.isArray(device);
@@ -38,10 +43,10 @@ const ToggleButton = ({
   const toggleSetting = () => {
     let mqttIds: number | number[];
     let newValue: boolean;
-    let deviceType: string;
+    let deviceTypeName: string;
 
     if (Array.isArray(device)) {
-      deviceType = device[0].device_type_name;
+      deviceTypeName = device[0].device_type_name;
       mqttIds = device.map((d: IndexableObj) => d.mqtt_id);
       const uniqueValues = Array.from(
         new Set(
@@ -59,7 +64,7 @@ const ToggleButton = ({
         }
       }
     } else {
-      deviceType = device.device_type_name;
+      deviceTypeName = device.device_type_name;
       mqttIds = device.mqtt_id;
       newValue = !device[settingName];
     }
@@ -67,7 +72,7 @@ const ToggleButton = ({
     const data = {
       mqtt_id: mqttIds,
       name: settingName,
-      device_type_name: deviceType,
+      device_type_name: deviceTypeName,
       value: newValue,
     };
 
@@ -79,16 +84,19 @@ const ToggleButton = ({
   };
 
   return (
-    <Button
-      onClick={toggleSetting}
-      color={color}
-      variant="outline"
-      size="xs"
-      radius="lg"
-      data-testid={dataTestId}
-    >
-      {children}
-    </Button>
+    <TooltipWrapper label={label}>
+      <Button
+        onClick={toggleSetting}
+        color={color}
+        variant="outline"
+        size="xs"
+        radius="lg"
+        data-testid={dataTestId}
+      >
+        {Icon && <Icon />}
+        {children}
+      </Button>
+    </TooltipWrapper>
   );
 };
 

@@ -3,16 +3,19 @@ import { Slider } from '@mantine/core';
 
 import { PostData, postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
+import TooltipWrapper from '@/components/TooltipWrapper';
 
 
 const IndeterminateButton = ({
   settingName,
   Icon,
   selection,
+  label,
 }: {
   settingName: string;
   Icon: React.ElementType;
   selection: number[];
+  label: string;
 }) => {
   const websocket = useContext(WebSocketContext);
   const [sent, setSent] = useState(false);
@@ -43,7 +46,7 @@ const IndeterminateButton = ({
   ];
   
   return (
-    <>
+    <TooltipWrapper label={label}>
       <Slider
         disabled={sent}
         min={0}
@@ -60,7 +63,7 @@ const IndeterminateButton = ({
         }
         onChangeEnd={handleChange}
       />
-    </>
+    </TooltipWrapper>
   );
 };
 

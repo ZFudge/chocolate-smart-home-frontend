@@ -1,31 +1,40 @@
 import { useContext, useState } from 'react';
-import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { Button, Group, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
+import cx from 'clsx';
+
+import classes from './NeoPixel.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './interfaces';
-import classes from './NeoPixel.module.css';
 
-function SliderForm({
+interface SliderFormProps {
+  device: IndexableObj | IndexableObj[];
+  name: string;
+  Icon: IconType;
+  close: () => void;
+  initialValue: number;
+  mqttId: number | number[];
+  deviceTypeName: string;
+}
+
+const SliderForm = ({
   device,
   name,
   Icon,
   close,
-}: {
-  device: IndexableObj;
-  name: string;
-  Icon: IconType;
-  close: () => void;
-}) {
+  initialValue,
+  mqttId,
+  deviceTypeName,
+}: SliderFormProps) => {
   const websocket = useContext(WebSocketContext);
-
-  const [value, setValue] = useState(device[name]);
+  const [value, setValue] = useState(initialValue);
+  const multiple = Array.isArray(device);
 
   const field = useField({
     mode: 'uncontrolled',
-    initialValue: device[name],
+    initialValue: initialValue,
     onValueChange: setValue,
   });
 
@@ -33,8 +42,8 @@ function SliderForm({
     const data = {
       name,
       value: field.getValue(),
-      mqtt_id: device.mqtt_id,
-      device_type_name: device.device_type_name,
+      mqtt_id: mqttId,
+      device_type_name: deviceTypeName,
     };
     if (websocket) {
       websocket.send(JSON.stringify(data));
@@ -64,7 +73,7 @@ function SliderForm({
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid={`${device.mqtt_id}-${name}-submit-button`}
+          data-testid={`${multiple ? mqttId : device.mqtt_id}-${name}-submit-button`}
         >
           Submit
         </Button>

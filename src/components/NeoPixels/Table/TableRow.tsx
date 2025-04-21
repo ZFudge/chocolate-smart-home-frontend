@@ -12,25 +12,26 @@ import {
 } from 'react-icons/io5';
 
 import classes from '../NeoPixel.module.css';
-import ToggleButton from '@/components/ToggleButton';
+import { ToggleButton } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverSlider from './PopoverSlider';
 import SplitTableCell from './SplitTableCell';
-import TooltipWrapper from './TooltipWrapper';
+
+interface TableRowProps {
+  device: NeoPixelObject;
+  selected: boolean;
+  toggleRow: (mqtt_id: number) => void;
+  openPaletteModal: () => void;
+}
 
 const TableRow = ({
   device,
   selected,
   toggleRow,
   openPaletteModal,
-}: {
-  device: NeoPixelObject;
-  selected: boolean;
-  toggleRow: (mqtt_id: number) => void;
-  openPaletteModal: () => void;
-}) => {
+}: TableRowProps) => {
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -46,33 +47,52 @@ const TableRow = ({
           value={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}
         />,
-        <TooltipWrapper label={`Power ${boolToOnOff(!device.online)}`}>
-          <ToggleButton device={device} settingName="on">
-            <FaPowerOff />
-          </ToggleButton>
-        </TooltipWrapper>,
-        <TooltipWrapper label="Update Palette">
-          <Palette device={device} openPaletteModal={openPaletteModal} />
-        </TooltipWrapper>,
-        <TooltipWrapper label={`Twinkle ${boolToOnOff(!device.twinkle)}`}>
-          <ToggleButton device={device} settingName="twinkle">
-            {device.twinkle ? <IoSparklesSharp /> : <IoSparklesOutline />}
-          </ToggleButton>
-        </TooltipWrapper>,
-        <TooltipWrapper label={`Transform ${boolToOnOff(!device.transform)}`}>
-          <ToggleButton device={device} settingName="transform">
-            {device.transform ? <GiTransform /> : <GiTransform />}
-          </ToggleButton>
-        </TooltipWrapper>,
-        <TooltipWrapper label="Set Milliseconds">
-          <PopoverSlider name="ms" device={device} Icon={IoSpeedometerOutline} />
-        </TooltipWrapper>,
-        <TooltipWrapper label="Set Brightness">
-          <PopoverSlider name="brightness" device={device} Icon={BsBrightnessHigh} />
-        </TooltipWrapper>,
-        <SplitTableCell value={device.space} Icon={IoLocationOutline} />,
+        <ToggleButton
+          device={device}
+          settingName="on"
+          label={`Power ${boolToOnOff(!device.online)}`}
+          Icon={FaPowerOff}
+        />,
+        <Palette
+          device={device}
+          openPaletteModal={openPaletteModal}
+          label="Update Palette"
+        />,
+        <ToggleButton
+          device={device}
+          settingName="twinkle"
+          label={`Twinkle ${boolToOnOff(!device.twinkle)}`}
+          Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
+        />,
+        <ToggleButton
+          device={device}
+          settingName="transform"
+          label={`Transform ${boolToOnOff(!device.transform)}`}
+          Icon={GiTransform}
+        />,
+        <PopoverSlider
+          label="adjust speed"
+          name="ms"
+          device={device}
+          Icon={IoSpeedometerOutline}
+        />,
+        <PopoverSlider
+          label="adjust brightness"
+          name="brightness"
+          device={device}
+          Icon={BsBrightnessHigh}
+        />,
+        <SplitTableCell
+          value={device.space}
+          Icon={IoLocationOutline}
+        />,
       ].map((tableCell, i) => (
-        <Table.Td key={`td-${i}-${device.mqtt_id}`}>{tableCell}</Table.Td>
+        <Table.Td
+          key={`td-${i}-${device.mqtt_id}`}
+          className={classes.tableCell}
+        >
+          {tableCell}
+        </Table.Td>
       ))}
     </Table.Tr>
   );
