@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal';
+import PaletteModal from '@/components/NeoPixels/PaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 import { palettePresetsMockData } from '@/tests/placeholder-data';
 
@@ -30,14 +30,14 @@ const device: NeoPixelObject = {
   ],
 };
 
-const meta: Meta<typeof EditPaletteModal> = {
-  component: EditPaletteModal,
+const meta: Meta<typeof PaletteModal> = {
+  component: PaletteModal,
 };
 
 export default meta;
-type Story = StoryObj<typeof EditPaletteModal>;
+type Story = StoryObj<typeof PaletteModal>;
 
-export const EditPaletteModalStory: Story = {
+export const PaletteModalStory: Story = {
   args: {
     device,
     presetOptions: palettePresetsMockData,

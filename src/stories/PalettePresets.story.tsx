@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PalettePresets from '@/components/NeoPixels/EditPaletteModal/PalettePresets';
+import PalettePresets from '@/components/NeoPixels/PaletteModal/PalettePresets';
 import { palettePresetsMockData } from '@/tests/placeholder-data';
 
 const meta: Meta<typeof PalettePresets> = {

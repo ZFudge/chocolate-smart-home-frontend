@@ -6,7 +6,7 @@ import { NeoPixelObject } from '../interfaces';
 import TooltipWrapper from '@/components/TooltipWrapper';
 
 interface PaletteProps {
-  device: NeoPixelObject;
+  device: NeoPixelObject | NeoPixelObject[];
   openPaletteModal: () => void;
   label: string;
 }
@@ -16,18 +16,21 @@ const Palette = ({
   openPaletteModal,
   label,
 }: PaletteProps) => {
+  const multiple = Array.isArray(device);
+  const mqttIdLabel = multiple ? 'selected' : device.mqtt_id;
+
   return (
     <TooltipWrapper label={label}>
       <Button
         variant="transparent"
-        data-testid={`${device.mqtt_id}-palette-button`}
+        data-testid={`${mqttIdLabel}-palette-button`}
         className={cx(classes['neo-pixel-table-palette-status'])}
         onClick={openPaletteModal}
       >
         <Flex wrap="wrap" direction="column">
-          {device.palette
+          {(multiple ? device[0] : device).palette
             .map((color, i) => (
-              <ColorSwatch color={color} size="10" key={`${i}-${color}-${device.mqtt_id}`} />
+              <ColorSwatch color={color} size="10" key={`${i}-${color}-${mqttIdLabel}`} />
             ))
             .reduce((arr: React.ReactNode[][], v, i) => {
               const rowIndex = Math.floor(i / 3);
@@ -38,7 +41,7 @@ const Palette = ({
               return arr;
             }, [])
             .map((row, i) => (
-              <Flex key={`${device.mqtt_id}-${i}-pallete-span`}>{row}</Flex>
+              <Flex key={`${mqttIdLabel}-${i}-pallete-span`}>{row}</Flex>
             ))}
         </Flex>
       </Button>

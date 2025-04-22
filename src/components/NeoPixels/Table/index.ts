@@ -1,3 +1,3 @@
-import NeoPixelTable from './NeoPixelTable';
+import NPTable from './NPTable';
 
-export default NeoPixelTable;
+export default NPTable;

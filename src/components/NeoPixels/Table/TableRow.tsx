@@ -50,7 +50,7 @@ const TableRow = ({
         <ToggleButton
           device={device}
           settingName="on"
-          label={`Power ${boolToOnOff(!device.online)}`}
+          label={`power is ${boolToOnOff(device.online)}`}
           Icon={FaPowerOff}
         />,
         <Palette
@@ -61,13 +61,13 @@ const TableRow = ({
         <ToggleButton
           device={device}
           settingName="twinkle"
-          label={`Twinkle ${boolToOnOff(!device.twinkle)}`}
+          label={`twinkle is ${boolToOnOff(device.twinkle)}`}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
         />,
         <ToggleButton
           device={device}
           settingName="transform"
-          label={`Transform ${boolToOnOff(!device.transform)}`}
+          label={`transform is ${boolToOnOff(device.transform)}`}
           Icon={GiTransform}
         />,
         <PopoverSlider

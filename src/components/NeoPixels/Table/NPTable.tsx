@@ -3,20 +3,20 @@ import { Flex, ScrollArea, Table } from '@mantine/core';
 
 import classes from '../NeoPixel.module.css';
 
-import EditPaletteModal from '../EditPaletteModal';
+import PaletteModal from '../PaletteModal';
 import { NeoPixelObject } from '../interfaces';
 import Empty from './Empty';
 import Header from './Header';
 import TableRow from './TableRow';
 
 
-interface NeoPixelTableProps {
+interface NPTableProps {
   neoPixelData: NeoPixelObject[];
   onClick?: () => void;
 }
 
 
-const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
+const NPTable = ({ neoPixelData }: NPTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
 
@@ -62,7 +62,7 @@ const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
               </Table.Tbody>
             </Table>
             {editPaletteDevice && (
-              <EditPaletteModal
+              <PaletteModal
                 presetOptions={[]}
                 device={editPaletteDevice}
                 close={() => setEditPaletteDevice(null)}
@@ -75,4 +75,4 @@ const NeoPixelTable = ({ neoPixelData }: NeoPixelTableProps) => {
   );
 };
 
-export default NeoPixelTable;
+export default NPTable;

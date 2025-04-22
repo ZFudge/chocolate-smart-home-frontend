@@ -4,7 +4,6 @@ import { FaPowerOff } from "react-icons/fa";
 import { GiTransform } from "react-icons/gi";
 import { IoSparklesSharp, IoSpeedometerOutline } from "react-icons/io5";
 
-import TooltipWrapper from "@/components/TooltipWrapper";
 import classes from '../../NeoPixel.module.css';
 import { NeoPixelObject } from "../../interfaces";
 import HeaderColumnToggler from "./HeaderColumnToggler";
@@ -36,7 +35,7 @@ const Header = ({
           }
         />
       </Table.Th>
-      <Table.Th key="device-names" />
+      <Table.Th key="device-names-header" />
       <HeaderColumnToggler
         settingName="on"
         Icon={FaPowerOff}
@@ -44,7 +43,7 @@ const Header = ({
         neoPixelData={neoPixelData}
         trSettingsClass={trSettingsClass}
       />
-      <Table.Th key="palette" />
+      <Table.Th key="palette-header" />
       <HeaderColumnToggler
         settingName="twinkle"
         Icon={IoSparklesSharp}
@@ -60,22 +59,20 @@ const Header = ({
         trSettingsClass={trSettingsClass}
       />
       <Table.Th key="ms" className={trSettingsClass}>
-        <TooltipWrapper label="adjust speed">
-          <PopoverSlider
-            name="ms"
-            device={selectedDevices}
-            Icon={IoSpeedometerOutline}
-          />
-        </TooltipWrapper>
+        <PopoverSlider
+          label="adjust speed"
+          name="ms"
+          device={selectedDevices}
+          Icon={IoSpeedometerOutline}
+        />
       </Table.Th>
       <Table.Th key="brightness" className={trSettingsClass}>
-        <TooltipWrapper label="adjust brightness">
-          <PopoverSlider
-            name="brightness"
-            device={selectedDevices}
-            Icon={BsBrightnessHigh}
-          />
-        </TooltipWrapper>
+        <PopoverSlider
+          label="adjust brightness"
+          name="brightness"
+          device={selectedDevices}
+          Icon={BsBrightnessHigh}
+        />
       </Table.Th>
       <Table.Th key="tags" />
     </Table.Tr>

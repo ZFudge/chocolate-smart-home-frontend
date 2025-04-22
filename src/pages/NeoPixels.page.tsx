@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import NeoPixelTable from '@/components/NeoPixels/Table/';
+import NPTable from '@/components/NeoPixels/Table/';
 import useWebsocket from '@/useWebsocket';
 import WebSocketContext from '@/WebsocketContext';
 import useNeoPixels from './useNeoPixels';
@@ -17,7 +17,7 @@ export function NeoPixelsPage() {
 
   return (
     <WebSocketContext.Provider value={websocket}>
-      <NeoPixelTable neoPixelData={Object.values(neoPixelData)} />
+      <NPTable neoPixelData={Object.values(neoPixelData)} />
     </WebSocketContext.Provider>
   );
 }

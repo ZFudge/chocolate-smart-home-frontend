@@ -3,27 +3,27 @@ import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import cx from 'clsx';
 
+import classes from './PaletteModal.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
-import classes from './EditPaletteModal.module.css';
 
 
-interface EditPaletteModalProps {
+interface PaletteModalProps {
   device: NeoPixelObject;
   close: () => void;
   presetOptions: PalettePreset[];
 }
 
-const EditPaletteModal = ({ device, close, presetOptions }: EditPaletteModalProps) => {
+const PaletteModal = ({ device, close, presetOptions }: PaletteModalProps) => {
+  const websocket = useContext(WebSocketContext);
+
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
     initialValues: Object.fromEntries(Object.entries(device.palette)),
   });
-
-  const websocket = useContext(WebSocketContext);
 
   const handleSubmit = (values: typeof form.values) => {
     const value: string[] = Array.from({ length: Object.keys(values).length }).map(
@@ -84,4 +84,4 @@ const EditPaletteModal = ({ device, close, presetOptions }: EditPaletteModalProp
   );
 };
 
-export default EditPaletteModal;
+export default PaletteModal;

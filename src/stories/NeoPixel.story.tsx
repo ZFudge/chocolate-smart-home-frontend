@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import NeoPixelTable from '@/components/NeoPixels/Table/NeoPixelTable';
+import NPTable from '@/components/NeoPixels/Table/NPTable';
 import { neoPixelsMockData } from '@/tests/placeholder-data/';
 
-const meta: Meta<typeof NeoPixelTable> = {
-  component: NeoPixelTable,
+const meta: Meta<typeof NPTable> = {
+  component: NPTable,
 };
 
 export default meta;
-type Story = StoryObj<typeof NeoPixelTable>;
+type Story = StoryObj<typeof NPTable>;
 
 export const MixedView: Story = {
   args: {
