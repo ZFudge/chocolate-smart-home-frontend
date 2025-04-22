@@ -11,12 +11,13 @@ import PalettePresets from './PalettePresets';
 
 
 interface PaletteModalProps {
-  device: NeoPixelObject;
+  device: NeoPixelObject | null;
   close: () => void;
   presetOptions: PalettePreset[];
 }
 
 const PaletteModal = ({ device, close, presetOptions }: PaletteModalProps) => {
+  if (!device) return null;
   const websocket = useContext(WebSocketContext);
 
   const form = useForm({

@@ -30,7 +30,6 @@ const PopoverSlider = ({
   let mqttId: number[] | number;
   let value: number;
   let deviceTypeName: string;
-  console.log('device',device);
 
   if (multiple) {
     mqttId = [];

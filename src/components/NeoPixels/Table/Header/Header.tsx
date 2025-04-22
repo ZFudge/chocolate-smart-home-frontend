@@ -1,4 +1,4 @@
-import { Checkbox, Table } from "@mantine/core";
+  import { Checkbox, Table } from "@mantine/core";
 import { BsBrightnessHigh } from "react-icons/bs";
 import { FaPowerOff } from "react-icons/fa";
 import { GiTransform } from "react-icons/gi";
@@ -12,26 +12,28 @@ import PopoverSlider from "../PopoverSlider";
 interface HeaderProps {
   toggleAll: () => void;
   selection: number[];
-  neoPixelData: NeoPixelObject[];
+  devices: NeoPixelObject[];
 }
 
 const Header = ({
   toggleAll,
   selection,
-  neoPixelData,
+  devices,
 }: HeaderProps) => {
   const trSettingsClass = (selection.length < 2 ? classes.hidden : classes.visible) + ' ' + classes['visibility-transition'];
-  const selectedDevices = neoPixelData.filter((device) => selection.includes(device.mqtt_id));
+  const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
+  console.log('selection', selection);
+  console.log('selectedDevices', selectedDevices);
 
   return (
     <Table.Tr>
       <Table.Th w={40}>
         <Checkbox
           onChange={toggleAll}
-          checked={selection.length === neoPixelData.length}
+          checked={selection.length === devices.length}
           indeterminate={
             selection.length > 0 &&
-              selection.length !== neoPixelData.length
+              selection.length !== devices.length
           }
         />
       </Table.Th>
@@ -40,7 +42,7 @@ const Header = ({
         settingName="on"
         Icon={FaPowerOff}
         selection={selection}
-        neoPixelData={neoPixelData}
+        devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
       <Table.Th key="palette-header" />
@@ -48,14 +50,14 @@ const Header = ({
         settingName="twinkle"
         Icon={IoSparklesSharp}
         selection={selection}
-        neoPixelData={neoPixelData}
+        devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
       <HeaderColumnToggler
         settingName="transform"
         Icon={GiTransform}
         selection={selection}
-        neoPixelData={neoPixelData}
+        devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
       <Table.Th key="ms" className={trSettingsClass}>

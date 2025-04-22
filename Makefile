@@ -1,8 +1,7 @@
-TRASH_PATH := /tmp/null
-NETWORK_NAME := chocolate-smart-home-network
-ABSOLUTE_PATH := $(shell pwd)
+NETWORK_NAME := csm-network
 PROJECT_ROOT := frontend
 DEV_CONTAINER_NAME := csm-frontend
+IMAGE_NAME := node:22.13.0-alpine
 
 help:
 	@echo "Usage: make TARGET"
@@ -37,7 +36,7 @@ container: clean
 	@docker run -it -d \
 		--name=${DEV_CONTAINER_NAME} \
 		--network=${NETWORK_NAME} \
-		-v ${ABSOLUTE_PATH}:/${PROJECT_ROOT} \
+		--mount type=bind,src=$(shell pwd),dst=/${PROJECT_ROOT} \
 		-w /${PROJECT_ROOT} \
 		-p 6006:6006 \
 		-p 5173:5173 \
@@ -46,8 +45,17 @@ container: clean
 shell:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh
 
-install:
-	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm ci"
+node-modules-dir:
+	@mkdir -p $(shell pwd)/node_modules 2> /dev/null || true
+
+.PHONY: install
+install: node-modules-dir
+	@docker run --rm -it \
+		--mount type=bind,src=$(shell pwd)/package.json,dst=/csm/package.json \
+		--mount type=bind,src=$(shell pwd)/package-lock.json,dst=/csm/package-lock.json \
+		--mount type=bind,src=$(shell pwd)/node_modules,dst=/csm/node_modules \
+		-w /csm/ \
+		${IMAGE_NAME} sh -c "npm ci"
 
 storybook:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run storybook"
@@ -58,7 +66,17 @@ dev:
 test:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run test"
 
-build:
-	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run build"
+.PHONY: static-dir
+static-dir:
+	@mkdir -p $(shell pwd)/dist 2> /dev/null || true
+
+.PHONY: static
+static: static-dir
+	@docker run --rm -it \
+		--mount type=bind,src=$(shell pwd)/,dst=/csm \
+		--mount type=bind,src=$(shell pwd)/dist,dst=/csm/dist \
+		-w /csm/ \
+	 	${IMAGE_NAME} sh -c "npm run build"
+
 
 run: network container dev

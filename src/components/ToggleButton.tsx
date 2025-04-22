@@ -5,6 +5,7 @@ import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './NeoPixels/interfaces';
 import TooltipWrapper from './TooltipWrapper';
+import classes from './NeoPixels/NeoPixel.module.css';
 
 interface ToggleButtonProps {
   device: { [key: string]: any } | object[];
@@ -92,6 +93,7 @@ const ToggleButton = ({
         size="xs"
         radius="lg"
         data-testid={dataTestId}
+        className={classes['fade-in']}
       >
         {Icon && <Icon />}
         {children}

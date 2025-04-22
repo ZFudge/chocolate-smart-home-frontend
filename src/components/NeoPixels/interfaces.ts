@@ -34,3 +34,7 @@ export interface PalettePreset {
   value: PresetFormValuesType;
   label: string;
 }
+
+export interface NeoPixelMapping {
+  [key: number]: NeoPixelObject;
+}

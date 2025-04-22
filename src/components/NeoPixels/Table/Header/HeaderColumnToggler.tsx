@@ -8,7 +8,7 @@ interface HeaderColumnTogglerProps {
   settingName: string;
   Icon: React.ElementType;
   selection: number[];
-  neoPixelData: NeoPixelObject[];
+  devices: NeoPixelObject[];
   trSettingsClass: string;
 }
 
@@ -16,17 +16,17 @@ const HeaderColumnToggler = ({
   settingName,
   Icon,
   selection,
-  neoPixelData,
+  devices,
   trSettingsClass,
 }: HeaderColumnTogglerProps) => {
-  const allValuesMatch = new Set(neoPixelData.filter(np => selection.includes(np.mqtt_id)).map(np => np[settingName as keyof NeoPixelObject])).size === 1;
+  const allValuesMatch = new Set(devices.filter(np => selection.includes(np.mqtt_id)).map(np => np[settingName as keyof NeoPixelObject])).size === 1;
   const label = `${settingName} setting`;
 
   return (
     <Table.Th key={settingName} className={trSettingsClass}>
       {allValuesMatch ?
         <ToggleButton
-          device={neoPixelData}
+          device={devices}
           settingName={settingName}
           label={label}
         >

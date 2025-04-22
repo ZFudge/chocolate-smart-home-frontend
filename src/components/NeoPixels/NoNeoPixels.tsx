@@ -1,6 +1,6 @@
 import { Box, Center } from '@mantine/core';
 
-function Empty() {
+function NoNeoPixels() {
   return (
     <Center maw={400} h={100}>
       <Box>No Neo Pixel Devices found.</Box>
@@ -8,4 +8,4 @@ function Empty() {
   );
 }
 
-export default Empty;
+export default NoNeoPixels;

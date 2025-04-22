@@ -5,26 +5,25 @@ import classes from '../NeoPixel.module.css';
 
 import PaletteModal from '../PaletteModal';
 import { NeoPixelObject } from '../interfaces';
-import Empty from './Empty';
 import Header from './Header';
 import TableRow from './TableRow';
 
 
 interface NPTableProps {
-  neoPixelData: NeoPixelObject[];
+  devices: NeoPixelObject[];
   onClick?: () => void;
 }
 
 
-const NPTable = ({ neoPixelData }: NPTableProps) => {
+const NPTable = ({ devices }: NPTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
 
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === neoPixelData.length
+      current.length === devices.length
         ? []
-        : neoPixelData.map((np) => np.mqtt_id)
+        : devices.map(device => device.mqtt_id)
     );
 
   const toggleRow = (mqtt_id: number) =>
@@ -37,39 +36,31 @@ const NPTable = ({ neoPixelData }: NPTableProps) => {
   return (
     <ScrollArea>
       <Flex className={classes.flexTable}>
-        {!Object.keys(neoPixelData).length ? (
-          <Empty />
-        ) : (
-          <>
-            <Table withTableBorder className={classes['mantine-Table-table']}>
-              <Table.Tbody>
-                <Header
-                  toggleAll={toggleAll}
-                  selection={selection}
-                  neoPixelData={neoPixelData}
-                />
-              </Table.Tbody>
-              <Table.Tbody>
-                {Object.values(neoPixelData).map((device: NeoPixelObject, index: number) => (
-                  <TableRow
-                    key={`${device.mqtt_id}-${index}-tr`}
-                    selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
-                    openPaletteModal={() => setEditPaletteDevice(device)}
-                    device={device}
-                    toggleRow={toggleRow}
-                  />
-                ))}
-              </Table.Tbody>
-            </Table>
-            {editPaletteDevice && (
-              <PaletteModal
-                presetOptions={[]}
-                device={editPaletteDevice}
-                close={() => setEditPaletteDevice(null)}
+        <Table withTableBorder className={classes['mantine-Table-table']}>
+          <Table.Tbody>
+            <Header
+              toggleAll={toggleAll}
+              selection={selection}
+              devices={devices}
+            />
+          </Table.Tbody>
+          <Table.Tbody>
+            {Object.values(devices).map((device: NeoPixelObject, index: number) => (
+              <TableRow
+                key={`${device.mqtt_id}-${index}-tr`}
+                selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
+                openPaletteModal={() => setEditPaletteDevice(device)}
+                device={device}
+                toggleRow={toggleRow}
               />
-            )}
-          </>
-        )}
+            ))}
+          </Table.Tbody>
+        </Table>
+        <PaletteModal
+          presetOptions={[]}
+          device={editPaletteDevice}
+          close={() => setEditPaletteDevice(null)}
+        />
       </Flex>
     </ScrollArea>
   );

@@ -4,7 +4,7 @@ import { Slider } from '@mantine/core';
 import { PostData, postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import TooltipWrapper from '@/components/TooltipWrapper';
-
+import classes from '../NeoPixel.module.css';
 
 const IndeterminateButton = ({
   settingName,
@@ -62,6 +62,7 @@ const IndeterminateButton = ({
           />
         }
         onChangeEnd={handleChange}
+        className={classes['fade-in']}
       />
     </TooltipWrapper>
   );
