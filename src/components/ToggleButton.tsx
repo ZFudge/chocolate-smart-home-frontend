@@ -1,11 +1,12 @@
-import { useContext } from 'react';
-import { Button } from '@mantine/core';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Button, Loader } from '@mantine/core';
 
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './NeoPixels/interfaces';
 import TooltipWrapper from './TooltipWrapper';
-import classes from './NeoPixels/NeoPixel.module.css';
+import classes from '@/App.module.css';
 
 interface ToggleButtonProps {
   device: { [key: string]: any } | object[];
@@ -24,30 +25,34 @@ const ToggleButton = ({
 }: ToggleButtonProps) => {
   const websocket = useContext(WebSocketContext);
   const multiple: boolean = Array.isArray(device);
+  const location = useLocation();
+  const deviceTypeName = location.pathname.split('/').pop() || '';
+  let initialValue: boolean | undefined;
+
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => setIsLoading(false), [device]);
 
   let color: string = 'teal';
   let dataTestId: string;
   if (multiple) {
-    const allTrue = device.every((d: IndexableObj) => d[settingName]);
-    const allFalse = device.every((d: IndexableObj) => !d[settingName]);
-    if (allTrue) {
+    initialValue = device.every((d: IndexableObj) => d[settingName]);
+    if (initialValue) {
       color = 'red';
-    } else if (allFalse) {
+    } else {
       color = 'teal';
     }
     dataTestId = `all-${settingName}-toggle`;
   } else {
     color = (device as IndexableObj)[settingName] ? 'teal' : 'gray';
     dataTestId = `${(device as IndexableObj).mqtt_id}-${settingName}-toggle`;
+    initialValue = (device as IndexableObj)[settingName];
   }
 
   const toggleSetting = () => {
     let mqttIds: number | number[];
     let newValue: boolean;
-    let deviceTypeName: string;
 
     if (Array.isArray(device)) {
-      deviceTypeName = device[0].device_type_name;
       mqttIds = device.map((d: IndexableObj) => d.mqtt_id);
       const uniqueValues = Array.from(
         new Set(
@@ -65,7 +70,6 @@ const ToggleButton = ({
         }
       }
     } else {
-      deviceTypeName = device.device_type_name;
       mqttIds = device.mqtt_id;
       newValue = !device[settingName];
     }
@@ -82,6 +86,7 @@ const ToggleButton = ({
     } else {
       postUpdate(data);
     }
+    setIsLoading(true);
   };
 
   return (
@@ -93,9 +98,12 @@ const ToggleButton = ({
         size="xs"
         radius="lg"
         data-testid={dataTestId}
-        className={classes['fade-in']}
+        className={classes['fade-in'] + ' ' + classes['color-transition']}
       >
-        {Icon && <Icon />}
+        {isLoading ?
+          <Loader size="0.75rem" /> :
+          (Icon && <Icon />)
+        }
         {children}
       </Button>
     </TooltipWrapper>

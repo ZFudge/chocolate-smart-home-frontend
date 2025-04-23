@@ -4,26 +4,24 @@ import { FaPowerOff } from "react-icons/fa";
 import { GiTransform } from "react-icons/gi";
 import { IoSparklesSharp, IoSpeedometerOutline } from "react-icons/io5";
 
-import classes from '../../NeoPixel.module.css';
+import classes from '@/App.module.css';
 import { NeoPixelObject } from "../../interfaces";
 import HeaderColumnToggler from "./HeaderColumnToggler";
 import PopoverSlider from "../PopoverSlider";
 
 interface HeaderProps {
-  toggleAll: () => void;
-  selection: number[];
   devices: NeoPixelObject[];
+  selection: number[];
+  toggleAll: () => void;
 }
 
 const Header = ({
-  toggleAll,
-  selection,
   devices,
+  selection,
+  toggleAll,
 }: HeaderProps) => {
   const trSettingsClass = (selection.length < 2 ? classes.hidden : classes.visible) + ' ' + classes['visibility-transition'];
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
-  console.log('selection', selection);
-  console.log('selectedDevices', selectedDevices);
 
   return (
     <Table.Tr>

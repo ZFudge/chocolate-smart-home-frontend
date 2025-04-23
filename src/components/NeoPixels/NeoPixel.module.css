@@ -54,32 +54,3 @@
     }
   }
 }
-
-.visibility-transition {
-  transition: opacity 250ms ease-in-out;
-}
-
-.hidden {
-  pointer-events: none;
-  opacity: 0;
-}
-
-.visible {
-  opacity: 1;
-}
-
-
-.fade-in {
-  animation-name: fadeInOpacity;
-  animation-duration: 500ms;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}

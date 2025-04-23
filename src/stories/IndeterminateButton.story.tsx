@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { FaPowerOff } from 'react-icons/fa';
-import IndeterminateButton from '@/components/NeoPixels/Table/IndeterminateButton';
+import IndeterminateButton from '@/components/IndeterminateButton';
 import { neoPixelsMockData } from '@/tests/placeholder-data/';
 
 const meta: Meta<typeof IndeterminateButton> = {

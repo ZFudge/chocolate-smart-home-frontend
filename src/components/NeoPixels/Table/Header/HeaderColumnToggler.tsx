@@ -1,8 +1,8 @@
 import { Table } from "@mantine/core";
 
+import IndeterminateButton from "@/components/IndeterminateButton";
 import ToggleButton from "@/components/ToggleButton";
 import { NeoPixelObject } from "../../interfaces";
-import IndeterminateButton from "../IndeterminateButton";
 
 interface HeaderColumnTogglerProps {
   settingName: string;
@@ -23,15 +23,14 @@ const HeaderColumnToggler = ({
   const label = `${settingName} setting`;
 
   return (
-    <Table.Th key={settingName} className={trSettingsClass}>
+    <Table.Th key={`${settingName}-header`} className={trSettingsClass}>
       {allValuesMatch ?
         <ToggleButton
           device={devices}
           settingName={settingName}
           label={label}
-        >
-          <Icon />
-        </ToggleButton> :
+          Icon={Icon}
+        /> :
         <IndeterminateButton
           settingName={settingName}
           Icon={Icon}

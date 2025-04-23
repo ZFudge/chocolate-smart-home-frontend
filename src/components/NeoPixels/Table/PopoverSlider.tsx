@@ -9,6 +9,7 @@ import TooltipWrapper from '@/components/TooltipWrapper';
 import SliderForm from '../SliderForm';
 import SplitTableCell from './SplitTableCell';
 import { IndexableObj } from '../interfaces';
+import { useLocation } from 'react-router-dom';
 
 const PopoverSlider = ({
   label,
@@ -25,28 +26,26 @@ const PopoverSlider = ({
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+  const location = useLocation();
+  const deviceTypeName = location.pathname.split('/').pop() || '';
 
   const multiple = Array.isArray(device);
   let mqttId: number[] | number;
   let value: number;
-  let deviceTypeName: string;
 
   if (multiple) {
     mqttId = [];
     value = 0;
-    if (device.length < 2) {
-      return null;
-    }
-    deviceTypeName = device[0].device_type_name;
     device.forEach(cur => {
       (mqttId as number[]).push(cur.mqtt_id);
       value += cur[name];
     });
-    value = Math.round(value / device.length);
+    if (value) {
+      value = Math.round(value / device.length);
+    }
   } else {
     mqttId = device.mqtt_id;
     value = device[name];
-    deviceTypeName = device.device_type_name;
   }
 
   return (
