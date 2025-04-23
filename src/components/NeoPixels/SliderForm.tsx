@@ -17,6 +17,7 @@ interface SliderFormProps {
   initialValue: number;
   mqttId: number | number[];
   deviceTypeName: string;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 const SliderForm = ({
@@ -27,6 +28,7 @@ const SliderForm = ({
   initialValue,
   mqttId,
   deviceTypeName,
+  setIsLoading,
 }: SliderFormProps) => {
   const websocket = useContext(WebSocketContext);
   const [value, setValue] = useState(initialValue);
@@ -51,6 +53,7 @@ const SliderForm = ({
       postUpdate(data);
     }
     close();
+    setIsLoading(true);
   };
 
   return (

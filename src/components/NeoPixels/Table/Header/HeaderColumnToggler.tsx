@@ -22,6 +22,10 @@ const HeaderColumnToggler = ({
   const allValuesMatch = new Set(devices.filter(np => selection.includes(np.mqtt_id)).map(np => np[settingName as keyof NeoPixelObject])).size === 1;
   const label = `${settingName} setting`;
 
+  if (selection.length < 2) {
+    return <Table.Th key={`${settingName}-header`} className={trSettingsClass} />;
+  }
+
   return (
     <Table.Th key={`${settingName}-header`} className={trSettingsClass}>
       {allValuesMatch ?

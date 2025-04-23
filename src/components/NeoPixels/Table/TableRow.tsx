@@ -3,9 +3,8 @@ import { Checkbox, Table } from '@mantine/core';
 import { BsBrightnessHigh } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
+import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
 import {
-  IoLocationOutline,
   IoSparklesOutline,
   IoSparklesSharp,
   IoSpeedometerOutline,
@@ -37,63 +36,72 @@ const TableRow = ({
       className={cx({ [classes.rowSelected]: selected })}
       data-testid={`${device.mqtt_id}-tr`}
     >
-      {[
+      <Table.Td className={classes.tableCell}>
         <Checkbox
           checked={selected}
           onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <SplitTableCell
+          value={device.space}
+          Icon={HiTag}
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <SplitTableCell
           value={device.name}
           Icon={device.online ? HiStatusOnline : HiStatusOffline}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
           settingName="on"
-          label={`power is ${boolToOnOff(device.online)}`}
+          label={`power is ${boolToOnOff(device.on)}`}
           Icon={FaPowerOff}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <Palette
           device={device}
           openPaletteModal={openPaletteModal}
           label="Update Palette"
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
           settingName="twinkle"
           label={`twinkle is ${boolToOnOff(device.twinkle)}`}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
           settingName="transform"
           label={`transform is ${boolToOnOff(device.transform)}`}
           Icon={GiTransform}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <PopoverSlider
           label="adjust speed"
           name="ms"
           device={device}
           Icon={IoSpeedometerOutline}
-        />,
+        />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <PopoverSlider
           label="adjust brightness"
           name="brightness"
           device={device}
           Icon={BsBrightnessHigh}
-        />,
-        <SplitTableCell
-          value={device.space}
-          Icon={IoLocationOutline}
-        />,
-      ].map((tableCell, i) => (
-        <Table.Td
-          key={`td-${i}-${device.mqtt_id}`}
-          className={classes.tableCell}
-        >
-          {tableCell}
-        </Table.Td>
-      ))}
+        />
+      </Table.Td>
     </Table.Tr>
   );
 };

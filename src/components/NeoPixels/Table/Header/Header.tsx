@@ -24,7 +24,7 @@ const Header = ({
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
 
   return (
-    <Table.Tr>
+    <Table.Tr style={{ height: '3.5rem' }}>
       <Table.Th w={40}>
         <Checkbox
           onChange={toggleAll}
@@ -35,7 +35,10 @@ const Header = ({
           }
         />
       </Table.Th>
-      <Table.Th key="device-names-header" />
+      <Table.Th key="tags" />
+      <Table.Th key="device-names-header">
+        Neo Pixels
+      </Table.Th>
       <HeaderColumnToggler
         settingName="on"
         Icon={FaPowerOff}
@@ -58,7 +61,7 @@ const Header = ({
         devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
-      <Table.Th key="ms" className={trSettingsClass}>
+      <Table.Th key="ms" className={trSettingsClass} w={75}>
         <PopoverSlider
           label="adjust speed"
           name="ms"
@@ -66,7 +69,7 @@ const Header = ({
           Icon={IoSpeedometerOutline}
         />
       </Table.Th>
-      <Table.Th key="brightness" className={trSettingsClass}>
+      <Table.Th key="brightness" className={trSettingsClass} w={75}>
         <PopoverSlider
           label="adjust brightness"
           name="brightness"
@@ -74,7 +77,6 @@ const Header = ({
           Icon={BsBrightnessHigh}
         />
       </Table.Th>
-      <Table.Th key="tags" />
     </Table.Tr>
   );
 };

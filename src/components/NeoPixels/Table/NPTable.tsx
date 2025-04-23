@@ -37,13 +37,13 @@ const NPTable = ({ devices }: NPTableProps) => {
     <ScrollArea>
       <Flex className={classes.flexTable}>
         <Table withTableBorder className={classes['mantine-Table-table']}>
-          <Table.Tbody>
+          <Table.Thead>
             <Header
               toggleAll={toggleAll}
               selection={selection}
               devices={devices}
             />
-          </Table.Tbody>
+          </Table.Thead>
           <Table.Tbody>
             {Object.values(devices).map((device: NeoPixelObject, index: number) => (
               <TableRow

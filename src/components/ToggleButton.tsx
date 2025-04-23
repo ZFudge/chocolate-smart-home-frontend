@@ -2,11 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Loader } from '@mantine/core';
 
+import classes from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './NeoPixels/interfaces';
 import TooltipWrapper from './TooltipWrapper';
-import classes from '@/App.module.css';
+
+const OFF_COLOR = 'red';
+const ON_COLOR = 'teal';
 
 interface ToggleButtonProps {
   device: { [key: string]: any } | object[];
@@ -32,18 +35,18 @@ const ToggleButton = ({
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => setIsLoading(false), [device]);
 
-  let color: string = 'teal';
+  let color: string = ON_COLOR;
   let dataTestId: string;
   if (multiple) {
     initialValue = device.every((d: IndexableObj) => d[settingName]);
     if (initialValue) {
-      color = 'red';
+      color = OFF_COLOR;
     } else {
-      color = 'teal';
+      color = ON_COLOR;
     }
     dataTestId = `all-${settingName}-toggle`;
   } else {
-    color = (device as IndexableObj)[settingName] ? 'teal' : 'gray';
+    color = (device as IndexableObj)[settingName] ? ON_COLOR : OFF_COLOR;
     dataTestId = `${(device as IndexableObj).mqtt_id}-${settingName}-toggle`;
     initialValue = (device as IndexableObj)[settingName];
   }

@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { IconType } from 'react-icons';
 import { JSX } from 'react/jsx-runtime';
-import { Button, Popover } from '@mantine/core';
+import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import cx from 'clsx';
 
@@ -9,7 +11,6 @@ import TooltipWrapper from '@/components/TooltipWrapper';
 import SliderForm from '../SliderForm';
 import SplitTableCell from './SplitTableCell';
 import { IndexableObj } from '../interfaces';
-import { useLocation } from 'react-router-dom';
 
 const PopoverSlider = ({
   label,
@@ -33,6 +34,9 @@ const PopoverSlider = ({
   let mqttId: number[] | number;
   let value: number;
 
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => setIsLoading(false), [device]);
+
   if (multiple) {
     mqttId = [];
     value = 0;
@@ -48,20 +52,29 @@ const PopoverSlider = ({
     value = device[name];
   }
 
+  if (multiple && device.length === 0) {
+    return null;
+  }
+
   return (
     <TooltipWrapper label={label}>
       <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
         <Popover.Target>
-          <Button
-            onClick={open}
-            variant="transparent"
-            className={cx(classes['split-button'])}
-            data-testid={`${multiple ? 'selected-devices' : mqttId}-${name}-slider-button`}
-          >
-            <SplitTableCell value={value} Icon={Icon}>
-              {children}
-            </SplitTableCell>
-          </Button>
+          {isLoading ?
+            <div className={classes['fade-in']} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Loader size="0.75rem" />
+            </div> :
+            <Button
+              onClick={open}
+              variant="transparent"
+              className={cx(classes['split-button'])}
+              data-testid={`${multiple ? 'selected-devices' : mqttId}-${name}-slider-button`}
+            >
+              <SplitTableCell value={value} Icon={Icon}>
+                {children}
+              </SplitTableCell>
+            </Button>
+          }
         </Popover.Target>
         <Popover.Dropdown ref={ref}>
           <SliderForm
@@ -70,6 +83,7 @@ const PopoverSlider = ({
             initialValue={value}
             Icon={Icon}
             close={close}
+            setIsLoading={setIsLoading}
             deviceTypeName={deviceTypeName}
             mqttId={mqttId}
           />
