@@ -31,11 +31,13 @@ const HeaderColumnToggler = ({
       {allValuesMatch ?
         <ToggleButton
           device={devices}
+          deviceTypeName="neo_pixel"
           settingName={settingName}
           label={label}
           Icon={Icon}
         /> :
         <IndeterminateButton
+          deviceTypeName="neo_pixel"
           settingName={settingName}
           Icon={Icon}
           selection={selection}

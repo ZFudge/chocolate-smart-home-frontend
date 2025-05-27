@@ -18,17 +18,21 @@ const PopoverSlider = ({
   Icon,
   device,
   name,
+  deviceTypeName,
 }: JSX.IntrinsicAttributes & {
   label: string;
   children?: React.ReactNode;
   Icon: IconType;
   device: IndexableObj | IndexableObj[];
   name: string;
+  deviceTypeName?: string;
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const location = useLocation();
-  const deviceTypeName = location.pathname.split('/').pop() || '';
+  if (!deviceTypeName) {
+    const location = useLocation();
+    deviceTypeName = location.pathname.split('/').pop() || '';
+  }
 
   const multiple = Array.isArray(device);
   let mqttId: number[] | number;

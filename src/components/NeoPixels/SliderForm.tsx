@@ -41,6 +41,10 @@ const SliderForm = ({
   });
 
   const handleSubmit = () => {
+    if (!deviceTypeName) {
+      alert('No device type name');
+      return;
+    }
     const data = {
       name,
       value: field.getValue(),

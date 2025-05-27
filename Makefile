@@ -1,7 +1,7 @@
 NETWORK_NAME := csm-network
 PROJECT_ROOT := frontend
 DEV_CONTAINER_NAME := csm-frontend
-IMAGE_NAME := node:22.13.0-alpine
+FE_IMAGE_NAME := node:22.13.0-alpine
 
 help:
 	@echo "Usage: make TARGET"
@@ -17,7 +17,7 @@ help:
 	@echo "  network                      Create externally managed network"
 	@echo "  container                    Create container"
 	@echo "  shell                        Attach to shell session and container"
-	@echo "  install                      Installed node modules"
+	@echo "  install                      Install node modules"
 	@echo "  test                         Run tests"
 	@echo "  build                        Build static files"
 	@echo "  clean                        Stop and remove container"
@@ -51,11 +51,9 @@ node-modules-dir:
 .PHONY: install
 install: node-modules-dir
 	@docker run --rm -it \
-		--mount type=bind,src=$(shell pwd)/package.json,dst=/csm/package.json \
-		--mount type=bind,src=$(shell pwd)/package-lock.json,dst=/csm/package-lock.json \
-		--mount type=bind,src=$(shell pwd)/node_modules,dst=/csm/node_modules \
+		--mount type=bind,src=$(shell pwd)/,dst=/csm/ \
 		-w /csm/ \
-		${IMAGE_NAME} sh -c "npm ci"
+		${FE_IMAGE_NAME} sh -c "npm install"
 
 storybook:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run storybook"
@@ -76,7 +74,7 @@ static: static-dir
 		--mount type=bind,src=$(shell pwd)/,dst=/csm \
 		--mount type=bind,src=$(shell pwd)/dist,dst=/csm/dist \
 		-w /csm/ \
-	 	${IMAGE_NAME} sh -c "npm run build"
+	 	${FE_IMAGE_NAME} sh -c "npm run build"
 
 
 run: network container dev

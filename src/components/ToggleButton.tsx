@@ -17,6 +17,7 @@ interface ToggleButtonProps {
   children?: React.ReactNode;
   label?: string;
   Icon?: React.ElementType;
+  deviceTypeName?: string;
 }
 
 const ToggleButton = ({
@@ -25,11 +26,14 @@ const ToggleButton = ({
   children,
   label,
   Icon,
+  deviceTypeName,
 }: ToggleButtonProps) => {
   const websocket = useContext(WebSocketContext);
   const multiple: boolean = Array.isArray(device);
-  const location = useLocation();
-  const deviceTypeName = location.pathname.split('/').pop() || '';
+  if (!deviceTypeName) {
+    const location = useLocation();
+    deviceTypeName = location.pathname.split('/').pop() || '';
+  }
   let initialValue: boolean | undefined;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +55,11 @@ const ToggleButton = ({
     initialValue = (device as IndexableObj)[settingName];
   }
 
-  const toggleSetting = () => {
+  const handleToggle = () => {
+    if (!deviceTypeName) {
+      alert('No device type name');
+      return;
+    }
     let mqttIds: number | number[];
     let newValue: boolean;
 
@@ -95,7 +103,7 @@ const ToggleButton = ({
   return (
     <TooltipWrapper label={label}>
       <Button
-        onClick={toggleSetting}
+        onClick={handleToggle}
         color={color}
         variant="outline"
         size="xs"

@@ -4,6 +4,7 @@ import NoNeoPixels from '@/components/NeoPixels/NoNeoPixels';
 import useDevicesStore from '@/useDevicesStore';
 
 const NeoPixelsPage = () => {
+  
   const { devices } = useDevicesStore();
 
   const devicesArray = Object.values(devices)

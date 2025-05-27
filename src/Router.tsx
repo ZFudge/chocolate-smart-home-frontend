@@ -4,6 +4,10 @@ import NeoPixelsPage from './pages/NeoPixels.page';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <NeoPixelsPage />,
+  },
+  {
     path: '/neo_pixel',
     element: <NeoPixelsPage />,
   },

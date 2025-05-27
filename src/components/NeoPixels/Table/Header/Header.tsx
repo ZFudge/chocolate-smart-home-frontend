@@ -63,17 +63,19 @@ const Header = ({
       />
       <Table.Th key="ms" className={trSettingsClass} w={75}>
         <PopoverSlider
+          device={selectedDevices}
+          deviceTypeName="neo_pixel"
           label="adjust speed"
           name="ms"
-          device={selectedDevices}
           Icon={IoSpeedometerOutline}
         />
       </Table.Th>
       <Table.Th key="brightness" className={trSettingsClass} w={75}>
         <PopoverSlider
+          device={selectedDevices}
+          deviceTypeName="neo_pixel"
           label="adjust brightness"
           name="brightness"
-          device={selectedDevices}
           Icon={BsBrightnessHigh}
         />
       </Table.Th>

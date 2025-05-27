@@ -58,6 +58,7 @@ const TableRow = ({
       <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
+          deviceTypeName="neo_pixel"
           settingName="on"
           label={`power is ${boolToOnOff(device.on)}`}
           Icon={FaPowerOff}
@@ -73,6 +74,7 @@ const TableRow = ({
       <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
+          deviceTypeName="neo_pixel"
           settingName="twinkle"
           label={`twinkle is ${boolToOnOff(device.twinkle)}`}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
@@ -81,6 +83,7 @@ const TableRow = ({
       <Table.Td className={classes.tableCell}>
         <ToggleButton
           device={device}
+          deviceTypeName="neo_pixel"
           settingName="transform"
           label={`transform is ${boolToOnOff(device.transform)}`}
           Icon={GiTransform}
@@ -88,17 +91,19 @@ const TableRow = ({
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <PopoverSlider
+          device={device}
+          deviceTypeName="neo_pixel"
           label="adjust speed"
           name="ms"
-          device={device}
           Icon={IoSpeedometerOutline}
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <PopoverSlider
+          device={device}
+          deviceTypeName="neo_pixel"
           label="adjust brightness"
           name="brightness"
-          device={device}
           Icon={BsBrightnessHigh}
         />
       </Table.Td>

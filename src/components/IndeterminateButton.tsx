@@ -12,19 +12,27 @@ const IndeterminateButton = ({
   label,
   selection,
   settingName,
+  deviceTypeName,
 }: {
   Icon: React.ElementType;
   label: string;
   selection: number[];
   settingName: string;
+  deviceTypeName?: string;
 }) => {
   const websocket = useContext(WebSocketContext);
-  const location = useLocation();
-  const deviceTypeName = location.pathname.split('/').pop() || '';
+  if (!deviceTypeName) {
+    const location = useLocation();
+    deviceTypeName = location.pathname.split('/').pop() || '';
+  }
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => setIsLoading(false), []);
 
   const handleChange = (value: number) => {
+    if (!deviceTypeName) {
+      alert('No device type name');
+      return;
+    }
     if (value === 0.5 || isLoading) {
       return;
     }
