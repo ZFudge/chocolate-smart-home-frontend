@@ -1,14 +1,13 @@
-  import { Checkbox, Table } from "@mantine/core";
-import { BsBrightnessHigh } from "react-icons/bs";
-import { FaPowerOff } from "react-icons/fa";
-import { GiTransform } from "react-icons/gi";
-import { IoSparklesSharp, IoSpeedometerOutline } from "react-icons/io5";
-
+import { BsBrightnessHigh } from 'react-icons/bs';
+import { FaPowerOff } from 'react-icons/fa';
+import { GiTransform } from 'react-icons/gi';
+import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
+import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
-import { NeoPixelObject } from "../../interfaces";
-import HeaderColumnToggler from "./HeaderColumnToggler";
-import PopoverSlider from "../PopoverSlider";
-import Palette from "../Palette";
+import { NeoPixelObject } from '../../interfaces';
+import Palette from '../Palette';
+import PopoverSlider from '../PopoverSlider';
+import HeaderColumnToggler from './HeaderColumnToggler';
 
 interface HeaderProps {
   devices: NeoPixelObject[];
@@ -17,13 +16,8 @@ interface HeaderProps {
   openPaletteModal: () => void;
 }
 
-const Header = ({
-  devices,
-  selection,
-  toggleAll,
-  openPaletteModal,
-}: HeaderProps) => {
-  const trSettingsClass = (selection.length < 2 ? classes.hidden : classes.visible) + ' ' + classes['visibility-transition'];
+const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps) => {
+  const trSettingsClass = `${selection.length < 2 ? classes.hidden : classes.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
 
   return (
@@ -32,16 +26,11 @@ const Header = ({
         <Checkbox
           onChange={toggleAll}
           checked={selection.length === devices.length}
-          indeterminate={
-            selection.length > 0 &&
-              selection.length !== devices.length
-          }
+          indeterminate={selection.length > 0 && selection.length !== devices.length}
         />
       </Table.Th>
       <Table.Th key="tags" />
-      <Table.Th key="device-names-header">
-        Neo Pixels
-      </Table.Th>
+      <Table.Th key="device-names-header">Neo Pixels</Table.Th>
       <HeaderColumnToggler
         settingName="on"
         Icon={FaPowerOff}
@@ -50,11 +39,7 @@ const Header = ({
         trSettingsClass={trSettingsClass}
       />
       <Table.Th key="palette-header">
-        <Palette
-          device={selectedDevices}
-          openPaletteModal={openPaletteModal}
-          label="palette"
-        />
+        <Palette devices={selectedDevices} openPaletteModal={openPaletteModal} label="palette" />
       </Table.Th>
       <HeaderColumnToggler
         settingName="twinkle"
@@ -72,7 +57,7 @@ const Header = ({
       />
       <Table.Th key="ms" className={trSettingsClass} w={75}>
         <PopoverSlider
-          device={selectedDevices}
+          devices={selectedDevices}
           deviceTypeName="neo_pixel"
           label="adjust speed"
           name="ms"
@@ -81,7 +66,7 @@ const Header = ({
       </Table.Th>
       <Table.Th key="brightness" className={trSettingsClass} w={75}>
         <PopoverSlider
-          device={selectedDevices}
+          devices={selectedDevices}
           deviceTypeName="neo_pixel"
           label="adjust brightness"
           name="brightness"

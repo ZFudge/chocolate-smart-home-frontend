@@ -1,7 +1,5 @@
-import { Switch } from '@mantine/core';
-import { IconSun, IconMoonStars } from '@tabler/icons-react';
-
-import { useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
+import { IconMoonStars, IconSun } from '@tabler/icons-react';
+import { Switch, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 
 const ThemeToggle = () => {
   const { setColorScheme } = useMantineColorScheme();
@@ -16,6 +14,6 @@ const ThemeToggle = () => {
       offLabel={<IconMoonStars size={16} stroke={2.5} color="var(--mantine-color-blue-6)" />}
     />
   );
-}
+};
 
 export default ThemeToggle;

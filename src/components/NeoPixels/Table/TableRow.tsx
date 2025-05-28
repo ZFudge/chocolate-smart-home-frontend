@@ -1,22 +1,17 @@
 import cx from 'clsx';
-import { Checkbox, Table } from '@mantine/core';
 import { BsBrightnessHigh } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
-import {
-  IoSparklesOutline,
-  IoSparklesSharp,
-  IoSpeedometerOutline,
-} from 'react-icons/io5';
-
-import classes from '../NeoPixel.module.css';
+import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
+import { Checkbox, Table } from '@mantine/core';
 import { ToggleButton } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverSlider from './PopoverSlider';
 import SplitTableCell from './SplitTableCell';
+import classes from '../NeoPixel.module.css';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -25,12 +20,7 @@ interface TableRowProps {
   openPaletteModal: () => void;
 }
 
-const TableRow = ({
-  device,
-  selected,
-  toggleRow,
-  openPaletteModal,
-}: TableRowProps) => {
+const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowProps) => {
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -44,10 +34,7 @@ const TableRow = ({
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <SplitTableCell
-          value={device.space}
-          Icon={HiTag}
-        />
+        <SplitTableCell value={device.space} Icon={HiTag} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <SplitTableCell
@@ -57,7 +44,7 @@ const TableRow = ({
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
-          device={device}
+          devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="on"
           label={`power is ${boolToOnOff(device.on)}`}
@@ -65,15 +52,11 @@ const TableRow = ({
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <Palette
-          device={device}
-          openPaletteModal={openPaletteModal}
-          label="Update Palette"
-        />
+        <Palette devices={[device]} openPaletteModal={openPaletteModal} label="Update Palette" />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
-          device={device}
+          devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="twinkle"
           label={`twinkle is ${boolToOnOff(device.twinkle)}`}
@@ -82,7 +65,7 @@ const TableRow = ({
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
-          device={device}
+          devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="transform"
           label={`transform is ${boolToOnOff(device.transform)}`}
@@ -91,7 +74,7 @@ const TableRow = ({
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <PopoverSlider
-          device={device}
+          devices={[device]}
           deviceTypeName="neo_pixel"
           label="adjust speed"
           name="ms"
@@ -100,7 +83,7 @@ const TableRow = ({
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <PopoverSlider
-          device={device}
+          devices={[device]}
           deviceTypeName="neo_pixel"
           label="adjust brightness"
           name="brightness"

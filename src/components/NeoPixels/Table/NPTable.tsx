@@ -1,36 +1,28 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
-
-import classes from '../NeoPixel.module.css';
-
-import PaletteModal from '../PaletteModal';
 import { NeoPixelObject } from '../interfaces';
+import PaletteModal from '../PaletteModal';
 import Header from './Header';
 import TableRow from './TableRow';
-
+import classes from '../NeoPixel.module.css';
 
 interface NPTableProps {
   devices: NeoPixelObject[];
   onClick?: () => void;
 }
 
-
 const NPTable = ({ devices }: NPTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
-  const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | NeoPixelObject[] | null>(null);
+  const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject[] | null>(null);
 
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === devices.length
-        ? []
-        : devices.map(device => device.mqtt_id)
+      current.length === devices.length ? [] : devices.map((device) => device.mqtt_id)
     );
 
   const toggleRow = (mqtt_id: number) =>
     setSelection((current) =>
-      current.includes(mqtt_id) ?
-        current.filter((item) => item !== mqtt_id) :
-        [...current, mqtt_id]
+      current.includes(mqtt_id) ? current.filter((item) => item !== mqtt_id) : [...current, mqtt_id]
     );
 
   return (
@@ -42,7 +34,13 @@ const NPTable = ({ devices }: NPTableProps) => {
               toggleAll={toggleAll}
               selection={selection}
               devices={devices}
-              openPaletteModal={() => setEditPaletteDevice(selection.map(id => devices.find(device => device.mqtt_id === id) as NeoPixelObject))}
+              openPaletteModal={() =>
+                setEditPaletteDevice(
+                  selection.map(
+                    (id) => devices.find((device) => device.mqtt_id === id) as NeoPixelObject
+                  )
+                )
+              }
             />
           </Table.Thead>
           <Table.Tbody>
@@ -50,7 +48,7 @@ const NPTable = ({ devices }: NPTableProps) => {
               <TableRow
                 key={`${device.mqtt_id}-${index}-tr`}
                 selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
-                openPaletteModal={() => setEditPaletteDevice(device)}
+                openPaletteModal={() => setEditPaletteDevice([device])}
                 device={device}
                 toggleRow={toggleRow}
               />

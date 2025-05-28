@@ -1,4 +1,4 @@
-import { NeoPixelObject } from "./components/NeoPixels/interfaces";
+import { NeoPixelObject } from './components/NeoPixels/interfaces';
 
 export type Devices = NeoPixelObject;
 

@@ -1,47 +1,44 @@
 import { useContext } from 'react';
+import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import cx from 'clsx';
-
-import classes from './PaletteModal.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
+import classes from './PaletteModal.module.css';
 
 const EMPTY_PALETTE = Array(9).fill('#ffffff');
 
 interface PaletteModalProps {
-  devices: NeoPixelObject | NeoPixelObject[] | null;
+  devices: NeoPixelObject[] | null;
   close: () => void;
   presetOptions: PalettePreset[];
 }
 
 const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
-  if (!devices) return <></>;
-  const multiple = Array.isArray(devices);
+  if (devices === null || !devices.length) {
+    return null;
+  }
+
+  const multiple = devices.length > 1;
   const websocket = useContext(WebSocketContext);
-  // console.log(devices);
 
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
-    initialValues: multiple ? EMPTY_PALETTE : Object.fromEntries(Object.entries(devices.palette)),
+    initialValues: multiple
+      ? EMPTY_PALETTE
+      : Object.fromEntries(Object.entries(devices[0].palette)),
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    const value: string[] = Array.from({ length: Object.keys(values).length }).map(
-      (_, i) => values[i.toString()]
-    );
-    console.log(value);
-
     const data = {
-      mqtt_id: multiple ? devices.map(device => device.mqtt_id) : [devices.mqtt_id],
+      mqtt_id: multiple ? devices.map((device) => device.mqtt_id) : devices[0].mqtt_id,
+      value: values as string[],
       name: 'palette',
       device_type_name: 'neo_pixel',
-      value,
     };
-    console.log(data);
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
@@ -55,7 +52,7 @@ const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
       <Modal
         opened
         onClose={close}
-        title={multiple ? 'multiple' : devices.name}
+        title={multiple ? 'multiple' : devices[0].name}
         withCloseButton={false}
         centered
         className={cx(classes['palette-modal'])}
@@ -64,7 +61,7 @@ const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <FocusTrap.InitialFocus />
           <div className={cx(classes['palette-modal-content'])}>
-            {Array.from({length: multiple ? 9 : devices.palette.length }).map((_, i) => (
+            {Array.from({ length: multiple ? 9 : devices[0].palette.length }).map((_, i) => (
               <input
                 type="color"
                 {...form.getInputProps(i.toString())}

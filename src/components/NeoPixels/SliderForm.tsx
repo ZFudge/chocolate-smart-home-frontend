@@ -1,16 +1,15 @@
 import { useContext, useState } from 'react';
+import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { Button, Group, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
-import cx from 'clsx';
-
-import classes from './NeoPixel.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './interfaces';
+import classes from './NeoPixel.module.css';
 
 interface SliderFormProps {
-  device: IndexableObj | IndexableObj[];
+  devices: IndexableObj[];
   name: string;
   Icon: IconType;
   close: () => void;
@@ -21,7 +20,7 @@ interface SliderFormProps {
 }
 
 const SliderForm = ({
-  device,
+  devices,
   name,
   Icon,
   close,
@@ -30,19 +29,23 @@ const SliderForm = ({
   deviceTypeName,
   setIsLoading,
 }: SliderFormProps) => {
+  if (!devices || !devices.length) {
+    return null;
+  }
+
   const websocket = useContext(WebSocketContext);
   const [value, setValue] = useState(initialValue);
-  const multiple = Array.isArray(device);
+  const multiple = devices.length > 1;
 
   const field = useField({
     mode: 'uncontrolled',
-    initialValue: initialValue,
+    initialValue,
     onValueChange: setValue,
   });
 
   const handleSubmit = () => {
     if (!deviceTypeName) {
-      alert('No device type name');
+      alert('No device type name'); // eslint-disable-line no-alert
       return;
     }
     const data = {
@@ -80,7 +83,7 @@ const SliderForm = ({
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid={`${multiple ? mqttId : device.mqtt_id}-${name}-submit-button`}
+          data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
         >
           Submit
         </Button>
@@ -90,6 +93,6 @@ const SliderForm = ({
       </Group>
     </>
   );
-}
+};
 
 export default SliderForm;

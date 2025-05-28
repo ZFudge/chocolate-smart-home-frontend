@@ -1,62 +1,66 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import cx from 'clsx';
 import { IconType } from 'react-icons';
+import { useLocation } from 'react-router-dom';
 import { JSX } from 'react/jsx-runtime';
 import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import cx from 'clsx';
-
-import classes from '../NeoPixel.module.css';
 import TooltipWrapper from '@/components/TooltipWrapper';
+import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import SplitTableCell from './SplitTableCell';
-import { IndexableObj } from '../interfaces';
+import classes from '../NeoPixel.module.css';
 
 const PopoverSlider = ({
   label,
   children,
   Icon,
-  device,
+  devices,
   name,
   deviceTypeName,
 }: JSX.IntrinsicAttributes & {
   label: string;
   children?: React.ReactNode;
   Icon: IconType;
-  device: IndexableObj | IndexableObj[];
+  devices: IndexableObj[];
   name: string;
   deviceTypeName?: string;
 }) => {
+  if (!devices || !devices.length) {
+    return null;
+  }
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  let dynamicDeviceTypeName: string | undefined = deviceTypeName;
   if (!deviceTypeName) {
     const location = useLocation();
-    deviceTypeName = location.pathname.split('/').pop() || '';
+    dynamicDeviceTypeName = location.pathname.split('/').pop() || '';
   }
 
-  const multiple = Array.isArray(device);
+  const multiple = devices.length > 1;
   let mqttId: number[] | number;
   let value: number;
 
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => setIsLoading(false), [device]);
+  useEffect(() => setIsLoading(false), [devices]);
 
   if (multiple) {
     mqttId = [];
     value = 0;
-    device.forEach(cur => {
+    devices.forEach((cur) => {
       (mqttId as number[]).push(cur.mqtt_id);
       value += cur[name];
     });
     if (value) {
-      value = Math.round(value / device.length);
+      value = Math.round(value / devices.length);
     }
   } else {
-    mqttId = device.mqtt_id;
-    value = device[name];
+    mqttId = devices[0].mqtt_id;
+    value = devices[0][name];
   }
 
-  if (multiple && device.length === 0) {
+  if (multiple && devices.length === 0) {
     return null;
   }
 
@@ -64,10 +68,14 @@ const PopoverSlider = ({
     <TooltipWrapper label={label}>
       <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
         <Popover.Target>
-          {isLoading ?
-            <div className={classes['fade-in']} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {isLoading ? (
+            <div
+              className={classes['fade-in']}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
               <Loader size="0.75rem" />
-            </div> :
+            </div>
+          ) : (
             <Button
               onClick={open}
               variant="transparent"
@@ -78,23 +86,23 @@ const PopoverSlider = ({
                 {children}
               </SplitTableCell>
             </Button>
-          }
+          )}
         </Popover.Target>
         <Popover.Dropdown ref={ref}>
           <SliderForm
-            device={device}
+            devices={devices}
             name={name}
             initialValue={value}
             Icon={Icon}
             close={close}
             setIsLoading={setIsLoading}
-            deviceTypeName={deviceTypeName}
+            deviceTypeName={dynamicDeviceTypeName || ''}
             mqttId={mqttId}
           />
         </Popover.Dropdown>
       </Popover>
     </TooltipWrapper>
   );
-}
+};
 
 export default PopoverSlider;

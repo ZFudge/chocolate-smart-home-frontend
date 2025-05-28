@@ -16,15 +16,16 @@
 }
 
 .fade-in {
-  animation-name: fadeInOpacity;
+  animation-name: fade-in-opacity;
   animation-duration: 125ms;
   animation-timing-function: ease-in-out;
 }
 
-@keyframes fadeInOpacity {
+@keyframes fade-in-opacity {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }

@@ -1,24 +1,21 @@
 import cx from 'clsx';
 import { Button, ColorSwatch, Flex } from '@mantine/core';
-
-import classes from '../NeoPixel.module.css';
-import { NeoPixelObject } from '../interfaces';
 import TooltipWrapper from '@/components/TooltipWrapper';
+import { NeoPixelObject } from '../interfaces';
+import classes from '../NeoPixel.module.css';
 
 interface PaletteProps {
-  device: NeoPixelObject | NeoPixelObject[];
+  devices: NeoPixelObject[];
   openPaletteModal: () => void;
   label: string;
 }
 
-const Palette = ({
-  device,
-  openPaletteModal,
-  label,
-}: PaletteProps) => {
-  if (!device || (Array.isArray(device) && !device.length)) return <></>;
-  const multiple = Array.isArray(device);
-  const mqttIdLabel = multiple ? 'selected' : device.mqtt_id;
+const Palette = ({ devices, openPaletteModal, label }: PaletteProps) => {
+  if (!devices || !devices.length) {
+    return null;
+  }
+  const multiple = devices.length > 1;
+  const mqttIdLabel = multiple ? 'selected' : devices[0].mqtt_id;
 
   return (
     <TooltipWrapper label={label}>
@@ -29,7 +26,7 @@ const Palette = ({
         onClick={openPaletteModal}
       >
         <Flex wrap="wrap" direction="column">
-          {(multiple ? device[0].palette : device.palette)
+          {devices[0].palette
             .map((color: string, i: number) => (
               <ColorSwatch color={color} size="10" key={`${i}-${color}-${mqttIdLabel}`} />
             ))

@@ -12,14 +12,14 @@ type Story = StoryObj<typeof NPTable>;
 
 export const MixedView: Story = {
   args: {
-    neoPixelData: Object.values(neoPixelsMockData),
+    devices: Object.values(neoPixelsMockData),
     onClick: fn(),
   },
 };
 
 export const Empty: Story = {
   args: {
-    neoPixelData: [],
+    devices: [],
     onClick: fn(),
   },
 };

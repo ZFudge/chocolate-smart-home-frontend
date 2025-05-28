@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
-
 import { NeoPixelObject } from './components/NeoPixels/interfaces';
 import { DeviceMapping } from './interfaces';
-
 
 const useDevicesStore = create(
   combine(
@@ -22,7 +20,7 @@ const useDevicesStore = create(
         },
       };
     }
-  ),
+  )
 );
 
 export default useDevicesStore;
