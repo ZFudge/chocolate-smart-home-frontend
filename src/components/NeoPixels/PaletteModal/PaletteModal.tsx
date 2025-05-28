@@ -9,38 +9,45 @@ import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
 
+const EMPTY_PALETTE = Array(9).fill('#ffffff');
 
 interface PaletteModalProps {
-  device: NeoPixelObject | null;
+  devices: NeoPixelObject | NeoPixelObject[] | null;
   close: () => void;
   presetOptions: PalettePreset[];
 }
 
-const PaletteModal = ({ device, close, presetOptions }: PaletteModalProps) => {
-  if (!device) return null;
+const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
+  if (!devices) return <></>;
+  const multiple = Array.isArray(devices);
   const websocket = useContext(WebSocketContext);
+  // console.log(devices);
 
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
-    initialValues: Object.fromEntries(Object.entries(device.palette)),
+    initialValues: multiple ? EMPTY_PALETTE : Object.fromEntries(Object.entries(devices.palette)),
   });
 
   const handleSubmit = (values: typeof form.values) => {
     const value: string[] = Array.from({ length: Object.keys(values).length }).map(
       (_, i) => values[i.toString()]
     );
+    console.log(value);
+
     const data = {
-      mqtt_id: device.mqtt_id,
+      mqtt_id: multiple ? devices.map(device => device.mqtt_id) : [devices.mqtt_id],
       name: 'palette',
-      value,
       device_type_name: 'neo_pixel',
+      value,
     };
+    console.log(data);
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }
+    close();
   };
 
   return (
@@ -48,7 +55,7 @@ const PaletteModal = ({ device, close, presetOptions }: PaletteModalProps) => {
       <Modal
         opened
         onClose={close}
-        title={device.name}
+        title={multiple ? 'multiple' : devices.name}
         withCloseButton={false}
         centered
         className={cx(classes['palette-modal'])}
@@ -57,7 +64,7 @@ const PaletteModal = ({ device, close, presetOptions }: PaletteModalProps) => {
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <FocusTrap.InitialFocus />
           <div className={cx(classes['palette-modal-content'])}>
-            {Array.from({ length: device.palette.length }).map((_, i) => (
+            {Array.from({length: multiple ? 9 : devices.palette.length }).map((_, i) => (
               <input
                 type="color"
                 {...form.getInputProps(i.toString())}

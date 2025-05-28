@@ -8,17 +8,20 @@ import classes from '@/App.module.css';
 import { NeoPixelObject } from "../../interfaces";
 import HeaderColumnToggler from "./HeaderColumnToggler";
 import PopoverSlider from "../PopoverSlider";
+import Palette from "../Palette";
 
 interface HeaderProps {
   devices: NeoPixelObject[];
   selection: number[];
   toggleAll: () => void;
+  openPaletteModal: () => void;
 }
 
 const Header = ({
   devices,
   selection,
   toggleAll,
+  openPaletteModal,
 }: HeaderProps) => {
   const trSettingsClass = (selection.length < 2 ? classes.hidden : classes.visible) + ' ' + classes['visibility-transition'];
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
@@ -46,7 +49,13 @@ const Header = ({
         devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
-      <Table.Th key="palette-header" />
+      <Table.Th key="palette-header">
+        <Palette
+          device={selectedDevices}
+          openPaletteModal={openPaletteModal}
+          label="palette"
+        />
+      </Table.Th>
       <HeaderColumnToggler
         settingName="twinkle"
         Icon={IoSparklesSharp}

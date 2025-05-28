@@ -16,6 +16,7 @@ const Palette = ({
   openPaletteModal,
   label,
 }: PaletteProps) => {
+  if (!device || (Array.isArray(device) && !device.length)) return <></>;
   const multiple = Array.isArray(device);
   const mqttIdLabel = multiple ? 'selected' : device.mqtt_id;
 
@@ -28,11 +29,11 @@ const Palette = ({
         onClick={openPaletteModal}
       >
         <Flex wrap="wrap" direction="column">
-          {(multiple ? device[0] : device).palette
-            .map((color, i) => (
+          {(multiple ? device[0].palette : device.palette)
+            .map((color: string, i: number) => (
               <ColorSwatch color={color} size="10" key={`${i}-${color}-${mqttIdLabel}`} />
             ))
-            .reduce((arr: React.ReactNode[][], v, i) => {
+            .reduce((arr: React.ReactNode[][], v: React.ReactNode, i: number) => {
               const rowIndex = Math.floor(i / 3);
               if (!Array.isArray(arr[rowIndex])) {
                 arr[rowIndex] = [];
@@ -40,7 +41,7 @@ const Palette = ({
               arr[rowIndex].push(v);
               return arr;
             }, [])
-            .map((row, i) => (
+            .map((row: React.ReactNode, i: number) => (
               <Flex key={`${mqttIdLabel}-${i}-pallete-span`}>{row}</Flex>
             ))}
         </Flex>

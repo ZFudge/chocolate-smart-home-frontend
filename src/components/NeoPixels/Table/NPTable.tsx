@@ -17,7 +17,7 @@ interface NPTableProps {
 
 const NPTable = ({ devices }: NPTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
-  const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | null>(null);
+  const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject | NeoPixelObject[] | null>(null);
 
   const toggleAll = () =>
     setSelection((current) =>
@@ -42,6 +42,7 @@ const NPTable = ({ devices }: NPTableProps) => {
               toggleAll={toggleAll}
               selection={selection}
               devices={devices}
+              openPaletteModal={() => setEditPaletteDevice(selection.map(id => devices.find(device => device.mqtt_id === id) as NeoPixelObject))}
             />
           </Table.Thead>
           <Table.Tbody>
@@ -58,7 +59,7 @@ const NPTable = ({ devices }: NPTableProps) => {
         </Table>
         <PaletteModal
           presetOptions={[]}
-          device={editPaletteDevice}
+          devices={editPaletteDevice}
           close={() => setEditPaletteDevice(null)}
         />
       </Flex>
