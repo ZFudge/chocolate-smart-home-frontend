@@ -24,7 +24,7 @@ const HeaderColumnToggler = ({
         .filter((np) => selection.includes(np.mqtt_id))
         .map((np) => np[settingName as keyof NeoPixelObject])
     ).size === 1;
-  const label = `${settingName} setting`;
+  const label = settingName;
 
   if (selection.length < 2) {
     return <Table.Th key={`${settingName}-header`} className={trSettingsClass} />;

@@ -17,20 +17,20 @@ interface PaletteModalProps {
 }
 
 const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
-  if (devices === null || !devices.length) {
-    return null;
-  }
-
-  const multiple = devices.length > 1;
   const websocket = useContext(WebSocketContext);
+  const multiple = devices && devices.length > 1;
 
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
     initialValues: multiple
       ? EMPTY_PALETTE
-      : Object.fromEntries(Object.entries(devices[0].palette)),
+      : Object.fromEntries(Object.entries(devices?.[0]?.palette ?? EMPTY_PALETTE)),
   });
+
+  if (!devices || !devices.length) {
+    return null;
+  }
 
   const handleSubmit = (values: typeof form.values) => {
     const data = {

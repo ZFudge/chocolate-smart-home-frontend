@@ -115,4 +115,22 @@ describe('NPTable component', () => {
       name: 'brightness',
     });
   });
+
+  it('should select/deselect all devices when toggle all checkbox clicked', async () => {
+    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const toggleAllCheckbox: HTMLElement = getByTestId('toggle-all-checkbox');
+    const checkbox1: HTMLElement = getByTestId('1-checkbox').parentElement?.parentElement
+      ?.parentElement as HTMLElement;
+    const checkbox2: HTMLElement = getByTestId('2-checkbox').parentElement?.parentElement
+      ?.parentElement as HTMLElement;
+
+    expect(checkbox1).not.toHaveAttribute('data-checked');
+    expect(checkbox2).not.toHaveAttribute('data-checked');
+    act(() => fireEvent.click(toggleAllCheckbox));
+    expect(checkbox1).toHaveAttribute('data-checked', 'true');
+    expect(checkbox2).toHaveAttribute('data-checked', 'true');
+    act(() => fireEvent.click(toggleAllCheckbox));
+    expect(checkbox1).not.toHaveAttribute('data-checked');
+    expect(checkbox2).not.toHaveAttribute('data-checked');
+  });
 });

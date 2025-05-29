@@ -27,6 +27,7 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
           onChange={toggleAll}
           checked={selection.length === devices.length}
           indeterminate={selection.length > 0 && selection.length !== devices.length}
+          data-testid="toggle-all-checkbox"
         />
       </Table.Th>
       <Table.Th key="tags" />
@@ -55,15 +56,6 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
         devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
-      <Table.Th key="ms" className={trSettingsClass} w={75}>
-        <PopoverSlider
-          devices={selectedDevices}
-          deviceTypeName="neo_pixel"
-          label="adjust speed"
-          name="ms"
-          Icon={IoSpeedometerOutline}
-        />
-      </Table.Th>
       <Table.Th key="brightness" className={trSettingsClass} w={75}>
         <PopoverSlider
           devices={selectedDevices}
@@ -71,6 +63,15 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
           label="adjust brightness"
           name="brightness"
           Icon={BsBrightnessHigh}
+        />
+      </Table.Th>
+      <Table.Th key="ms" className={trSettingsClass} w={75}>
+        <PopoverSlider
+          devices={selectedDevices}
+          deviceTypeName="neo_pixel"
+          label="adjust speed"
+          name="ms"
+          Icon={IoSpeedometerOutline}
         />
       </Table.Th>
     </Table.Tr>

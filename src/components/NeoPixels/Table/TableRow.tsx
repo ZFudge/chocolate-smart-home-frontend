@@ -76,18 +76,18 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         <PopoverSlider
           devices={[device]}
           deviceTypeName="neo_pixel"
-          label="adjust speed"
-          name="ms"
-          Icon={IoSpeedometerOutline}
+          label="adjust brightness"
+          name="brightness"
+          Icon={BsBrightnessHigh}
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <PopoverSlider
           devices={[device]}
           deviceTypeName="neo_pixel"
-          label="adjust brightness"
-          name="brightness"
-          Icon={BsBrightnessHigh}
+          label="adjust speed"
+          name="ms"
+          Icon={IoSpeedometerOutline}
         />
       </Table.Td>
     </Table.Tr>

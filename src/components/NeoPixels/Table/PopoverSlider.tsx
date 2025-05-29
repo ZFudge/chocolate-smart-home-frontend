@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
-import { JSX } from 'react/jsx-runtime';
 import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import TooltipWrapper from '@/components/TooltipWrapper';
@@ -18,7 +17,7 @@ const PopoverSlider = ({
   devices,
   name,
   deviceTypeName,
-}: JSX.IntrinsicAttributes & {
+}: {
   label: string;
   children?: React.ReactNode;
   Icon: IconType;
@@ -26,9 +25,6 @@ const PopoverSlider = ({
   name: string;
   deviceTypeName?: string;
 }) => {
-  if (!devices || !devices.length) {
-    return null;
-  }
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -45,6 +41,10 @@ const PopoverSlider = ({
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => setIsLoading(false), [devices]);
 
+  if (!devices || !devices.length) {
+    return null;
+  }
+
   if (multiple) {
     mqttId = [];
     value = 0;
@@ -58,10 +58,6 @@ const PopoverSlider = ({
   } else {
     mqttId = devices[0].mqtt_id;
     value = devices[0][name];
-  }
-
-  if (multiple && devices.length === 0) {
-    return null;
   }
 
   return (
