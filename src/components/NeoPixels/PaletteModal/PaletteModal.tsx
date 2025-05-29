@@ -4,7 +4,7 @@ import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
-import { NeoPixelObject, PalettePreset } from '../interfaces';
+import { IndexableObj, NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
 import classes from './PaletteModal.module.css';
 
@@ -35,7 +35,7 @@ const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
   const handleSubmit = (values: typeof form.values) => {
     const data = {
       mqtt_id: multiple ? devices.map((device) => device.mqtt_id) : devices[0].mqtt_id,
-      value: values as string[],
+      value: Object.keys(values).map((i: string) => (values as IndexableObj)[i]),
       name: 'palette',
       device_type_name: 'neo_pixel',
     };

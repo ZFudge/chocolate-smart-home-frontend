@@ -33,7 +33,7 @@ describe('NPTable component', () => {
     act(() => fireEvent.click(powerButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: [1],
+      mqtt_id: 1,
       device_type_name: 'neo_pixel',
       value: false,
       name: 'on',
@@ -55,7 +55,7 @@ describe('NPTable component', () => {
     act(() => fireEvent.click(twinkleButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: [1],
+      mqtt_id: 1,
       device_type_name: 'neo_pixel',
       value: false,
       name: 'twinkle',
@@ -69,7 +69,7 @@ describe('NPTable component', () => {
     act(() => fireEvent.click(transformButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: [1],
+      mqtt_id: 1,
       device_type_name: 'neo_pixel',
       value: false,
       name: 'transform',
