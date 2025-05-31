@@ -1,6 +1,7 @@
 import { BsBrightnessHigh } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
+import { BsFillPaletteFill } from "react-icons/bs";
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
@@ -42,6 +43,13 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
       <Table.Th key="palette-header">
         <Palette devices={selectedDevices} openPaletteModal={openPaletteModal} label="palette" />
       </Table.Th>
+      <HeaderColumnToggler
+        settingName="scheduled_palette_rotation"
+        Icon={BsFillPaletteFill}
+        selection={selection}
+        devices={selectedDevices}
+        trSettingsClass={trSettingsClass}
+      />
       <HeaderColumnToggler
         settingName="twinkle"
         Icon={IoSparklesSharp}

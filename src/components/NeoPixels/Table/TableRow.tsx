@@ -1,6 +1,7 @@
 import cx from 'clsx';
 import { BsBrightnessHigh } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
+import { BsFillPaletteFill } from "react-icons/bs";
 import { GiTransform } from 'react-icons/gi';
 import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
@@ -53,6 +54,15 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <Palette devices={[device]} openPaletteModal={openPaletteModal} label="Update Palette" />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <ToggleButton
+          devices={[device]}
+          deviceTypeName="neo_pixel"
+          settingName="scheduled_palette_rotation"
+          label={`palette rotation ${device.scheduled ? '': 'not'} scheduled`}
+          Icon={BsFillPaletteFill}
+        />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
