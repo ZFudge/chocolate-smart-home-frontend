@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
+
 import classes from '@/App.module.css';
-import TooltipWrapper from '@/components/TooltipWrapper';
 import { PostData, postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 
@@ -53,6 +53,8 @@ const IndeterminateButton = ({
 
   const marks = [{ value: 0 }, { value: 0.5 }, { value: 1 }];
 
+  const dynamicLabel = `set ALL ${label === 'on' ? 'power' : label}`;
+
   return isLoading ? (
     <div
       className={classes['fade-in']}
@@ -61,21 +63,21 @@ const IndeterminateButton = ({
       <Loader size="1rem" />
     </div>
   ) : (
-    <TooltipWrapper label={label}>
-      <Slider
-        disabled={isLoading}
-        min={0}
-        max={1}
-        defaultValue={0.5}
-        step={0.5}
-        marks={marks}
-        thumbSize={20}
-        styles={{ thumb: { borderWidth: 2, padding: 3 }, markLabel: { display: 'none' } }}
-        thumbChildren={<Icon size={16} />}
-        onChangeEnd={handleChange}
-        className={classes['fade-in']}
-      />
-    </TooltipWrapper>
+    <Slider
+      disabled={isLoading}
+      min={0}
+      max={1}
+      defaultValue={0.5}
+      step={0.5}
+      marks={marks}
+      thumbSize={20}
+      styles={{ thumb: { borderWidth: 2, padding: 3 }, markLabel: { display: 'none' } }}
+      thumbChildren={<Icon size={16} />}
+      onChangeEnd={handleChange}
+      className={classes['fade-in']}
+      showLabelOnHover
+      label={(value) => (value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`)}
+    />
   );
 };
 

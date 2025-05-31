@@ -22,7 +22,7 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
 
   return (
-    <Table.Tr style={{ height: '3.5rem' }}>
+    <Table.Tr style={{ height: '6rem' }}>
       <Table.Th w={40}>
         <Checkbox
           onChange={toggleAll}
