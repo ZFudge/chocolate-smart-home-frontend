@@ -37,7 +37,7 @@ const HeaderColumnToggler = ({
           devices={devices}
           deviceTypeName="neo_pixel"
           settingName={settingName}
-          label={label}
+          label={`set ALL ${label} ${devices[0][settingName as keyof NeoPixelObject] ? 'OFF' : 'ON'}`}
           Icon={Icon}
         />
       ) : (
