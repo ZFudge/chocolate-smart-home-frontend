@@ -13,6 +13,7 @@ import Palette from './Palette';
 import PopoverSlider from './PopoverSlider';
 import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
+import PopoverPIRConfig from './PopoverPIRConfig';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -99,6 +100,9 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           name="ms"
           Icon={IoSpeedometerOutline}
         />
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <PopoverPIRConfig devices={[device]} />
       </Table.Td>
     </Table.Tr>
   );
