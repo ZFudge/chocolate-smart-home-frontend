@@ -1,6 +1,6 @@
 NETWORK_NAME := csm-network
 PROJECT_ROOT := frontend
-DEV_CONTAINER_NAME := csm-frontend
+DEV_CONTAINER_NAME := csm-fe-dev
 FE_IMAGE_NAME := node:22.13.0-alpine
 
 help:

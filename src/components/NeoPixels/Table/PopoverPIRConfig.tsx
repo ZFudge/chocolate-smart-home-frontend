@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { useLocation } from 'react-router-dom';
 import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import TooltipWrapper from '@/components/TooltipWrapper';
-import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
 import { NEO_PIXEL } from '../constants';
+import { IndexableObj } from '../interfaces';
 import { ToggleButton } from '@/components';
+import IndeterminateButton from '@/components/IndeterminateButton';
 
 const PopoverPIRConfig = ({ devices, }: {
   devices: IndexableObj[];
@@ -21,6 +21,7 @@ const PopoverPIRConfig = ({ devices, }: {
   const multiple = devices.length > 1;
   let mqttId: number[] | number;
   let value: number;
+  let explicitColor = 'red';
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => setIsLoading(false), [devices]);
@@ -39,10 +40,24 @@ const PopoverPIRConfig = ({ devices, }: {
     if (value) {
       value = Math.round(value / devices.length);
     }
+    if (devices.every((cur) => cur.armed)) {
+      explicitColor = 'green';
+    } else if (devices.every((cur) => !cur.armed)) {
+      explicitColor = 'red';
+    } else {
+      explicitColor = 'inherit';
+    }
   } else {
     mqttId = devices[0].mqtt_id;
     value = devices[0].timeout;
+    if (devices[0].armed) {
+      explicitColor = 'green';
+    } else {
+      explicitColor = 'red';
+    }
   }
+
+  const indeterminate = multiple && new Set( devices .map((np) => np.armed) ).size > 1;
 
   return (
     <TooltipWrapper label="PIR Config">
@@ -58,21 +73,35 @@ const PopoverPIRConfig = ({ devices, }: {
           ) : (
             <Button
               onClick={open}
+              disabled={opened}
               variant="transparent"
               className={cx(classes['split-button'])}
               data-testid={`${multiple ? 'selected-devices' : mqttId}-pir-config-button`}
             >
-              <SplitTableCell value={value} Icon={FaPersonBurst} />
+              <SplitTableCell value={value} Icon={FaPersonBurst} explicitColor={explicitColor} />
             </Button>
           )}
         </Popover.Target>
         <Popover.Dropdown ref={ref}>
-          <ToggleButton
-            devices={devices}
-            settingName="armed"
-            Icon={FaPersonBurst}
-            deviceTypeName={NEO_PIXEL}
-          />
+          <div style={{marginBottom: "1em"}}>
+            armed
+            {
+              indeterminate ?
+              <IndeterminateButton
+                selection={devices.map(d => d.mqtt_id)}
+                settingName="armed"
+                label='armed'
+                Icon={FaPersonBurst}
+                deviceTypeName={NEO_PIXEL}
+              /> :
+              <ToggleButton
+                devices={devices}
+                settingName="armed"
+                Icon={FaPersonBurst}
+                deviceTypeName={NEO_PIXEL}
+              />
+            }
+          </div>
           <SliderForm
             devices={devices}
             name="timeout"

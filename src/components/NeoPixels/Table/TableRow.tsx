@@ -1,7 +1,6 @@
 import cx from 'clsx';
-import { BsBrightnessHigh } from 'react-icons/bs';
+import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
-import { BsFillPaletteFill } from "react-icons/bs";
 import { GiTransform } from 'react-icons/gi';
 import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
@@ -10,10 +9,10 @@ import { ToggleButton } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
+import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
 import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
-import PopoverPIRConfig from './PopoverPIRConfig';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -61,7 +60,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="scheduled_palette_rotation"
-          label={`palette rotation ${device.scheduled ? '': 'not'} scheduled`}
+          label={`palette rotation ${device.scheduled ? '' : 'not'} scheduled`}
           Icon={BsFillPaletteFill}
         />
       </Table.Td>

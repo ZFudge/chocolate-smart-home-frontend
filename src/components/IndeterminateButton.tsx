@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
-
 import classes from '@/App.module.css';
 import { PostData, postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
@@ -63,21 +62,28 @@ const IndeterminateButton = ({
       <Loader size="1rem" />
     </div>
   ) : (
-    <Slider
-      disabled={isLoading}
-      min={0}
-      max={1}
-      defaultValue={0.5}
-      step={0.5}
-      marks={marks}
-      thumbSize={20}
-      styles={{ thumb: { borderWidth: 2, padding: 3 }, markLabel: { display: 'none' } }}
-      thumbChildren={<Icon size={16} />}
-      onChangeEnd={handleChange}
-      className={classes['fade-in']}
-      showLabelOnHover
-      label={(value) => (value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`)}
-    />
+    <div style={{maxWidth: "2.5em"}}>
+      <Slider
+        disabled={isLoading}
+        min={0}
+        max={1}
+        defaultValue={0.5}
+        step={0.5}
+        marks={marks}
+        thumbSize={20}
+        styles={{
+          thumb: { borderWidth: 2, padding: 3 },
+          markLabel: { display: 'none' },
+        }}
+        thumbChildren={<Icon size={16} />}
+        onChangeEnd={handleChange}
+        className={classes['fade-in']}
+        showLabelOnHover
+        label={(value) =>
+          value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`
+        }
+      />
+    </div>
   );
 };
 

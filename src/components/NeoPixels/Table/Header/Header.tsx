@@ -1,12 +1,12 @@
-import { BsBrightnessHigh } from 'react-icons/bs';
+import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { BsFillPaletteFill } from "react-icons/bs";
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
+import PopoverPIRConfig from '../PopoverPIRConfig';
 import PopoverSlider from '../PopoverSlider';
 import HeaderColumnToggler from './HeaderColumnToggler';
 
@@ -81,6 +81,9 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
           name="ms"
           Icon={IoSpeedometerOutline}
         />
+      </Table.Th>
+      <Table.Th>
+        <PopoverPIRConfig devices={selectedDevices} />
       </Table.Th>
     </Table.Tr>
   );
