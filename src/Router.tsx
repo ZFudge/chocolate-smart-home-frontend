@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NeoPixelsPage from './pages/NeoPixels.page';
+import OnOffPage from './pages/OnOff.page';
 
 const router = createBrowserRouter([
   {
@@ -9,6 +10,10 @@ const router = createBrowserRouter([
   {
     path: '/neo_pixel',
     element: <NeoPixelsPage />,
+  },
+  {
+    path: '/on_off',
+    element: <OnOffPage />,
   },
 ]);
 
