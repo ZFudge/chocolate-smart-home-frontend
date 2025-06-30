@@ -26,6 +26,9 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
+        {device.name}
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
         <ToggleButton
           devices={[device]}
           deviceTypeName="on_off"
