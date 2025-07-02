@@ -3,8 +3,9 @@ export interface OnOffObject {
   name: string;
   device_type_name: string;
   space?: string;
-  on: boolean;
   online: boolean;
+  last_seen: Date;
+  on: boolean;
 }
 
 export interface IndexableObj {

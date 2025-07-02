@@ -4,10 +4,9 @@ import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
 import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import TooltipWrapper from '@/components/TooltipWrapper';
+import { SplitTableCell, TooltipWrapper } from '@/components/';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
-import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
 
 const PopoverSlider = ({

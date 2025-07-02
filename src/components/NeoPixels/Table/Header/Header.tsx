@@ -32,6 +32,7 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
         />
       </Table.Th>
       <Table.Th key="tags" />
+      <Table.Th key="last-seen" />
       <Table.Th key="device-names-header">Neo Pixels</Table.Th>
       <HeaderColumnToggler
         settingName="on"

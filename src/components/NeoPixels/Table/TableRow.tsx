@@ -5,14 +5,15 @@ import { GiTransform } from 'react-icons/gi';
 import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import { ToggleButton } from '@/components';
+import { SplitTableCell, ToggleButton, TooltipWrapper } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
-import SplitTableCell from './SplitTableCell';
 import classes from '../NeoPixel.module.css';
+import { Device } from '@/interfaces';
+import DeviceName from '@/components/DeviceName';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -22,6 +23,8 @@ interface TableRowProps {
 }
 
 const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowProps) => {
+  const Icon = device.online ? HiStatusOnline : HiStatusOffline;
+
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -38,10 +41,12 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         <SplitTableCell value={device.space} Icon={HiTag} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <SplitTableCell
-          value={device.name}
-          Icon={device.online ? HiStatusOnline : HiStatusOffline}
-        />
+        <TooltipWrapper label={`last seen ${device.last_seen}`}>
+          <Icon style={{ color: device.online ? "gray" : "red" }} />
+        </TooltipWrapper>
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <DeviceName device={device as unknown as Device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton

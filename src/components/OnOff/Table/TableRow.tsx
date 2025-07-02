@@ -5,6 +5,10 @@ import { ToggleButton } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
+import { TooltipWrapper } from '@/components';
+import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
+import DeviceName from '@/components/DeviceName';
+import { Device } from '@/interfaces';
 
 interface TableRowProps {
   device: OnOffObject;
@@ -13,6 +17,8 @@ interface TableRowProps {
 }
 
 const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
+  const Icon = device.online ? HiStatusOnline : HiStatusOffline;
+
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -26,7 +32,17 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        {device.name}
+        <TooltipWrapper label={device.space || null}>
+          <HiTag />
+        </TooltipWrapper>
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <TooltipWrapper label={`last seen ${device.last_seen}`}>
+          <Icon style={{ color: device.online ? "gray" : "red" }} />
+        </TooltipWrapper>
+      </Table.Td>
+      <Table.Td className={classes.tableCell}>
+        <DeviceName device={device as unknown as Device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton

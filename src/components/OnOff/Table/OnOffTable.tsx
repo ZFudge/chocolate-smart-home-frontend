@@ -3,6 +3,7 @@ import { Flex, ScrollArea, Table } from '@mantine/core';
 import { OnOffObject } from '../interfaces';
 import TableRow from './TableRow';
 import classes from '../OnOff.module.css';
+import Header from './Header';
 
 interface OnOffTableProps {
   devices: OnOffObject[];
@@ -11,6 +12,11 @@ interface OnOffTableProps {
 
 const OnOffTable = ({ devices }: OnOffTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
+
+  const toggleAll = () =>
+    setSelection((current) =>
+      current.length === devices.length ? [] : devices.map((device) => device.mqtt_id)
+    );
 
   const toggleRow = (mqtt_id: number) =>
     setSelection((current) =>
@@ -21,7 +27,13 @@ const OnOffTable = ({ devices }: OnOffTableProps) => {
     <ScrollArea>
       <Flex className={classes.flexTable}>
         <Table withTableBorder className={classes['mantine-Table-table']}>
-          <Table.Thead />
+          <Table.Thead>
+            <Header
+              toggleAll={toggleAll}
+              selection={selection}
+              devices={devices}
+            />
+          </Table.Thead>
           <Table.Tbody>
             {Object.values(devices).map((device: OnOffObject, index: number) => (
               <TableRow

@@ -1,18 +1,19 @@
 import { Tabs } from '@mantine/core';
-import { IconTrafficLights, IconCircuitPushbutton } from '@tabler/icons-react';
 import { NEO_PIXEL } from "../components/NeoPixels/constants";
 import { ON_OFF } from "../components/OnOff/constants";
 import NeoPixelsPage from '../pages/NeoPixels.page';
 import OnOffPage from '../pages/OnOff.page';
+import { FaPowerOff, FaLightbulb } from 'react-icons/fa';
+import classes from './Tabs.module.scss';
 
 function TabsPage() {
   return (
-    <Tabs defaultValue={NEO_PIXEL}>
+    <Tabs defaultValue={NEO_PIXEL} classNames={classes}>
       <Tabs.List>
-        <Tabs.Tab value={NEO_PIXEL} leftSection={<IconTrafficLights size={12} />}>
+        <Tabs.Tab value={NEO_PIXEL} leftSection={<FaLightbulb size={15} />}>
           Neo Pixels
         </Tabs.Tab>
-        <Tabs.Tab value={ON_OFF} leftSection={<IconCircuitPushbutton size={12} />}>
+        <Tabs.Tab value={ON_OFF} leftSection={<FaPowerOff size={15} />}>
           On/Off
         </Tabs.Tab>
       </Tabs.List>
