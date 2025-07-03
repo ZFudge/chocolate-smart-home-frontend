@@ -1,1 +1,1 @@
-export const boolToOnOff = (b: boolean) => (b ? 'On' : 'Off');
+export const boolToOnOff = (b: boolean) => (b ? 'ON' : 'OFF');

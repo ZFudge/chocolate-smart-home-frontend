@@ -4,33 +4,39 @@ import { Button, FocusTrap, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
-import { NeoPixelObject, PalettePreset } from '../interfaces';
+import { IndexableObj, NeoPixelObject, PalettePreset } from '../interfaces';
 import PalettePresets from './PalettePresets';
-import classes from './EditPaletteModal.module.css';
+import classes from './PaletteModal.module.css';
 
-interface EditPaletteModalProps {
-  device: NeoPixelObject;
+const EMPTY_PALETTE = Array(9).fill('#ffffff');
+
+interface PaletteModalProps {
+  devices: NeoPixelObject[] | null;
   close: () => void;
   presetOptions: PalettePreset[];
 }
 
-function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProps) {
+const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
+  const websocket = useContext(WebSocketContext);
+  const multiple = devices && devices.length > 1;
+
   const form = useForm({
     mode: 'uncontrolled',
     name: 'edit-palette',
-    initialValues: Object.fromEntries(Object.entries(device.palette)),
+    initialValues: multiple
+      ? EMPTY_PALETTE
+      : Object.fromEntries(Object.entries(devices?.[0]?.palette ?? EMPTY_PALETTE)),
   });
 
-  const websocket = useContext(WebSocketContext);
+  if (!devices || !devices.length) {
+    return null;
+  }
 
   const handleSubmit = (values: typeof form.values) => {
-    const value: string[] = Array.from({ length: Object.keys(values).length }).map(
-      (_, i) => values[i.toString()]
-    );
     const data = {
-      mqtt_id: device.mqtt_id,
+      mqtt_id: multiple ? devices.map((device) => device.mqtt_id) : devices[0].mqtt_id,
+      value: Object.keys(values).map((i: string) => (values as IndexableObj)[i]),
       name: 'palette',
-      value,
       device_type_name: 'neo_pixel',
     };
     if (websocket) {
@@ -38,6 +44,7 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
     } else {
       postUpdate(data);
     }
+    close();
   };
 
   return (
@@ -45,7 +52,7 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
       <Modal
         opened
         onClose={close}
-        title={device.name}
+        title={multiple ? 'multiple' : devices[0].name}
         withCloseButton={false}
         centered
         className={cx(classes['palette-modal'])}
@@ -54,7 +61,7 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <FocusTrap.InitialFocus />
           <div className={cx(classes['palette-modal-content'])}>
-            {Array.from({ length: device.palette.length }).map((_, i) => (
+            {Array.from({ length: multiple ? 9 : devices[0].palette.length }).map((_, i) => (
               <input
                 type="color"
                 {...form.getInputProps(i.toString())}
@@ -80,6 +87,6 @@ function EditPaletteModal({ device, close, presetOptions }: EditPaletteModalProp
       </Modal>
     </>
   );
-}
+};
 
-export default EditPaletteModal;
+export default PaletteModal;

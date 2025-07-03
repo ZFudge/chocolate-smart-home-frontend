@@ -1,22 +1,19 @@
-import { useEffect } from 'react';
-import NeoPixelTable from '@/components/NeoPixels/NeoPixelTable';
-import useWebsocket from '@/useWebsocket';
-import WebSocketContext from '@/WebsocketContext';
-import useNeoPixels from './useNeoPixels';
+import { NEO_PIXEL } from '@/components/NeoPixels/constants';
+import NoNeoPixels from '@/components/NeoPixels/NoNeoPixels';
+import NPTable from '@/components/NeoPixels/Table/NPTable';
+import useDevicesStore from '@/useDevicesStore';
 
-export function NeoPixelsPage() {
-  const { handleMessage, neoPixelData } = useNeoPixels();
-  const { connect, websocket } = useWebsocket();
+const NeoPixelsPage = () => {
+  const { devices } = useDevicesStore();
 
-  console.log('neoPixelData', neoPixelData);
-
-  useEffect(() => {
-    connect(handleMessage);
-  }, []);
-
-  return (
-    <WebSocketContext.Provider value={websocket}>
-      <NeoPixelTable neoPixelData={neoPixelData} />
-    </WebSocketContext.Provider>
+  const devicesArray = Object.values(devices).filter(
+    (device) => device.device_type_name === NEO_PIXEL
   );
-}
+
+  if (devicesArray.length === 0) {
+    return <NoNeoPixels />;
+  }
+  return <NPTable devices={devicesArray} />;
+};
+
+export default NeoPixelsPage;

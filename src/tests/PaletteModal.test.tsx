@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from '@test-utils';
 import { vi } from 'vitest';
-import EditPaletteModal from '@/components/NeoPixels/EditPaletteModal/EditPaletteModal';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
+import PaletteModal from '@/components/NeoPixels/PaletteModal';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
@@ -13,7 +13,7 @@ describe('Palette Modal component', () => {
 
   it('should handle submit button click', async () => {
     const { getByTestId } = render(
-      <EditPaletteModal presetOptions={[]} device={device} close={() => {}} />
+      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
     );
     const submitButton: HTMLElement = getByTestId('submit');
     const apiModule = await import('@/lib/api');
@@ -31,7 +31,7 @@ describe('Palette Modal component', () => {
 
   it('should submit the modified palette value after initial input is changed', async () => {
     const { getByTestId } = render(
-      <EditPaletteModal presetOptions={[]} device={device} close={() => {}} />
+      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
     );
     const firstColorInput: HTMLElement = getByTestId(0);
     const submitButton: HTMLElement = getByTestId('submit');
@@ -53,7 +53,7 @@ describe('Palette Modal component', () => {
 
   it('should reset form fields to its initial values after reset button click', async () => {
     const { getByTestId } = render(
-      <EditPaletteModal presetOptions={[]} device={device} close={() => {}} />
+      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
     );
     const firstColorInput: HTMLElement = getByTestId(0);
     const resetButton: HTMLElement = getByTestId('reset');
@@ -76,7 +76,7 @@ describe('Palette Modal component', () => {
   it('should call the given close function when close button is clicked', async () => {
     const close = vi.fn().mockImplementation(() => {});
     const { getByTestId } = render(
-      <EditPaletteModal presetOptions={[]} device={device} close={close} />
+      <PaletteModal presetOptions={[]} devices={[device]} close={close} />
     );
     const closeButton: HTMLElement = getByTestId('close');
     act(() => {

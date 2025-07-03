@@ -20,6 +20,7 @@ export interface NeoPixelObject {
   brightness: number;
   on: boolean;
   online: boolean;
+  last_seen: string | null;
   twinkle: boolean;
   transform: boolean;
   white?: boolean;
@@ -33,4 +34,8 @@ export interface IndexableObj {
 export interface PalettePreset {
   value: PresetFormValuesType;
   label: string;
+}
+
+export interface NeoPixelMapping {
+  [key: number]: NeoPixelObject;
 }

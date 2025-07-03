@@ -8,33 +8,51 @@ import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
 
-function SliderForm({
-  device,
-  name,
-  Icon,
-  close,
-}: {
-  device: IndexableObj;
+interface SliderFormProps {
+  devices: IndexableObj[];
   name: string;
   Icon: IconType;
   close: () => void;
-}) {
-  const websocket = useContext(WebSocketContext);
+  initialValue: number;
+  mqttId: number | number[];
+  deviceTypeName: string;
+  setIsLoading: (isLoading: boolean) => void;
+}
 
-  const [value, setValue] = useState(device[name]);
+const SliderForm = ({
+  devices,
+  name,
+  Icon,
+  close,
+  initialValue,
+  mqttId,
+  deviceTypeName,
+  setIsLoading,
+}: SliderFormProps) => {
+  if (!devices || !devices.length) {
+    return null;
+  }
+
+  const websocket = useContext(WebSocketContext);
+  const [value, setValue] = useState(initialValue);
+  const multiple = devices.length > 1;
 
   const field = useField({
     mode: 'uncontrolled',
-    initialValue: device[name],
+    initialValue,
     onValueChange: setValue,
   });
 
   const handleSubmit = () => {
+    if (!deviceTypeName) {
+      alert('No device type name'); // eslint-disable-line no-alert
+      return;
+    }
     const data = {
       name,
       value: field.getValue(),
-      mqtt_id: device.mqtt_id,
-      device_type_name: device.device_type_name,
+      mqtt_id: mqttId,
+      device_type_name: deviceTypeName,
     };
     if (websocket) {
       websocket.send(JSON.stringify(data));
@@ -42,6 +60,7 @@ function SliderForm({
       postUpdate(data);
     }
     close();
+    setIsLoading(true);
   };
 
   return (
@@ -64,7 +83,7 @@ function SliderForm({
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid={`${device.mqtt_id}-${name}-submit-button`}
+          data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
         >
           Submit
         </Button>
@@ -74,6 +93,6 @@ function SliderForm({
       </Group>
     </>
   );
-}
+};
 
 export default SliderForm;
