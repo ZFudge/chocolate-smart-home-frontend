@@ -5,10 +5,10 @@ import { GiTransform } from 'react-icons/gi';
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import { ToggleButton, TooltipWrapper, Tags } from '@/components';
-import { boolToOnOff } from '@/lib/utils';
-import { Device } from '@/interfaces';
+import { Tags, ToggleButton, TooltipWrapper } from '@/components';
 import DeviceName from '@/components/DeviceName';
+import { Device } from '@/interfaces';
+import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
@@ -42,7 +42,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon style={{ color: device.online ? "gray" : "red" }} />
+          <Icon style={{ color: device.online ? 'gray' : 'red' }} />
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>

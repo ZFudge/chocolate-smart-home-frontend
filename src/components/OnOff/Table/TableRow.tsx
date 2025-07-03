@@ -1,13 +1,13 @@
 import cx from 'clsx';
 import { FaPowerOff } from 'react-icons/fa';
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { Checkbox, Table } from '@mantine/core';
-import { ToggleButton, Tags, TooltipWrapper } from '@/components';
+import { Tags, ToggleButton, TooltipWrapper } from '@/components';
+import DeviceName from '@/components/DeviceName';
+import { Device } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
-import { Device } from '@/interfaces';
-import DeviceName from '@/components/DeviceName';
-import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
 interface TableRowProps {
   device: OnOffObject;
@@ -35,7 +35,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon style={{ color: device.online ? "gray" : "red" }} />
+          <Icon style={{ color: device.online ? 'gray' : 'red' }} />
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
@@ -50,9 +50,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
           Icon={FaPowerOff}
         />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
-        sched
-      </Table.Td>
+      <Table.Td className={classes.tableCell}>sched</Table.Td>
     </Table.Tr>
   );
 };

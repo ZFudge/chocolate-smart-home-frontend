@@ -3,17 +3,15 @@ import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
 import { Button, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
+import { ToggleButton } from '@/components';
 import { SplitTableCell, TooltipWrapper } from '@/components/';
-import SliderForm from '../SliderForm';
-import classes from '../NeoPixel.module.css';
+import IndeterminateButton from '@/components/IndeterminateButton';
 import { NEO_PIXEL } from '../constants';
 import { IndexableObj } from '../interfaces';
-import { ToggleButton } from '@/components';
-import IndeterminateButton from '@/components/IndeterminateButton';
+import SliderForm from '../SliderForm';
+import classes from '../NeoPixel.module.css';
 
-const PopoverPIRConfig = ({ devices, }: {
-  devices: IndexableObj[];
-}) => {
+const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -56,7 +54,7 @@ const PopoverPIRConfig = ({ devices, }: {
     }
   }
 
-  const indeterminate = multiple && new Set( devices .map((np) => np.armed) ).size > 1;
+  const indeterminate = multiple && new Set(devices.map((np) => np.armed)).size > 1;
 
   return (
     <TooltipWrapper label="PIR Config">
@@ -82,24 +80,24 @@ const PopoverPIRConfig = ({ devices, }: {
           )}
         </Popover.Target>
         <Popover.Dropdown ref={ref}>
-          <div style={{marginBottom: "1em"}}>
+          <div style={{ marginBottom: '1em' }}>
             armed
-            {
-              indeterminate ?
+            {indeterminate ? (
               <IndeterminateButton
-                selection={devices.map(d => d.mqtt_id)}
+                selection={devices.map((d) => d.mqtt_id)}
                 settingName="armed"
-                label='armed'
+                label="armed"
                 Icon={FaPersonBurst}
                 deviceTypeName={NEO_PIXEL}
-              /> :
+              />
+            ) : (
               <ToggleButton
                 devices={devices}
                 settingName="armed"
                 Icon={FaPersonBurst}
                 deviceTypeName={NEO_PIXEL}
               />
-            }
+            )}
           </div>
           <SliderForm
             devices={devices}

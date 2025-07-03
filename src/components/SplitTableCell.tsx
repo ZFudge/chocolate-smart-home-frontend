@@ -12,15 +12,9 @@ const SplitTableCell = ({
   value: string | number | undefined;
   explicitColor?: string;
 }) => {
-  let color = explicitColor || 'inherit';
+  const color = explicitColor || 'inherit';
   return (
-    <Flex
-      columnGap={5}
-      justify="flex-end"
-      align="center"
-      direction="row-reverse"
-      style={{ color: color }}
-    >
+    <Flex columnGap={5} justify="flex-end" align="center" direction="row-reverse" style={{ color }}>
       {value && <Text ta="right">{value}</Text>}
       <Icon />
       {children}

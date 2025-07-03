@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
-import classes from '../NeoPixel.module.css';
-import PaletteModal from '../PaletteModal';
 import { NeoPixelObject } from '../interfaces';
+import PaletteModal from '../PaletteModal';
 import Header from './Header';
 import TableRow from './TableRow';
+import classes from '../NeoPixel.module.css';
 
 interface NPTableProps {
   devices: NeoPixelObject[];

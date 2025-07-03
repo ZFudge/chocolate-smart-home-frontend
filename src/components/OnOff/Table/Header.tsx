@@ -1,5 +1,5 @@
-import { Checkbox, Table } from '@mantine/core';
 import { FaPowerOff } from 'react-icons/fa';
+import { Checkbox, Table } from '@mantine/core';
 import { OnOffObject } from '../interfaces';
 
 interface HeaderProps {
@@ -20,8 +20,8 @@ const Header = ({ devices, selection, toggleAll }: HeaderProps) => {
             data-testid="toggle-all-checkbox"
           />
         </Table.Th>
-        <Table.Th w={30}/>
-        <Table.Th w={30}/>
+        <Table.Th w={30} />
+        <Table.Th w={30} />
         <Table.Th key="device-names-header" style={{ textAlign: 'center' }}>
           <FaPowerOff /> On / Off Devices
         </Table.Th>

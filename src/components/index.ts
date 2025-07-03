@@ -1,6 +1,6 @@
 import SplitTableCell from './SplitTableCell';
+import Tags from './Tags';
 import ToggleButton from './ToggleButton';
 import TooltipWrapper from './TooltipWrapper';
-import Tags from './Tags';
 
 export { SplitTableCell, ToggleButton, TooltipWrapper, Tags };

@@ -10,6 +10,7 @@ const device: NeoPixelObject = {
   device_type_name: 'neo_pixel',
   space: 'bedroom',
   online: true,
+  last_seen: null,
   on: true,
   twinkle: true,
   transform: true,

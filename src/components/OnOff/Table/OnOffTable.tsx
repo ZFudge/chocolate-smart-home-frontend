@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
 import { OnOffObject } from '../interfaces';
+import Header from './Header';
 import TableRow from './TableRow';
 import classes from '../OnOff.module.css';
-import Header from './Header';
 
 interface OnOffTableProps {
   devices: OnOffObject[];
@@ -28,11 +28,7 @@ const OnOffTable = ({ devices }: OnOffTableProps) => {
       <Flex className={classes.flexTable}>
         <Table withTableBorder className={classes['mantine-Table-table']}>
           <Table.Thead>
-            <Header
-              toggleAll={toggleAll}
-              selection={selection}
-              devices={devices}
-            />
+            <Header toggleAll={toggleAll} selection={selection} devices={devices} />
           </Table.Thead>
           <Table.Tbody>
             {Object.values(devices).map((device: OnOffObject, index: number) => (

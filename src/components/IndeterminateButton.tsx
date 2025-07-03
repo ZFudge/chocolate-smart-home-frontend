@@ -62,7 +62,7 @@ const IndeterminateButton = ({
       <Loader size="1rem" />
     </div>
   ) : (
-    <div style={{maxWidth: "2.5em"}}>
+    <div style={{ maxWidth: '2.5em' }}>
       <Slider
         disabled={isLoading}
         min={0}

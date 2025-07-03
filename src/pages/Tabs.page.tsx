@@ -1,10 +1,10 @@
+import classes from './Tabs.module.scss';
+import { FaLightbulb, FaPowerOff } from 'react-icons/fa';
 import { Tabs } from '@mantine/core';
-import { NEO_PIXEL } from "../components/NeoPixels/constants";
-import { ON_OFF } from "../components/OnOff/constants";
+import { NEO_PIXEL } from '../components/NeoPixels/constants';
+import { ON_OFF } from '../components/OnOff/constants';
 import NeoPixelsPage from '../pages/NeoPixels.page';
 import OnOffPage from '../pages/OnOff.page';
-import { FaPowerOff, FaLightbulb } from 'react-icons/fa';
-import classes from './Tabs.module.scss';
 
 function TabsPage() {
   return (
@@ -19,11 +19,11 @@ function TabsPage() {
       </Tabs.List>
 
       <Tabs.Panel value={NEO_PIXEL}>
-				<NeoPixelsPage />
+        <NeoPixelsPage />
       </Tabs.Panel>
 
       <Tabs.Panel value={ON_OFF}>
-				<OnOffPage />
+        <OnOffPage />
       </Tabs.Panel>
     </Tabs>
   );
