@@ -1,14 +1,13 @@
 import cx from 'clsx';
 import { FaPowerOff } from 'react-icons/fa';
 import { Checkbox, Table } from '@mantine/core';
-import { ToggleButton } from '@/components';
+import { ToggleButton, Tags, TooltipWrapper } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
-import { TooltipWrapper } from '@/components';
-import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
-import DeviceName from '@/components/DeviceName';
 import { Device } from '@/interfaces';
+import DeviceName from '@/components/DeviceName';
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
 interface TableRowProps {
   device: OnOffObject;
@@ -32,9 +31,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TooltipWrapper label={device.space || null}>
-          <HiTag />
-        </TooltipWrapper>
+        <Tags space={device.space} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>

@@ -20,6 +20,7 @@ export interface NeoPixelObject {
   brightness: number;
   on: boolean;
   online: boolean;
+  last_seen: string;
   twinkle: boolean;
   transform: boolean;
   white?: boolean;

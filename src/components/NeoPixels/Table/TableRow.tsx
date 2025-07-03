@@ -2,18 +2,18 @@ import cx from 'clsx';
 import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { HiStatusOffline, HiStatusOnline, HiTag } from 'react-icons/hi';
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import { SplitTableCell, ToggleButton, TooltipWrapper } from '@/components';
+import { ToggleButton, TooltipWrapper, Tags } from '@/components';
 import { boolToOnOff } from '@/lib/utils';
+import { Device } from '@/interfaces';
+import DeviceName from '@/components/DeviceName';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
 import classes from '../NeoPixel.module.css';
-import { Device } from '@/interfaces';
-import DeviceName from '@/components/DeviceName';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -38,7 +38,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <SplitTableCell value={device.space} Icon={HiTag} />
+        <Tags space={device.space} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
