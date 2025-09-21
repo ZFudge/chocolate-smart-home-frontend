@@ -6,6 +6,7 @@ export interface OnOffObject {
   online: boolean;
   last_seen: Date;
   on: boolean;
+  tags?: string[];
 }
 
 export interface IndexableObj {

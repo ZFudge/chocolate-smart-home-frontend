@@ -10,12 +10,14 @@ import Router from './Router';
 import useDevicesStore from './useDevicesStore';
 import useWebsocket from './useWebsocket';
 import WebSocketContext from './WebsocketContext';
+import useTagsStore from './useTagsStore';
 
 const App = () => {
   const [opened, { toggle }] = useDisclosure();
 
   const { connect, websocket } = useWebsocket();
   const { addDeviceData } = useDevicesStore();
+  const { addTagsData } = useTagsStore();
 
   const handleMessage = (msgEvent: MessageEvent) => {
     const data = JSON.parse(msgEvent.data);
@@ -24,6 +26,19 @@ const App = () => {
 
   useEffect(() => {
     connect(handleMessage);
+    const getTags = async () => {
+      const response = await fetch('/api/tags/');
+      if (!response.ok) {
+        console.error(response.statusText);
+        return;
+      }
+      const data = await response.json();
+      addTagsData(data);
+    };
+    getTags();
+    return () => {
+      websocket?.close();
+    };
   }, []);
 
   return (

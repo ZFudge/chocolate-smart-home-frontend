@@ -21,6 +21,10 @@
   animation-timing-function: ease-in-out;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @keyframes fade-in-opacity {
   0% {
     opacity: 0;

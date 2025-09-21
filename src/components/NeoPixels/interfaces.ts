@@ -13,6 +13,7 @@ export type PresetFormValuesType = [
 export interface NeoPixelObject {
   mqtt_id: number;
   name: string;
+  remote_name?: string;
   device_type_name: string;
   space?: string;
   palette: PresetFormValuesType;
