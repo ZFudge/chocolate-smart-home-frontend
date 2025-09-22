@@ -1,25 +1,23 @@
-import { Button, Loader, Popover, TextInput } from "@mantine/core";
-import { Device, Tag, TagMapping } from "@/interfaces";
 import { useState } from "react";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
+import { Button, Loader, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+import { Device, Tag } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
 
+const MIN_TAG_LENGTH = 3;
 
 const CreateNewTagForm = ({ device }: { device: Device }) => {
-  // const [tags, setTags] = useState<string[]>(device.tags || []);
-  const [newTag, setNewTag] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [opened, { close, open }] = useDisclosure(false);
-  const ref = useClickOutside(() => close());
   const { addTagsData, tags } = useTagsStore();
 
-  const handleAddTag = async () => {
-    // setTags([...tags, newTag]);
-    // setNewTag("");
+  const handleSubmit = async (values: typeof form.values) => {
+    const { name } = values;
     setLoading(true);
     const response = await fetch('/api/tags/', {
       method: "POST",
-      body: JSON.stringify({ name: newTag }),
+      body: JSON.stringify({ name }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,41 +27,54 @@ const CreateNewTagForm = ({ device }: { device: Device }) => {
       return;
     }
     const data = await response.json();
-    console.log(data);
-    addTagsData([...tags, data as Tag]);
+    addTagsData([...Object.values(tags), data as Tag]);
+    form.reset();
     close();
     setLoading(false);
-    // setNewTag("");
   };
 
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      name: '',
+    },
+    validateInputOnChange: true,
+    validate: {
+      name: (value) => {
+        if (value.length < MIN_TAG_LENGTH) {
+          return 'Tag must be at least 3 characters long';
+        }
+        if (Object.values(tags).map((tag) => tag.name).includes(value)) {
+          return 'Tag already exists';
+        }
+        return null;
+      },
+    },
+  });
+
   return (
-    <div>
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       {!opened && <Button onClick={open} variant="default">New Tag</Button>}
       {opened && (
         <div className="flex gap-2">
           New Tag:
-          <TextInput value={newTag} onChange={(e) => setNewTag(e.target.value)} />
-          <Button disabled={!newTag} onClick={handleAddTag}>
-            Create{loading && <Loader size="0.75rem" />}
-          </Button>  
+          <TextInput
+            label="Tag Name"
+            key={form.key('name')}
+            {...form.getInputProps('name')}    
+          />
+          <Button
+            disabled={!form.isValid() || loading}
+            type="submit"
+          >
+            Create
+            {loading && <Loader size="0.75rem" />}
+          </Button>
+          <Button variant="default" onClick={close}>Cancel</Button>
         </div>
       )}
-    </div>
+    </form>
   );
-
-  // return (
-  //   <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
-  //     <Popover.Target>
-  //       <Button onClick={open}>Create New Tag</Button>
-  //     </Popover.Target>
-  //     <Popover.Dropdown ref={ref}>
-  //       <div className="flex gap-2">
-  //         <TextInput value={newTag} onChange={(e) => setNewTag(e.target.value)} />
-  //         <Button disabled={!newTag} onClick={handleAddTag}>Add</Button>
-  //       </div>
-  //     </Popover.Dropdown>
-  //   </Popover>
-  // );
 };
 
 export default CreateNewTagForm;

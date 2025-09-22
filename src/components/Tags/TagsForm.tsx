@@ -2,15 +2,22 @@ import { HiTag } from "react-icons/hi";
 import { Device } from "@/interfaces";
 import CreateNewTagForm from "./CreateNewTagForm";
 import ExistingTagsForm from "./ExistingTagsForm";
+import { Divider, SimpleGrid } from "@mantine/core";
 
 
 const TagsForm = ({ device }: { device: Device }) => {
   return (
-    <div className="flex gap-2">
-      <HiTag /> Tags:
+    <SimpleGrid
+      spacing={{ base: 10, sm: 'xl' }}
+      verticalSpacing={{ base: 'md', sm: 'xl' }}
+    >
+      <span>
+        <HiTag /> Tags:
+      </span>
       <ExistingTagsForm device={device} />
+      <Divider my="sm" />
       <CreateNewTagForm device={device} />
-    </div>
+    </SimpleGrid>
   );
 };
 
