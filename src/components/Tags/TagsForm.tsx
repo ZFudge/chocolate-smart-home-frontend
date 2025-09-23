@@ -5,7 +5,7 @@ import ExistingTagsForm from "./ExistingTagsForm";
 import { Divider, SimpleGrid } from "@mantine/core";
 
 
-const TagsForm = ({ device }: { device: Device }) => {
+const TagsForm = ({ device, close }: { device: Device, close: () => void }) => {
   return (
     <SimpleGrid
       spacing={{ base: 10, sm: 'xl' }}
@@ -14,9 +14,9 @@ const TagsForm = ({ device }: { device: Device }) => {
       <span>
         <HiTag /> Tags:
       </span>
-      <ExistingTagsForm device={device} />
+      <ExistingTagsForm device={device} close={close} />
       <Divider my="sm" />
-      <CreateNewTagForm device={device} />
+      <CreateNewTagForm />
     </SimpleGrid>
   );
 };

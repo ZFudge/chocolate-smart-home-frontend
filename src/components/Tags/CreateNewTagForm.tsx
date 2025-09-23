@@ -2,15 +2,34 @@ import { useState } from "react";
 import { Button, Loader, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { Device, Tag } from "@/interfaces";
+import { Tag } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
 
 const MIN_TAG_LENGTH = 3;
 
-const CreateNewTagForm = ({ device }: { device: Device }) => {
+const CreateNewTagForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [opened, { close, open }] = useDisclosure(false);
   const { addTagsData, tags } = useTagsStore();
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      name: '',
+    },
+    validateInputOnChange: true,
+    validate: {
+      name: (value) => {
+        if (value.length < MIN_TAG_LENGTH) {
+          return 'Tag must be at least 3 characters long';
+        }
+        if (Object.values(tags).map((tag) => tag.name).includes(value)) {
+          return 'Tag already exists';
+        }
+        return null;
+      },
+    },
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
     const { name } = values;
@@ -32,25 +51,6 @@ const CreateNewTagForm = ({ device }: { device: Device }) => {
     close();
     setLoading(false);
   };
-
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      name: '',
-    },
-    validateInputOnChange: true,
-    validate: {
-      name: (value) => {
-        if (value.length < MIN_TAG_LENGTH) {
-          return 'Tag must be at least 3 characters long';
-        }
-        if (Object.values(tags).map((tag) => tag.name).includes(value)) {
-          return 'Tag already exists';
-        }
-        return null;
-      },
-    },
-  });
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>

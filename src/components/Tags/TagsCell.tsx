@@ -1,4 +1,5 @@
 import classes from '@/App.module.css';
+import { CiNoWaitingSign } from "react-icons/ci";
 import { HiTag } from 'react-icons/hi';
 import TooltipWrapper from '../TooltipWrapper';
 import { Popover } from '@mantine/core';
@@ -17,9 +18,11 @@ const TagsCell = ({ device }: TagsProps) => {
 
   if (!device) return null;
 
+  const label = device.tags?.map((tag) => tag?.name).join(', ') || null;
+
   return (
     <div className={classes['cursor-pointer']} onClick={open}>
-      <TooltipWrapper label={device.tags || null}>
+      <TooltipWrapper label={label || <CiNoWaitingSign />}>
         <Popover withArrow trapFocus position="bottom" shadow="md" 
           width={300}
           opened={opened}
@@ -31,7 +34,7 @@ const TagsCell = ({ device }: TagsProps) => {
             </div>
           </Popover.Target>
           <Popover.Dropdown ref={ref}>
-            <TagsForm device={device} />
+            <TagsForm device={device} close={close} />
           </Popover.Dropdown>
         </Popover>
       </TooltipWrapper>

@@ -1,45 +1,60 @@
 import { Button, MultiSelect } from '@mantine/core';
-import { Device, Tag } from "@/interfaces";
+import { Device } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
-import { useState } from 'react';
+import { useForm } from '@mantine/form';
 
 
-const ExistingTagsForm = ({ device }: { device: Device }) => {
-  const [tagsChanged, setTagsChanged] = useState<boolean>(false);
-  const [selectedTagIds, setSelectedTagIds] = useState<number[]>(device.tags?.map((tag) => tags[tag].id) || []);
+const ExistingTagsForm = ({ device, close }: { device: Device, close: () => void }) => {
   const { tags } = useTagsStore();
-  const currentTagIds = device.tags?.map((tag) => tags[tag].id) || [];
-  console.log(tags);
+  const currentTagIds = device.tags?.map((tag) => tag.id) || [];
 
-  const handleEditTags = (selectedTagsIdStrings: string[]) => {
-    console.log(selectedTagsIdStrings);
-    const selectedTagsIdNumbers = selectedTagsIdStrings.map((tagIdString) => parseInt(tagIdString));
-    const changed = (
-      currentTagIds.length !== selectedTagsIdNumbers.length ||
-      !currentTagIds.every((id) => selectedTagsIdNumbers.includes(id))
-    );
-    console.log('selectedTagIds', selectedTagIds, 'selectedTagsIdNumbers', selectedTagsIdNumbers, 'changed', changed);
-    setTagsChanged(changed);
-    setSelectedTagIds(selectedTagsIdNumbers);
-  };
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      tags: currentTagIds.map((id) => id.toString()),
+    },
+    onValuesChange: (values) => {
+      console.log('values', values);
+    },
+    validateInputOnChange: true,
+    validate: {
+      tags: (value) => {
+        return null;
+      },
+    },
+  });
 
-  const handleSaveTags = () => {
-    console.log('save tags', device.tags, selectedTagIds);
+  const handleSubmit = async (values: typeof form.values) => {
+    const tagsIds = values.tags.map((tagIdString) => parseInt(tagIdString));
+    const response = await fetch(`/api/device/${device.mqtt_id}/tags`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        ids: tagsIds.length ? tagsIds : null,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      console.error(response.statusText);
+      form.setFieldError('tags', 'Failed to save tags');
+      return;
+    }
+    const data = await response.json();
+    console.log('data', data);
+    close();
   };
 
   return (
-    <div>
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <MultiSelect
-        value={selectedTagIds.map((id) => id.toString())}
-        onChange={handleEditTags}
         data={Object.values(tags).map((tag) => ({value: tag.id.toString(), label: tag.name}))}
-        // label="Tags"
-        placeholder="Select Tags"
-        // searchable
-        // clearable
+        searchable
+        key={form.key('tags')}
+        {...form.getInputProps('tags')}
       />
-      <Button disabled={!tagsChanged} onClick={handleSaveTags}>Save</Button>
-    </div>
+      <Button type="submit">Save</Button>
+    </form>
   );
 };
 
