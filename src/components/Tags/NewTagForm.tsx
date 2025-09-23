@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Button, Loader, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useDisclosure } from "@mantine/hooks";
 import { Tag } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
 
 const MIN_TAG_LENGTH = 3;
 
-const CreateNewTagForm = () => {
+const NewTagForm = ({ close }: { close: () => void }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [opened, { close, open }] = useDisclosure(false);
   const { addTagsData, tags } = useTagsStore();
 
   const form = useForm({
@@ -54,27 +52,23 @@ const CreateNewTagForm = () => {
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      {!opened && <Button onClick={open} variant="default">New Tag</Button>}
-      {opened && (
-        <div className="flex gap-2">
-          New Tag:
-          <TextInput
-            label="Tag Name"
-            key={form.key('name')}
-            {...form.getInputProps('name')}    
-          />
-          <Button
-            disabled={!form.isValid() || loading}
-            type="submit"
-          >
-            Create
-            {loading && <Loader size="0.75rem" />}
-          </Button>
-          <Button variant="default" onClick={close}>Cancel</Button>
-        </div>
-      )}
+      <div className="flex gap-2">
+        <TextInput
+          label="New Tag Name"
+          key={form.key('name')}
+          {...form.getInputProps('name')}    
+        />
+        <Button
+          disabled={!form.isValid() || loading}
+          type="submit"
+        >
+          Create
+          {loading && <Loader size="0.75rem" />}
+        </Button>
+        <Button variant="default" onClick={close}>Cancel</Button>
+      </div>
     </form>
   );
 };
 
-export default CreateNewTagForm;
+export default NewTagForm;

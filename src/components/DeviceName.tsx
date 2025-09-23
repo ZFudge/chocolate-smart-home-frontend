@@ -6,7 +6,7 @@ const DeviceName = ({ device }: { device: Device }) => {
 
   return (
     <Tooltip label={label} position="left" withArrow>
-      <Text ta="right">{device.name}</Text>
+      <Text ta="left">{device.name}</Text>
     </Tooltip>
   );
 };

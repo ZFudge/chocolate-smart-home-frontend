@@ -1,11 +1,11 @@
 import classes from '@/App.module.css';
 import { CiNoWaitingSign } from "react-icons/ci";
 import { HiTag } from 'react-icons/hi';
-import TooltipWrapper from '../TooltipWrapper';
 import { Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import TagsForm from './TagsForm';
+import TooltipWrapper from '../TooltipWrapper';
 import { Device } from '@/interfaces';
+import DeviceTagsForm from './DeviceTagsForm';
 
 interface TagsProps {
   device: Device;
@@ -34,7 +34,7 @@ const TagsCell = ({ device }: TagsProps) => {
             </div>
           </Popover.Target>
           <Popover.Dropdown ref={ref}>
-            <TagsForm device={device} close={close} />
+            <DeviceTagsForm device={device} close={close} />
           </Popover.Dropdown>
         </Popover>
       </TooltipWrapper>

@@ -1,10 +1,11 @@
-import { Button, MultiSelect } from '@mantine/core';
+import { Button, Divider, Flex, MultiSelect, Text } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { HiTag } from 'react-icons/hi';
 import { Device } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
-import { useForm } from '@mantine/form';
 
 
-const ExistingTagsForm = ({ device, close }: { device: Device, close: () => void }) => {
+const DeviceTagsForm = ({ device, close }: { device: Device, close: () => void }) => {
   const { tags } = useTagsStore();
   const currentTagIds = device.tags?.map((tag) => tag.id) || [];
 
@@ -46,16 +47,22 @@ const ExistingTagsForm = ({ device, close }: { device: Device, close: () => void
   };
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <MultiSelect
-        data={Object.values(tags).map((tag) => ({value: tag.id.toString(), label: tag.name}))}
-        searchable
-        key={form.key('tags')}
-        {...form.getInputProps('tags')}
-      />
-      <Button type="submit">Save</Button>
-    </form>
+    <>
+      {tags.length ? (
+        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+          <MultiSelect
+            data={Object.values(tags).map((tag) => ({value: tag.id.toString(), label: tag.name}))}
+            key={form.key('tags')}
+            {...form.getInputProps('tags')}
+          />
+          <Divider my="md" />
+          <Button type="submit">Save</Button>
+        </form>
+      ) : (
+        <Text>No tags found. To get started, create a new tag using the <HiTag /> button in the header at the top of this page.</Text>
+      )}
+    </>
   );
 };
 
-export default ExistingTagsForm;
+export default DeviceTagsForm;
