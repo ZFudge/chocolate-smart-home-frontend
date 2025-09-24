@@ -1,13 +1,11 @@
-import { Button, TextInput, Loader, Space, Flex, Select } from '@mantine/core';
+import { Button, Flex, Select, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import useTagsStore from "@/useTagsStore";
-import { useState } from 'react';
 import { Tag } from '@/interfaces';
+import useTagsStore from '@/useTagsStore';
 
 const MIN_TAG_LENGTH = 3;
 
 const EditTagsForm = ({ close }: { close: () => void }) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const { tags, addTagsData } = useTagsStore();
 
   const form = useForm({
@@ -18,7 +16,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
     },
     onValuesChange: (values, valuesBefore) => {
       if (values.id !== valuesBefore.id) {
-        const name = tags.find((tag) => tag.id.toString() === values.id)?.name || ''
+        const name = tags.find((tag) => tag.id.toString() === values.id)?.name || '';
         form.setFieldValue('name', name);
         // form.setFocus('name');
       }
@@ -29,7 +27,11 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
         if (value.length < MIN_TAG_LENGTH) {
           return 'Tag must be at least 3 characters long';
         }
-        if (Object.values(tags).map((tag) => tag.name).includes(value)) {
+        if (
+          Object.values(tags)
+            .map((tag) => tag.name)
+            .includes(value)
+        ) {
           return 'Tag already exists';
         }
         return null;
@@ -50,7 +52,9 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
       return;
     }
     const data = await response.json();
-    const modifiedTags = Object.values(tags).map((tag) => tag.id === data.id ? data as Tag : tag);
+    const modifiedTags = Object.values(tags).map((tag) =>
+      tag.id === data.id ? (data as Tag) : tag
+    );
     addTagsData(modifiedTags);
     close();
   };
@@ -60,26 +64,25 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
       <Select
         key={form.key('id')}
         label="Existing Tags"
-        placeholder="Pick tag"
-        data={Object.values(tags).map((tag) => ({value: tag.id.toString(), label: tag.name}))}
+        placeholder="Choose tag"
+        data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
         {...form.getInputProps('id')}
       />
       <Space h="md" />
       <TextInput
+        placeholder="Edit Tag Name"
         label="Edit Tag Name"
         key={form.key('name')}
-        {...form.getInputProps('name')}    
+        {...form.getInputProps('name')}
       />
       <Space h="md" />
       <Flex gap="md" justify="space-between">
-        <Button
-          disabled={!form.isValid()}
-          type="submit"
-        >
+        <Button disabled={!form.isValid()} type="submit">
           Save
-          {loading && <Loader size="0.75rem" />}
         </Button>
-        <Button variant="default" onClick={close}>Cancel</Button>
+        <Button variant="default" onClick={close}>
+          Cancel
+        </Button>
       </Flex>
     </form>
   );

@@ -13,8 +13,8 @@ import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
-import classes from '../NeoPixel.module.css';
 import appClasses from '../../../App.module.css';
+import classes from '../NeoPixel.module.css';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -43,7 +43,10 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon className={appClasses['middle-center']} style={{ color: device.online ? 'gray' : 'red' }} />
+          <Icon
+            className={appClasses['middle-center']}
+            style={{ color: device.online ? 'gray' : 'red' }}
+          />
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>

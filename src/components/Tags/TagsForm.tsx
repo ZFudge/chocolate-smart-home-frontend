@@ -1,18 +1,26 @@
-import { Button, CloseButton, Divider, Flex, Stack } from "@mantine/core";
-import { useState } from "react";
-import EditTagsForm from "./EditTagsForm";
-import NewTagForm from "./NewTagForm";
-import { FaEdit, FaPlusCircle } from "react-icons/fa";
+import { useState } from 'react';
+import { FaEdit, FaPlusCircle } from 'react-icons/fa';
+import { Button, CloseButton, Divider, Flex, Stack } from '@mantine/core';
+import EditTagsForm from './EditTagsForm';
+import NewTagForm from './NewTagForm';
 
-const NewTagButton = ({ onClick, isPrimary }: { onClick: () => void, isPrimary: boolean }) => (
-  <Button variant={isPrimary ? 'primary' : 'default'} onClick={onClick} data-testid="new-tag-button">
+const NewTagButton = ({ onClick, isPrimary }: { onClick: () => void; isPrimary: boolean }) => (
+  <Button
+    variant={isPrimary ? 'primary' : 'default'}
+    onClick={onClick}
+    data-testid="new-tag-button"
+  >
     <FaPlusCircle />
     &nbsp;New Tag
   </Button>
 );
 
-const EditTagButton = ({ onClick, isPrimary }: { onClick: () => void, isPrimary: boolean }) => (
-  <Button variant={isPrimary ? 'primary' : 'default'} onClick={onClick} data-testid="edit-tag-button">
+const EditTagButton = ({ onClick, isPrimary }: { onClick: () => void; isPrimary: boolean }) => (
+  <Button
+    variant={isPrimary ? 'primary' : 'default'}
+    onClick={onClick}
+    data-testid="edit-tag-button"
+  >
     <FaEdit />
     &nbsp;Edit Tag
   </Button>

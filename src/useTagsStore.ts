@@ -13,7 +13,7 @@ const useTagsStore = create(
           set(() => ({
             tags: newTags,
           }));
-        }
+        },
       };
     }
   )

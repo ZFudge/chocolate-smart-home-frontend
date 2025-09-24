@@ -1,15 +1,15 @@
-import { Button, MultiSelect, Space, Text } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { HiTag } from 'react-icons/hi';
-import { Device } from "@/interfaces";
-import useTagsStore from "@/useTagsStore";
+import { Button, Flex, MultiSelect, Space, Text } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { Device } from '@/interfaces';
+import useTagsStore from '@/useTagsStore';
 
-
-const DeviceTagsForm = ({ device, close }: { device: Device, close: () => void }) => {
+const DeviceTagsForm = ({ device, close }: { device: Device; close: () => void }) => {
   const { tags } = useTagsStore();
   const currentTagIds = device.tags?.map((tag) => tag.id) || [];
 
   const form = useForm({
+    name: 'device-tags-form',
     mode: 'uncontrolled',
     initialValues: {
       tags: currentTagIds.map((id) => id.toString()),
@@ -17,16 +17,10 @@ const DeviceTagsForm = ({ device, close }: { device: Device, close: () => void }
     onValuesChange: (values) => {
       console.log('values', values);
     },
-    validateInputOnChange: true,
-    validate: {
-      tags: (value) => {
-        return null;
-      },
-    },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    const tagsIds = values.tags.map((tagIdString) => parseInt(tagIdString));
+    const tagsIds = values.tags.map((tagIdString) => parseInt(tagIdString, 10));
     const response = await fetch(`/api/device/${device.mqtt_id}/tags`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -51,15 +45,29 @@ const DeviceTagsForm = ({ device, close }: { device: Device, close: () => void }
       {tags.length ? (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <MultiSelect
-            data={Object.values(tags).map((tag) => ({value: tag.id.toString(), label: tag.name}))}
+            data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
             key={form.key('tags')}
+            label={
+              <>
+                <Text>Edit tags for {device.name}</Text>
+                <Space h="md" />
+              </>
+            }
             {...form.getInputProps('tags')}
           />
           <Space h="md" />
-          <Button type="submit">Save</Button>
+          <Flex gap="md" justify="space-between">
+            <Button type="submit">Save</Button>
+            <Button type="submit" variant="default" onClick={close}>
+              Cancel
+            </Button>
+          </Flex>
         </form>
       ) : (
-        <Text>No tags found. To get started, create a new tag using the <HiTag /> button in the header at the top of this page.</Text>
+        <Text>
+          No tags found. To get started, create a new tag using the <HiTag /> button in the header
+          at the top of this page.
+        </Text>
       )}
     </>
   );

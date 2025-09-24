@@ -1,6 +1,6 @@
-import classes from '@/App.module.css';
 import { IconMoonStars, IconSun } from '@tabler/icons-react';
 import { Switch, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
+import classes from '@/App.module.css';
 
 const ThemeToggle = () => {
   const { setColorScheme } = useMantineColorScheme();

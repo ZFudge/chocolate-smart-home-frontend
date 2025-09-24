@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import { AppShell, Burger, Flex, MantineProvider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+
 import '@mantine/core/styles.css';
 
 import TagsButton from './components/Tags/TagsButton';
 import ThemeToggle from './components/ToggleTheme';
 import Navbar from './Navbar';
 import Router from './Router';
-import WebSocketContext from './WebsocketContext';
 import useDevicesStore from './useDevicesStore';
 import useTagsStore from './useTagsStore';
 import useWebsocket from './useWebsocket';
+import WebSocketContext from './WebsocketContext';
 
 const App = () => {
   const [opened, { toggle }] = useDisclosure();
