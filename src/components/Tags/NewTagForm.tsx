@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Loader, TextInput } from "@mantine/core";
+import { Button, Flex, Loader, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Tag } from "@/interfaces";
 import useTagsStore from "@/useTagsStore";
@@ -58,14 +58,17 @@ const NewTagForm = ({ close }: { close: () => void }) => {
           key={form.key('name')}
           {...form.getInputProps('name')}    
         />
-        <Button
-          disabled={!form.isValid() || loading}
-          type="submit"
-        >
-          Create
-          {loading && <Loader size="0.75rem" />}
-        </Button>
-        <Button variant="default" onClick={close}>Cancel</Button>
+        <Space h="md" />
+        <Flex gap="md" justify="space-between">
+          <Button
+            disabled={!form.isValid() || loading}
+            type="submit"
+          >
+            Create
+            {loading && <Loader size="0.75rem" />}
+          </Button>
+          <Button variant="default" onClick={close}>Cancel</Button>
+        </Flex>
       </div>
     </form>
   );

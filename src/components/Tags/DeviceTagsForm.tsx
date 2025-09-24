@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, MultiSelect, Text } from '@mantine/core';
+import { Button, MultiSelect, Space, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { HiTag } from 'react-icons/hi';
 import { Device } from "@/interfaces";
@@ -55,7 +55,7 @@ const DeviceTagsForm = ({ device, close }: { device: Device, close: () => void }
             key={form.key('tags')}
             {...form.getInputProps('tags')}
           />
-          <Divider my="md" />
+          <Space h="md" />
           <Button type="submit">Save</Button>
         </form>
       ) : (

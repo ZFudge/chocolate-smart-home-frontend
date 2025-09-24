@@ -1,32 +1,33 @@
-import { Button, Divider, Flex, Stack } from "@mantine/core";
+import { Button, CloseButton, Divider, Flex, Stack } from "@mantine/core";
 import { useState } from "react";
 import EditTagsForm from "./EditTagsForm";
 import NewTagForm from "./NewTagForm";
 import { FaEdit, FaPlusCircle } from "react-icons/fa";
 
-const NewTagButton = ({ onClick }: { onClick: () => void }) => (
-  <Button variant="default" onClick={onClick}>
+const NewTagButton = ({ onClick, isPrimary }: { onClick: () => void, isPrimary: boolean }) => (
+  <Button variant={isPrimary ? 'primary' : 'default'} onClick={onClick} data-testid="new-tag-button">
     <FaPlusCircle />
-    New Tag
+    &nbsp;New Tag
   </Button>
 );
 
-const EditTagButton = ({ onClick }: { onClick: () => void }) => (
-  <Button variant="default" onClick={onClick}>
+const EditTagButton = ({ onClick, isPrimary }: { onClick: () => void, isPrimary: boolean }) => (
+  <Button variant={isPrimary ? 'primary' : 'default'} onClick={onClick} data-testid="edit-tag-button">
     <FaEdit />
-    Edit Tag
+    &nbsp;Edit Tag
   </Button>
 );
 
-const TagsForm = () => {
+const TagsForm = ({ close }: { close: () => void }) => {
   const [activeForm, setActiveForm] = useState<'edit' | 'new' | null>(null);
 
   return (
     <Stack>
+      <CloseButton onClick={close} />
       <Flex gap="md">
-        <EditTagButton onClick={() => setActiveForm('edit')} />
-        <Divider orientation="vertical" my="sm" />
-        <NewTagButton onClick={() => setActiveForm('new')} />
+        <NewTagButton isPrimary={activeForm === 'new'} onClick={() => setActiveForm('new')} />
+        <Divider orientation="vertical" />
+        <EditTagButton isPrimary={activeForm === 'edit'} onClick={() => setActiveForm('edit')} />
       </Flex>
       {activeForm && (
         <>

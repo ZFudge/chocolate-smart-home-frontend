@@ -4,8 +4,9 @@ import { HiTag } from 'react-icons/hi';
 import { Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import TooltipWrapper from '../TooltipWrapper';
-import { Device } from '@/interfaces';
+import { Device, TagMapping } from '@/interfaces';
 import DeviceTagsForm from './DeviceTagsForm';
+import useTagsStore from '@/useTagsStore';
 
 interface TagsProps {
   device: Device;
@@ -14,11 +15,11 @@ interface TagsProps {
 const TagsCell = ({ device }: TagsProps) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  console.log(device);
-
+  const { tags } = useTagsStore();
+  const tagsById: TagMapping = tags.reduce((acc, tag) => ({...acc, [tag.id]: tag.name}), {});
   if (!device) return null;
 
-  const label = device.tags?.map((tag) => tag?.name).join(', ') || null;
+  const label = device.tags?.map((tag) => tagsById[tag.id]).join(', ') || null;
 
   return (
     <TooltipWrapper label={label || <CiNoWaitingSign />}>

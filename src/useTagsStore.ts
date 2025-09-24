@@ -10,8 +10,8 @@ const useTagsStore = create(
     (set) => {
       return {
         addTagsData: (newTags: Tag[]) => {
-          set((state) => ({
-            tags: [...state.tags, ...newTags],
+          set(() => ({
+            tags: newTags,
           }));
         }
       };
