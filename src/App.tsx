@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { AppShell, Burger, Flex, MantineProvider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Notifications } from '@mantine/notifications';
 
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import TagsButton from './components/Tags/TagsButton';
 import ThemeToggle from './components/ToggleTheme';
@@ -44,6 +46,7 @@ const App = () => {
 
   return (
     <MantineProvider>
+      <Notifications />
       <WebSocketContext.Provider value={websocket}>
         <AppShell
           header={{ height: 60 }}
