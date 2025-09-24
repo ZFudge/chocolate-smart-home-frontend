@@ -1,9 +1,9 @@
 import { HiTag } from 'react-icons/hi';
 import { Button, Flex, MultiSelect, Space, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { Device } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
-import { notifications } from '@mantine/notifications';
 
 const DeviceTagsForm = ({ device, close }: { device: Device; close: () => void }) => {
   const { tags } = useTagsStore();

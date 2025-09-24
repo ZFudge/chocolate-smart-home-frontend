@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
-import { notifications } from '@mantine/notifications';
 
 const MIN_TAG_LENGTH = 3;
 
