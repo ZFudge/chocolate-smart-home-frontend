@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
-import classes from '@/App.module.css';
+import appClasses from '@/App.module.css';
 import { PostData, postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 
@@ -56,7 +56,7 @@ const IndeterminateButton = ({
 
   return isLoading ? (
     <div
-      className={classes['fade-in']}
+      className={appClasses['fade-in']}
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Loader size="1rem" />
@@ -67,8 +67,8 @@ const IndeterminateButton = ({
         disabled={isLoading}
         min={0}
         max={1}
-        defaultValue={0.5}
         step={0.5}
+        defaultValue={0.5}
         marks={marks}
         thumbSize={20}
         styles={{
@@ -77,11 +77,20 @@ const IndeterminateButton = ({
         }}
         thumbChildren={<Icon size={16} />}
         onChangeEnd={handleChange}
-        className={classes['fade-in']}
+        className={appClasses['fade-in']}
         showLabelOnHover
-        label={(value) =>
-          value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`
-        }
+        label={(value) => {
+          const label =
+            value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`;
+          if (!label) {
+            return null;
+          }
+          return (
+            <div className={appClasses['slider-label-container']}>
+              <span className={appClasses['slider-label']}>{label}</span>
+            </div>
+          );
+        }}
       />
     </div>
   );

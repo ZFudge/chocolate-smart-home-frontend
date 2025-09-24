@@ -2,11 +2,12 @@ import cx from 'clsx';
 import { FaPowerOff } from 'react-icons/fa';
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { Checkbox, Table } from '@mantine/core';
-import { Tags, ToggleButton, TooltipWrapper } from '@/components';
+import { TagsCell, ToggleButton, TooltipWrapper } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import { Device } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
+import appClasses from '../../../App.module.css';
 import classes from '../OnOff.module.css';
 
 interface TableRowProps {
@@ -31,11 +32,14 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <Tags space={device.space} />
+        <TagsCell device={device as unknown as Device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon style={{ color: device.online ? 'gray' : 'red' }} />
+          <Icon
+            className={appClasses['middle-center']}
+            style={{ color: device.online ? 'gray' : 'red' }}
+          />
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>

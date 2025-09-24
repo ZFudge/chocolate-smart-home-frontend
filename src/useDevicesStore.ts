@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
-import { NeoPixelObject } from './components/NeoPixels/interfaces';
-import { DeviceMapping } from './interfaces';
+import { DeviceMapping, DeviceObject } from './interfaces';
 
 const useDevicesStore = create(
   combine(
@@ -10,7 +9,7 @@ const useDevicesStore = create(
     },
     (set) => {
       return {
-        addDeviceData: (newDevice: NeoPixelObject) => {
+        addDeviceData: (newDevice: DeviceObject) => {
           set((state) => ({
             devices: {
               ...state.devices,

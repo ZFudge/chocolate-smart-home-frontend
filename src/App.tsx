@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { AppShell, Burger, MantineProvider } from '@mantine/core';
+import { AppShell, Burger, Flex, MantineProvider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import '@mantine/core/styles.css';
 
+import TagsButton from './components/Tags/TagsButton';
 import ThemeToggle from './components/ToggleTheme';
 import Navbar from './Navbar';
 import Router from './Router';
 import useDevicesStore from './useDevicesStore';
+import useTagsStore from './useTagsStore';
 import useWebsocket from './useWebsocket';
 import WebSocketContext from './WebsocketContext';
 
@@ -16,6 +18,7 @@ const App = () => {
 
   const { connect, websocket } = useWebsocket();
   const { addDeviceData } = useDevicesStore();
+  const { addTagsData } = useTagsStore();
 
   const handleMessage = (msgEvent: MessageEvent) => {
     const data = JSON.parse(msgEvent.data);
@@ -24,6 +27,19 @@ const App = () => {
 
   useEffect(() => {
     connect(handleMessage);
+    const getTags = async () => {
+      const response = await fetch('/api/tags/');
+      if (!response.ok) {
+        console.error(response.statusText);
+        return;
+      }
+      const data = await response.json();
+      addTagsData(data);
+    };
+    getTags();
+    return () => {
+      websocket?.close();
+    };
   }, []);
 
   return (
@@ -32,16 +48,25 @@ const App = () => {
         <AppShell
           header={{ height: 60 }}
           navbar={{
-            width: 300,
+            width: 200,
             breakpoint: 'sm',
             collapsed: { mobile: !opened },
           }}
           padding="md"
         >
-          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <AppShell.Header
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              padding: '1em',
+            }}
+          >
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             {/* <img src={logo} width={30} height={30} alt="logo" /> */}
-            <ThemeToggle />
+            <Flex gap="md">
+              <TagsButton />
+              <ThemeToggle />
+            </Flex>
           </AppShell.Header>
 
           <AppShell.Navbar p="md">

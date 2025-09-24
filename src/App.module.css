@@ -21,6 +21,40 @@
   animation-timing-function: ease-in-out;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.middle-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertically-centered {
+  display: flex;
+  align-items: center;
+}
+
+.slider-label-container {
+  position: absolute;
+  top: 5em;
+}
+
+.slider-label {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--mantine-color-white);
+  background-color: var(--mantine-color-gray-9);
+  padding: calc(var(--mantine-spacing-xs) / 2);
+  border-radius: var(--mantine-radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  touch-action: none;
+  left: -50%;
+  position: relative;
+}
+
 @keyframes fade-in-opacity {
   0% {
     opacity: 0;

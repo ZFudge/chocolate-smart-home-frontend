@@ -4,6 +4,7 @@ import { GiTransform } from 'react-icons/gi';
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
+import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
@@ -12,17 +13,26 @@ import HeaderColumnToggler from './HeaderColumnToggler';
 
 interface HeaderProps {
   devices: NeoPixelObject[];
-  selection: number[];
   toggleAll: () => void;
   openPaletteModal: () => void;
+  selection: number[];
+  filteredTagIds: number[];
+  setFilteredTagIds: (filteredTagIds: number[]) => void;
 }
 
-const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps) => {
+const Header = ({
+  devices,
+  selection,
+  toggleAll,
+  openPaletteModal,
+  filteredTagIds,
+  setFilteredTagIds,
+}: HeaderProps) => {
   const trSettingsClass = `${selection.length < 2 ? classes.hidden : classes.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
 
   return (
-    <Table.Tr style={{ height: '6rem' }}>
+    <Table.Tr style={{ height: '3.5rem' }}>
       <Table.Th w={40}>
         <Checkbox
           onChange={toggleAll}
@@ -31,9 +41,13 @@ const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps
           data-testid="toggle-all-checkbox"
         />
       </Table.Th>
-      <Table.Th key="tags" />
+      <Table.Th key="tags">
+        <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
+      </Table.Th>
       <Table.Th key="last-seen" />
-      <Table.Th key="device-names-header">Neo Pixels</Table.Th>
+      <Table.Th key="device-names-header" style={{ minWidth: '100px' }}>
+        Neo Pixels
+      </Table.Th>
       <HeaderColumnToggler
         settingName="on"
         Icon={FaPowerOff}

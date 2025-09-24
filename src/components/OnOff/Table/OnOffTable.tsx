@@ -25,7 +25,7 @@ const OnOffTable = ({ devices }: OnOffTableProps) => {
 
   return (
     <ScrollArea>
-      <Flex className={classes.flexTable}>
+      <Flex>
         <Table withTableBorder className={classes['mantine-Table-table']}>
           <Table.Thead>
             <Header toggleAll={toggleAll} selection={selection} devices={devices} />
