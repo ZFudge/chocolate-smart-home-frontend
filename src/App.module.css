@@ -31,6 +31,11 @@
   justify-content: center;
 }
 
+.vertically-centered {
+  display: flex;
+  align-items: center;
+}
+
 .slider-label-container {
   position: absolute;
   top: 5em;

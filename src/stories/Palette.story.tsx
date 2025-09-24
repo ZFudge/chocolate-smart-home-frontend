@@ -8,9 +8,14 @@ const device: NeoPixelObject = {
   mqtt_id: 1,
   name: 'NeoPixel Name 1',
   device_type_name: 'neo_pixel',
-  space: 'bedroom',
   online: true,
   last_seen: null,
+  tags: [
+    {
+      id: 1,
+      name: 'bedroom',
+    },
+  ],
   on: true,
   twinkle: true,
   transform: true,

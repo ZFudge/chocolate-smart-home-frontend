@@ -14,6 +14,10 @@ export interface DeviceMapping {
   [key: number]: Devices;
 }
 
+export interface DeviceIdsByTagId {
+  [key: number]: number[];
+}
+
 export interface Device {
   mqtt_id: number;
   remote_name: string;
