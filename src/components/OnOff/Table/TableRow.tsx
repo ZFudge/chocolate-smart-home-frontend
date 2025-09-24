@@ -8,6 +8,7 @@ import { Device } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
+import appClasses from '../../../App.module.css';
 
 interface TableRowProps {
   device: OnOffObject;
@@ -35,7 +36,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon style={{ color: device.online ? 'gray' : 'red' }} />
+          <Icon className={appClasses['middle-center']} style={{ color: device.online ? 'gray' : 'red' }} />
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>

@@ -21,24 +21,26 @@ const TagsCell = ({ device }: TagsProps) => {
   const label = device.tags?.map((tag) => tag?.name).join(', ') || null;
 
   return (
-    <div className={classes['cursor-pointer']} onClick={open}>
-      <TooltipWrapper label={label || <CiNoWaitingSign />}>
-        <Popover withArrow trapFocus position="bottom" shadow="md" 
-          width={300}
-          opened={opened}
-          closeOnClickOutside={false}
-        >
-          <Popover.Target>
-            <div>
-              <HiTag />
-            </div>
-          </Popover.Target>
-          <Popover.Dropdown ref={ref}>
-            <DeviceTagsForm device={device} close={close} />
-          </Popover.Dropdown>
-        </Popover>
-      </TooltipWrapper>
-    </div>
+    <TooltipWrapper label={label || <CiNoWaitingSign />}>
+      <Popover withArrow trapFocus position="bottom" shadow="md" 
+        width={300}
+        opened={opened}
+        closeOnClickOutside={false}
+      >
+        <Popover.Target>
+          <div
+            onClick={open}
+            className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
+            data-testid={`${device.mqtt_id}-tags-button`}
+          >
+            <HiTag />
+          </div>
+        </Popover.Target>
+        <Popover.Dropdown ref={ref}>
+          <DeviceTagsForm device={device} close={close} />
+        </Popover.Dropdown>
+      </Popover>
+    </TooltipWrapper>
   );
 };
 
