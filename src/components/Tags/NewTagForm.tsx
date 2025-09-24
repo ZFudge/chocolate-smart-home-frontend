@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
 
@@ -46,11 +47,21 @@ const NewTagForm = ({ close }: { close: () => void }) => {
     });
     if (!response.ok) {
       console.error(response.statusText);
+      notifications.show({
+        color: 'red',
+        title: 'Tag creation failed',
+        message: `Tag "${name}" was not created`,
+      });
       return;
     }
     const data = await response.json();
     addTagsData([...Object.values(tags), data as Tag]);
     form.reset();
+    notifications.show({
+      color: 'green',
+      title: 'Tag created',
+      message: `Tag "${name}" was created successfully`,
+    });
     close();
     setLoading(false);
   };

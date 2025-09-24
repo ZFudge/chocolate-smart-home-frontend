@@ -1,5 +1,6 @@
 import { Button, Flex, Select, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
 
@@ -49,12 +50,21 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
     });
     if (!response.ok) {
       console.error(response.statusText);
+      notifications.show({
+        color: 'red',
+        title: 'Tag update failed',
+        message: `Tag name "${tags.find((tag) => tag.id === values.id)?.name}" was not changed to "${values.name}"`,
+      });
       return;
     }
     const data = await response.json();
     const modifiedTags = Object.values(tags).map((tag) =>
       tag.id === data.id ? (data as Tag) : tag
     );
+    notifications.show({
+      title: 'Tag updated',
+      message: `Tag name "${tags.find((tag) => tag.id === data.id)?.name}" was successfully changed to "${values.name}"`,
+    });
     addTagsData(modifiedTags);
     close();
   };

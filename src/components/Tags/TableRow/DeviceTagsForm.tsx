@@ -1,6 +1,7 @@
 import { HiTag } from 'react-icons/hi';
 import { Button, Flex, MultiSelect, Space, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { Device } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
 
@@ -33,10 +34,19 @@ const DeviceTagsForm = ({ device, close }: { device: Device; close: () => void }
     if (!response.ok) {
       console.error(response.statusText);
       form.setFieldError('tags', 'Failed to save tags');
+      notifications.show({
+        color: 'red',
+        title: 'Failed to save tags',
+        message: `Failed to save tags for ${device.name}`,
+      });
       return;
     }
     const data = await response.json();
     console.log('data', data);
+    notifications.show({
+      title: 'Tags saved',
+      message: `Tags for ${device.name} were saved successfully`,
+    });
     close();
   };
 
