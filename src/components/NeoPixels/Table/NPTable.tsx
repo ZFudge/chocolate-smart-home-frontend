@@ -47,47 +47,45 @@ const NPTable = ({ devices }: NPTableProps) => {
 
   return (
     <ScrollArea>
-      <Flex className={classes.flexTable}>
-        <Table withTableBorder className={classes['mantine-Table-table']}>
-          <Table.Thead>
-            <Header
-              toggleAll={toggleAll}
-              selection={selection}
-              filteredTagIds={filteredTagIds}
-              setFilteredTagIds={setFilteredTagIds}
-              filteredValue={filteredValue}
-              setFilteredValue={setFilteredValue}
-              devices={devices}
-              openPaletteModal={() =>
-                setEditPaletteDevice(
-                  selection.map(
-                    (id) => devices.find((device) => device.mqtt_id === id) as NeoPixelObject
-                  )
+      <Table withTableBorder className={classes['mantine-Table-table']}>
+        <Table.Thead>
+          <Header
+            toggleAll={toggleAll}
+            selection={selection}
+            filteredTagIds={filteredTagIds}
+            setFilteredTagIds={setFilteredTagIds}
+            filteredValue={filteredValue}
+            setFilteredValue={setFilteredValue}
+            devices={devices}
+            openPaletteModal={() =>
+              setEditPaletteDevice(
+                selection.map(
+                  (id) => devices.find((device) => device.mqtt_id === id) as NeoPixelObject
                 )
-              }
-            />
-          </Table.Thead>
-          <Table.Tbody>
-            {Object.values(devices)
-              .filter((device: NeoPixelObject) => filteredDeviceIds.includes(device.mqtt_id))
-              .filter((device: NeoPixelObject) => filterByValue(filteredValue, device))
-              .map((device: NeoPixelObject, index: number) => (
-                <TableRow
-                  key={`${device.mqtt_id}-${index}-tr`}
-                  selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
-                  openPaletteModal={() => setEditPaletteDevice([device])}
-                  device={device}
-                  toggleRow={toggleRow}
-                />
-              ))}
-          </Table.Tbody>
-        </Table>
-        <PaletteModal
-          presetOptions={[]}
-          devices={editPaletteDevice}
-          close={() => setEditPaletteDevice(null)}
-        />
-      </Flex>
+              )
+            }
+          />
+        </Table.Thead>
+        <Table.Tbody>
+          {Object.values(devices)
+            .filter((device: NeoPixelObject) => filteredDeviceIds.includes(device.mqtt_id))
+            .filter((device: NeoPixelObject) => filterByValue(filteredValue, device))
+            .map((device: NeoPixelObject, index: number) => (
+              <TableRow
+                key={`${device.mqtt_id}-${index}-tr`}
+                selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
+                openPaletteModal={() => setEditPaletteDevice([device])}
+                device={device}
+                toggleRow={toggleRow}
+              />
+            ))}
+        </Table.Tbody>
+      </Table>
+      <PaletteModal
+        presetOptions={[]}
+        devices={editPaletteDevice}
+        close={() => setEditPaletteDevice(null)}
+      />
     </ScrollArea>
   );
 };

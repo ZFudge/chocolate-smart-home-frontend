@@ -2,7 +2,7 @@ import { Text, Tooltip } from '@mantine/core';
 import { Device } from '@/interfaces';
 
 const DeviceName = ({ device }: { device: Device }) => {
-  const label = `${device.mqtt_id} (${device.remote_name})`;
+  const label = `${device.mqtt_id} (${device.name})`;
 
   return (
     <Tooltip label={label} position="left" withArrow>
