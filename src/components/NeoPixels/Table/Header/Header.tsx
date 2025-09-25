@@ -4,8 +4,8 @@ import { GiTransform } from 'react-icons/gi';
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
+import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
-import ValueFilterButton from '@/components/ValueFilterButton';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
@@ -46,6 +46,7 @@ const Header = ({
           data-testid="toggle-all-checkbox"
         />
       </Table.Th>
+      <Table.Th w={40} />
       <Table.Th key="tags">
         <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
       </Table.Th>

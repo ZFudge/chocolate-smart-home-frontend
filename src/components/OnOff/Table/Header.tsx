@@ -1,6 +1,6 @@
 import { Checkbox, Table } from '@mantine/core';
+import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
-import ValueFilterButton from '@/components/ValueFilterButton';
 import { OnOffObject } from '../interfaces';
 
 interface HeaderProps {
@@ -33,6 +33,7 @@ const Header = ({
             data-testid="toggle-all-checkbox"
           />
         </Table.Th>
+        <Table.Th w={40} />
         <Table.Th key="tags">
           <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
         </Table.Th>
