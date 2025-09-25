@@ -30,7 +30,7 @@ export interface DeviceType {
   name: string;
 }
 
-export interface DeviceObject {
+export interface DeviceObjectNoType {
   device_type: DeviceType;
   id: number;
   last_seen: string | null;
@@ -47,3 +47,5 @@ export interface DeviceObjectMapping {
 }
 
 export type Devices = DeviceObject | NeoPixelObject | OnOffObject;
+
+export type DeviceObject = DeviceObjectNoType | NeoPixelObject | OnOffObject;

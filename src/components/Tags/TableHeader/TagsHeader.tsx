@@ -1,4 +1,4 @@
-import { HiTag } from 'react-icons/hi';
+import { FaTags } from 'react-icons/fa';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
@@ -25,12 +25,14 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
     >
       <Popover.Target>
         <Button
+          size="compact-xs"
           variant="transparent"
+          style={{ padding: '0.125rem' }}
           onClick={open}
           className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
           data-testid="devices-tags-header-button"
         >
-          <HiTag />
+          <FaTags size={16} />
         </Button>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>

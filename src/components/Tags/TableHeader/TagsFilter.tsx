@@ -15,25 +15,38 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds }: TagsFilterProps) => {
 
   return (
     <>
-      <Text className={classes['vertically-centered']}>
+      <span className={classes['vertically-centered']}>
         <MdOutlineFilterAlt />
         <Space w="xs" />
         Filter by tag
-      </Text>
+      </span>
       <Divider my="sm" />
       {tags.length ? (
-        <Checkbox.Group
-          value={filteredTagIds.map(String)}
-          onChange={(values) => setFilteredTagIds(values.map(Number))}
-          key={`tags-checkbox-group-${tags.length}`}
-        >
-          {tags.map((tag: Tag) => (
-            <>
-              <Checkbox key={`tag-checkbox-${tag.id}`} label={tag.name} value={tag.id.toString()} />
-              <Space h="md" key={`tag-filter-${tag.id}-space`} />
-            </>
-          ))}
-        </Checkbox.Group>
+        <>
+          <Checkbox
+            indeterminate={filteredTagIds.length === 0}
+            label="Deselect All"
+            checked={filteredTagIds.length === 0}
+            onChange={() => setFilteredTagIds([])}
+          />
+          <Space h="md" />
+          <Checkbox.Group
+            value={filteredTagIds.map(String)}
+            onChange={(values) => setFilteredTagIds(values.map(Number))}
+            key={`tags-checkbox-group-${tags.length}`}
+          >
+            {tags.map((tag: Tag) => (
+              <span key={`tag-checkbox-${tag.id}-span`}>
+                <Checkbox
+                  key={`tag-checkbox-${tag.id}`}
+                  label={tag.name}
+                  value={tag.id.toString()}
+                />
+                <Space h="md" key={`tag-filter-${tag.id}-space`} />
+              </span>
+            ))}
+          </Checkbox.Group>
+        </>
       ) : (
         <Text>
           No tags found. To get started, create a new tag using the <HiTag /> button in the header

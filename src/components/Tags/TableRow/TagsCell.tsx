@@ -1,5 +1,4 @@
-import { CiNoWaitingSign } from 'react-icons/ci';
-import { HiTag } from 'react-icons/hi';
+import { HiOutlineTag, HiTag } from 'react-icons/hi';
 import { Button, Popover } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
@@ -20,10 +19,10 @@ const TagsCell = ({ device }: TagsProps) => {
     return null;
   }
 
-  const label = device.tags?.map((tag) => tagsById[tag.id]).join(', ') || null;
+  const label = device.tags?.map((tag) => tagsById[tag.id]).join(', ') || 'no tags';
 
   return (
-    <TooltipWrapper label={label || <CiNoWaitingSign />}>
+    <TooltipWrapper label={label}>
       <Popover
         withArrow
         trapFocus
@@ -35,12 +34,18 @@ const TagsCell = ({ device }: TagsProps) => {
       >
         <Popover.Target>
           <Button
+            size="compact-xs"
             variant="transparent"
+            style={{ padding: '0.125rem' }}
             onClick={open}
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid={`${device.mqtt_id}-tags-button`}
           >
-            <HiTag />
+            {device.tags?.length ? (
+              <HiTag color="var(--mantine-color-blue-4)" size={16} />
+            ) : (
+              <HiOutlineTag color="gray" size={16} />
+            )}
           </Button>
         </Popover.Target>
         <Popover.Dropdown>

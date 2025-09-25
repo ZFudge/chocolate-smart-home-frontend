@@ -68,7 +68,7 @@ const DeviceTagsForm = ({ device, close }: { device: Device; close: () => void }
           <Space h="md" />
           <Flex gap="md" justify="space-between">
             <Button type="submit">Save</Button>
-            <Button type="submit" variant="default" onClick={close}>
+            <Button variant="default" onClick={close}>
               Cancel
             </Button>
           </Flex>
