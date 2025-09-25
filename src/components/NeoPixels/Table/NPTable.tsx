@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, ScrollArea, Table } from '@mantine/core';
+import { ScrollArea, Table } from '@mantine/core';
 import { getFilteredDeviceIds } from '@/lib/utils';
 import useTagsStore from '@/useTagsStore';
 import { NeoPixelObject } from '../interfaces';
