@@ -4,6 +4,7 @@ import { GiTransform } from 'react-icons/gi';
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
+import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
 import { NeoPixelObject } from '../../interfaces';
@@ -46,7 +47,9 @@ const Header = ({
           data-testid="toggle-all-checkbox"
         />
       </Table.Th>
-      <Table.Th w={40} />
+      <Table.Th w={40}>
+        <SyncDeviceDataButton />
+      </Table.Th>
       <Table.Th key="tags">
         <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
       </Table.Th>
