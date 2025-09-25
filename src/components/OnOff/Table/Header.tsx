@@ -1,5 +1,6 @@
 import { Checkbox, Table } from '@mantine/core';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import ValueFilterButton from '@/components/ValueFilterButton';
 import { OnOffObject } from '../interfaces';
 
 interface HeaderProps {
@@ -8,6 +9,8 @@ interface HeaderProps {
   toggleAll: () => void;
   filteredTagIds: number[];
   setFilteredTagIds: (filteredTagIds: number[]) => void;
+  filteredValue: string;
+  setFilteredValue: (filteredValue: string) => void;
 }
 
 const Header = ({
@@ -16,6 +19,8 @@ const Header = ({
   toggleAll,
   filteredTagIds,
   setFilteredTagIds,
+  filteredValue,
+  setFilteredValue,
 }: HeaderProps) => {
   return (
     <>
@@ -31,7 +36,9 @@ const Header = ({
         <Table.Th key="tags">
           <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
         </Table.Th>
-        <Table.Th w={30} />
+        <Table.Th w={30}>
+          <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
+        </Table.Th>
         <Table.Th key="device-names-header">On / Off Devices</Table.Th>
       </Table.Tr>
     </>

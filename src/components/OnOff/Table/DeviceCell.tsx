@@ -8,7 +8,7 @@ const DeviceCell = ({ device }: { device: OnOffObject }) => {
 
   return (
     <Flex columnGap={5} justify="flex-end" align="center" direction="row">
-      <TooltipWrapper label={device.space || null}>
+      <TooltipWrapper label={device.tags?.map((tag) => tag.name).join(', ') || null}>
         <HiTag />
       </TooltipWrapper>
       <TooltipWrapper label={`last seen ${device.last_seen}`}>

@@ -5,6 +5,7 @@ import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import classes from '@/App.module.css';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import ValueFilterButton from '@/components/ValueFilterButton';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
@@ -18,6 +19,8 @@ interface HeaderProps {
   selection: number[];
   filteredTagIds: number[];
   setFilteredTagIds: (filteredTagIds: number[]) => void;
+  filteredValue: string;
+  setFilteredValue: (filteredValue: string) => void;
 }
 
 const Header = ({
@@ -27,6 +30,8 @@ const Header = ({
   openPaletteModal,
   filteredTagIds,
   setFilteredTagIds,
+  filteredValue,
+  setFilteredValue,
 }: HeaderProps) => {
   const trSettingsClass = `${selection.length < 2 ? classes.hidden : classes.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
@@ -44,7 +49,9 @@ const Header = ({
       <Table.Th key="tags">
         <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
       </Table.Th>
-      <Table.Th key="last-seen" />
+      <Table.Th key="last-seen">
+        <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
+      </Table.Th>
       <Table.Th key="device-names-header" style={{ minWidth: '100px' }}>
         Neo Pixels
       </Table.Th>

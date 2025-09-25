@@ -28,6 +28,7 @@ export interface NeoPixelObject {
   transform: boolean;
   white?: boolean;
   scheduled?: boolean | undefined;
+  timeout?: number;
 }
 
 export interface IndexableObj {
