@@ -12,9 +12,16 @@ interface OnOffTableProps {
   onClick?: () => void;
 }
 
+const filterByValue = (filteredValue: string, device: OnOffObject) => {
+  return (
+    device.name.includes(filteredValue) || Number(device.on).toString().includes(filteredValue)
+  );
+};
+
 const OnOffTable = ({ devices }: OnOffTableProps) => {
   const [selection, setSelection] = useState<number[]>([]);
   const [filteredTagIds, setFilteredTagIds] = useState<number[]>([]);
+  const [filteredValue, setFilteredValue] = useState<string>('');
   const { tags } = useTagsStore();
 
   const toggleAll = () =>
@@ -40,11 +47,14 @@ const OnOffTable = ({ devices }: OnOffTableProps) => {
               devices={devices}
               filteredTagIds={filteredTagIds}
               setFilteredTagIds={setFilteredTagIds}
+              filteredValue={filteredValue}
+              setFilteredValue={setFilteredValue}
             />
           </Table.Thead>
           <Table.Tbody>
             {Object.values(devices)
               .filter((device: OnOffObject) => filteredDeviceIds.includes(device.mqtt_id))
+              .filter((device: OnOffObject) => filterByValue(filteredValue, device))
               .map((device: OnOffObject, index: number) => (
                 <TableRow
                   key={`${device.mqtt_id}-${index}-tr`}

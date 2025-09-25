@@ -5,7 +5,6 @@ export interface OnOffObject {
   name: string;
   remote_name?: string;
   device_type_name: string;
-  space?: string;
   online: boolean;
   last_seen: string | null;
   on: boolean;

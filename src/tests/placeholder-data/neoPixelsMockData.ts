@@ -31,6 +31,7 @@ const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
       '#FF0099',
       '#FF9900',
     ],
+    timeout: 10,
   },
   '2': {
     mqtt_id: 2,
@@ -62,6 +63,7 @@ const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
       '#99FF00',
       '#9900FF',
     ],
+    timeout: 10,
   },
 };
 
