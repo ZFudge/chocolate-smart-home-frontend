@@ -1,4 +1,4 @@
-import { IconMoonStars, IconSun } from '@tabler/icons-react';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import { Switch, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 import classes from '@/App.module.css';
 
@@ -12,8 +12,8 @@ const ThemeToggle = () => {
       color="dark.4"
       className={classes['cursor-pointer']}
       onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
-      onLabel={<IconSun size={16} stroke={2.5} color="var(--mantine-color-yellow-4)" />}
-      offLabel={<IconMoonStars size={16} stroke={2.5} color="var(--mantine-color-blue-6)" />}
+      onLabel={<FaSun size={16} color="var(--mantine-color-yellow-4)" />}
+      offLabel={<FaMoon size={16} color="var(--mantine-color-blue-6)" />}
     />
   );
 };
