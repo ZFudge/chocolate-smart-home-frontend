@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
-import { DeviceIdsByTagId, Tag } from '@/interfaces';
+import { getFilteredDeviceIds } from '@/lib/utils';
 import useTagsStore from '@/useTagsStore';
 import { NeoPixelObject } from '../interfaces';
 import PaletteModal from '../PaletteModal';
@@ -18,27 +18,7 @@ const NPTable = ({ devices }: NPTableProps) => {
   const [filteredTagIds, setFilteredTagIds] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject[] | null>(null);
   const { tags } = useTagsStore();
-
-  const deviceIdsByTagId = tags.reduce((acc: DeviceIdsByTagId, tag: Tag) => {
-    const deviceIds = devices
-      .filter((device: NeoPixelObject) =>
-        device.tags?.some((deviceTag: Tag) => deviceTag.id === tag.id)
-      )
-      .map((device) => device.mqtt_id);
-    acc[tag.id] = deviceIds;
-    return acc;
-  }, {});
-
-  const filteredDeviceIds: number[] = filteredTagIds.length
-    ? Array.from(
-        new Set(
-          filteredTagIds.reduce(
-            (acc: number[], id: number) => [...acc, ...deviceIdsByTagId[id]],
-            []
-          )
-        )
-      )
-    : devices.map((device) => device.mqtt_id);
+  const filteredDeviceIds = getFilteredDeviceIds(devices, tags, filteredTagIds);
 
   const toggleAll = () =>
     setSelection((current) =>

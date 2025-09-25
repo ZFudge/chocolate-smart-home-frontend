@@ -15,11 +15,11 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds }: TagsFilterProps) => {
 
   return (
     <>
-      <Text className={classes['vertically-centered']}>
+      <span className={classes['vertically-centered']}>
         <MdOutlineFilterAlt />
         <Space w="xs" />
         Filter by tag
-      </Text>
+      </span>
       <Divider my="sm" />
       {tags.length ? (
         <Checkbox.Group
@@ -28,10 +28,10 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds }: TagsFilterProps) => {
           key={`tags-checkbox-group-${tags.length}`}
         >
           {tags.map((tag: Tag) => (
-            <>
+            <span key={`tag-checkbox-${tag.id}-span`}>
               <Checkbox key={`tag-checkbox-${tag.id}`} label={tag.name} value={tag.id.toString()} />
               <Space h="md" key={`tag-filter-${tag.id}-space`} />
-            </>
+            </span>
           ))}
         </Checkbox.Group>
       ) : (
