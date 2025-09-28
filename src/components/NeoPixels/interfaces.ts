@@ -40,6 +40,24 @@ export interface PalettePreset {
   label: string;
 }
 
+export interface PalettePresetData {
+  id: number;
+  colors: string[];
+  name: string;
+}
+
 export interface NeoPixelMapping {
   [key: number]: NeoPixelObject;
+}
+
+export interface PaletteFormValuesType {
+  '0-color': string;
+  '1-color': string;
+  '2-color': string;
+  '3-color': string;
+  '4-color': string;
+  '5-color': string;
+  '6-color': string;
+  '7-color': string;
+  '8-color': string;
 }

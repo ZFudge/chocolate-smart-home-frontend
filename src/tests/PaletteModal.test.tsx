@@ -5,6 +5,9 @@ import PaletteModal from '@/components/NeoPixels/PaletteModal';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
+vi.mock('@/components/NeoPixels/PaletteModal/presets/utils', () => ({
+  getPresets: vi.fn(),
+}));
 
 const device: NeoPixelObject = neoPixelsMockData['1'];
 
@@ -12,9 +15,7 @@ describe('Palette Modal component', () => {
   afterEach(vi.clearAllMocks);
 
   it('should handle submit button click', async () => {
-    const { getByTestId } = render(
-      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
-    );
+    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
     const submitButton: HTMLElement = getByTestId('submit');
     const apiModule = await import('@/lib/api');
     act(() => {
@@ -22,7 +23,7 @@ describe('Palette Modal component', () => {
     });
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: device.mqtt_id,
+      mqtt_id: [device.mqtt_id],
       value: device.palette,
       name: 'palette',
       device_type_name: 'neo_pixel',
@@ -30,9 +31,7 @@ describe('Palette Modal component', () => {
   });
 
   it('should submit the modified palette value after initial input is changed', async () => {
-    const { getByTestId } = render(
-      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
-    );
+    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
     const firstColorInput: HTMLElement = getByTestId(0);
     const submitButton: HTMLElement = getByTestId('submit');
     const apiModule = await import('@/lib/api');
@@ -44,7 +43,7 @@ describe('Palette Modal component', () => {
     const expectedPaletteValue: string[] = ['#332211'].concat(device.palette.slice(1));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: device.mqtt_id,
+      mqtt_id: [device.mqtt_id],
       value: expectedPaletteValue,
       name: 'palette',
       device_type_name: 'neo_pixel',
@@ -52,9 +51,7 @@ describe('Palette Modal component', () => {
   });
 
   it('should reset form fields to its initial values after reset button click', async () => {
-    const { getByTestId } = render(
-      <PaletteModal presetOptions={[]} devices={[device]} close={() => {}} />
-    );
+    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
     const firstColorInput: HTMLElement = getByTestId(0);
     const resetButton: HTMLElement = getByTestId('reset');
     const submitButton: HTMLElement = getByTestId('submit');
@@ -66,7 +63,7 @@ describe('Palette Modal component', () => {
     });
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
-      mqtt_id: device.mqtt_id,
+      mqtt_id: [device.mqtt_id],
       value: device.palette,
       name: 'palette',
       device_type_name: 'neo_pixel',
@@ -75,9 +72,7 @@ describe('Palette Modal component', () => {
 
   it('should call the given close function when close button is clicked', async () => {
     const close = vi.fn().mockImplementation(() => {});
-    const { getByTestId } = render(
-      <PaletteModal presetOptions={[]} devices={[device]} close={close} />
-    );
+    const { getByTestId } = render(<PaletteModal devices={[device]} close={close} />);
     const closeButton: HTMLElement = getByTestId('close');
     act(() => {
       fireEvent.click(closeButton);
