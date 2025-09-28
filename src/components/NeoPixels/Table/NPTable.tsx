@@ -81,11 +81,10 @@ const NPTable = ({ devices }: NPTableProps) => {
             ))}
         </Table.Tbody>
       </Table>
-      <PaletteModal
-        presetOptions={[]}
+      {editPaletteDevice && editPaletteDevice.length > 0 && <PaletteModal
         devices={editPaletteDevice}
         close={() => setEditPaletteDevice(null)}
-      />
+      />}
     </ScrollArea>
   );
 };

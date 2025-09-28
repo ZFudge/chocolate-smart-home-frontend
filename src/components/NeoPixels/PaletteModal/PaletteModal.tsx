@@ -1,77 +1,69 @@
 import { useContext } from 'react';
 import cx from 'clsx';
-import { Button, FocusTrap, Group, Modal } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { postUpdate } from '@/lib/api';
+import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
 import WebSocketContext from '@/WebsocketContext';
-import { IndexableObj, NeoPixelObject, PalettePreset } from '../interfaces';
+import { NeoPixelObject } from '../interfaces';
 import PalettePresets from './PalettePresets';
 import classes from './PaletteModal.module.css';
-
-const EMPTY_PALETTE = Array(9).fill('#ffffff');
+import PaletteDisplay from './PaletteDisplay';
+import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 
 interface PaletteModalProps {
-  devices: NeoPixelObject[] | null;
+  devices: NeoPixelObject[];
   close: () => void;
-  presetOptions: PalettePreset[];
 }
 
-const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
-  const websocket = useContext(WebSocketContext);
+const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   const multiple = devices && devices.length > 1;
-
-  const form = useForm({
+  const websocket = useContext(WebSocketContext);
+  const form = usePaletteForm({
     mode: 'uncontrolled',
-    name: 'edit-palette',
-    initialValues: multiple
-      ? EMPTY_PALETTE
-      : Object.fromEntries(Object.entries(devices?.[0]?.palette ?? EMPTY_PALETTE)),
+    name: 'edit-palette-form',
+    initialValues: {
+      '0-color': devices[0].palette[0],
+      '1-color': devices[0].palette[1],
+      '2-color': devices[0].palette[2],
+      '3-color': devices[0].palette[3],
+      '4-color': devices[0].palette[4],
+      '5-color': devices[0].palette[5],
+      '6-color': devices[0].palette[6],
+      '7-color': devices[0].palette[7],
+      '8-color': devices[0].palette[8],
+    },
   });
-
-  if (!devices || !devices.length) {
-    return null;
-  }
 
   const handleSubmit = (values: typeof form.values) => {
     const data = {
-      mqtt_id: multiple ? devices.map((device) => device.mqtt_id) : devices[0].mqtt_id,
-      value: Object.keys(values).map((i: string) => (values as IndexableObj)[i]),
+      mqtt_id: devices.map(({ mqtt_id }) => mqtt_id),
       name: 'palette',
       device_type_name: 'neo_pixel',
+      value: Object.values(values),
     };
     if (websocket) {
       websocket.send(JSON.stringify(data));
-    } else {
-      postUpdate(data);
+    // } else {
+    //   postUpdate(data);
     }
     close();
   };
 
   return (
-    <>
-      <Modal
-        opened
-        onClose={close}
-        title={multiple ? 'multiple' : devices[0].name}
-        withCloseButton={false}
-        centered
-        className={cx(classes['palette-modal'])}
-        data-testid="palette-modal"
-      >
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+    <Modal
+      opened
+      onClose={close}
+      title={multiple ? 'multiple' : devices[0]?.name}
+      withCloseButton={false}
+      centered
+      className={cx(classes['palette-modal'])}
+      data-testid="palette-modal"
+    >
+      <PaletteFormProvider form={form}>
+        <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <FocusTrap.InitialFocus />
-          <div className={cx(classes['palette-modal-content'])}>
-            {Array.from({ length: multiple ? 9 : devices[0].palette.length }).map((_, i) => (
-              <input
-                type="color"
-                {...form.getInputProps(i.toString())}
-                key={form.key(i.toString())}
-                data-index={i}
-                data-testid={i}
-              />
-            ))}
-          </div>
-          <PalettePresets presets={presetOptions} />
+          <PaletteDisplay />
+          <Space h="md" />
+          <PalettePresets />
+          <Space h="md" />
           <Group className={cx(classes['modal-button-group'])}>
             <Button type="submit" data-testid="submit">
               Submit
@@ -84,8 +76,8 @@ const PaletteModal = ({ devices, close, presetOptions }: PaletteModalProps) => {
             </Button>
           </Group>
         </form>
-      </Modal>
-    </>
+      </PaletteFormProvider>
+    </Modal>
   );
 };
 
