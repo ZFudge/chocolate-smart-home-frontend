@@ -1,12 +1,13 @@
 import { useContext } from 'react';
 import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
+import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
-import { NeoPixelObject } from '../interfaces';
-import PalettePresets from './PalettePresets';
-import classes from './PaletteModal.module.css';
+import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
 import PaletteDisplay from './PaletteDisplay';
 import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
+import PalettePresets from './presets/PalettePresets';
+import classes from './PaletteModal.module.css';
 
 interface PaletteModalProps {
   devices: NeoPixelObject[];
@@ -19,17 +20,13 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   const form = usePaletteForm({
     mode: 'uncontrolled',
     name: 'edit-palette-form',
-    initialValues: {
-      '0-color': devices[0].palette[0],
-      '1-color': devices[0].palette[1],
-      '2-color': devices[0].palette[2],
-      '3-color': devices[0].palette[3],
-      '4-color': devices[0].palette[4],
-      '5-color': devices[0].palette[5],
-      '6-color': devices[0].palette[6],
-      '7-color': devices[0].palette[7],
-      '8-color': devices[0].palette[8],
-    },
+    initialValues: devices[0].palette.reduce(
+      (acc, color, i) => ({
+        ...acc,
+        [`${i}-color`]: color,
+      }),
+      {} as PaletteFormValuesType
+    ),
   });
 
   const handleSubmit = (values: typeof form.values) => {
@@ -39,10 +36,10 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
       device_type_name: 'neo_pixel',
       value: Object.values(values),
     };
-    if (websocket) {
+    if (websocket?.readyState === 1) {
       websocket.send(JSON.stringify(data));
-    // } else {
-    //   postUpdate(data);
+    } else {
+      postUpdate(data);
     }
     close();
   };

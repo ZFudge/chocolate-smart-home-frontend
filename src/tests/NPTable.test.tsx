@@ -5,6 +5,9 @@ import NPTable from '@/components/NeoPixels/Table/NPTable';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
+vi.mock('@/components/NeoPixels/PaletteModal/presets/utils', () => ({
+  getPresets: vi.fn(),
+}));
 
 describe('NPTable component', () => {
   afterEach(vi.clearAllMocks);

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 import PaletteModal from '@/components/NeoPixels/PaletteModal';
-import { palettePresetsMockData } from '@/tests/placeholder-data';
 
 const device: NeoPixelObject = {
   mqtt_id: 1,
@@ -46,7 +45,6 @@ type Story = StoryObj<typeof PaletteModal>;
 export const PaletteModalStory: Story = {
   args: {
     devices: [device],
-    presetOptions: palettePresetsMockData,
     close: fn(),
   },
 };

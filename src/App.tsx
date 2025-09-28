@@ -6,6 +6,7 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
+import SyncDeviceDataButton from './components/SyncDeviceDataButton';
 import TagsButton from './components/Tags/TagsButton';
 import ThemeToggle from './components/ToggleTheme';
 import Navbar from './Navbar';
@@ -67,6 +68,7 @@ const App = () => {
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             {/* <img src={logo} width={30} height={30} alt="logo" /> */}
             <Flex gap="md">
+              <SyncDeviceDataButton />
               <TagsButton />
               <ThemeToggle />
             </Flex>
