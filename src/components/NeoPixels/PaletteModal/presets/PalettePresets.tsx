@@ -5,7 +5,7 @@ import { PaletteFormValuesType, PalettePresetData } from '../../interfaces';
 import { usePaletteFormContext } from '../PaletteForm';
 import PalettePresetOption from './PalettePresetOption';
 import { getPresets } from './utils';
-import classes from '../../NeoPixel.module.css';
+import classes from '../PaletteModal.module.css';
 
 export default function PalettePresets() {
   const [presets, setPresets] = useState<PalettePresetData[]>([]);
@@ -52,8 +52,8 @@ export default function PalettePresets() {
         label: preset.name,
       }))}
       renderOption={PalettePresetOption}
-      className={cx(classes['palette-preset-select'])}
       onChange={handleSelect}
+      className={cx(classes['palette-preset-select'])}
       data-testid="palette-preset-select"
     />
   );

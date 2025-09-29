@@ -14,10 +14,6 @@
   user-select: none;
 }
 
-.modal-button-group {
-  justify-content: center;
-}
-
 input[type="color"]::-webkit-color-swatch {
   border: none;
 }
@@ -35,4 +31,31 @@ input[type="color" i]:hover {
 
 input::-webkit-color-swatch {
   border: none;
+}
+
+.palette-preset-select-option {
+  display: flex;
+  width: 100%;
+
+  & > .palette-preset-label {
+    width: 40%;
+    margin-right: 0.25em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & > .palette-kebab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+
+    & > span {
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      margin: 0 0.125em;
+    }
+  }
 }

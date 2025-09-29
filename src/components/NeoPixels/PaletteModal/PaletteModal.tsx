@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
+import appClasses from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
@@ -61,7 +62,7 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
           <Space h="md" />
           <PalettePresets />
           <Space h="md" />
-          <Group className={cx(classes['modal-button-group'])}>
+          <Group className={cx(appClasses['modal-button-group'])}>
             <Button type="submit" data-testid="submit">
               Submit
             </Button>

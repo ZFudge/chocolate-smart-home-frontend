@@ -22,35 +22,3 @@
 .number-slider {
   margin: 1em 0;
 }
-
-.palette-preset-select {
-  width: 21em;
-  margin: auto;
-}
-
-.palette-preset-select-option {
-  display: flex;
-  width: 21em;
-
-  & > .palette-preset-label {
-    width: 50%;
-    margin-right: 0.25em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  & > .palette-kebab {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-
-    & > span {
-      width: 1em;
-      height: 1em;
-      border-radius: 50%;
-      margin: 0 0.125em;
-    }
-  }
-}
