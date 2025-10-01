@@ -5,10 +5,12 @@ import appClasses from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
+import Header from './Header';
 import PaletteDisplay from './PaletteDisplay';
 import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 import PalettePresets from './presets/PalettePresets';
 import classes from './PaletteModal.module.css';
+import SavePalette from './SavePalette';
 
 interface PaletteModalProps {
   devices: NeoPixelObject[];
@@ -46,16 +48,16 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   };
 
   return (
-    <Modal
-      opened
-      onClose={close}
-      title={multiple ? 'multiple' : devices[0]?.name}
-      withCloseButton={false}
-      centered
-      className={cx(classes['palette-modal'])}
-      data-testid="palette-modal"
-    >
-      <PaletteFormProvider form={form}>
+    <PaletteFormProvider form={form}>
+      <Modal
+        opened
+        onClose={close}
+        title={<Header title={multiple ? 'multiple' : devices[0]?.name} />}
+        withCloseButton={false}
+        centered
+        className={cx(classes['palette-modal'])}
+        data-testid="palette-modal"
+      >
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <FocusTrap.InitialFocus />
           <PaletteDisplay />
@@ -72,10 +74,11 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
             <Button variant="default" onClick={close} data-testid="close">
               Cancel
             </Button>
+            <SavePalette />
           </Group>
         </form>
-      </PaletteFormProvider>
-    </Modal>
+      </Modal>
+    </PaletteFormProvider>
   );
 };
 

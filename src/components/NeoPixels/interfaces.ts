@@ -42,7 +42,7 @@ export interface PalettePreset {
 
 export interface PalettePresetData {
   id: number;
-  colors: string[];
+  palette: string[];
   name: string;
 }
 

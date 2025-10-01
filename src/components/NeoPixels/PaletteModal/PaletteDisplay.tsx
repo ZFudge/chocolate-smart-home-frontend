@@ -15,6 +15,7 @@ const PaletteDisplay = () => {
           key={form.key(`${i.toString()}-color`)}
           {...form.getInputProps(`${i.toString()}-color`)}
           swatches={SWATCHES}
+          closeOnColorSwatchClick
         />
       ))}
     </>
