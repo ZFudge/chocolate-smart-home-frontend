@@ -1,6 +1,6 @@
 import cx from 'clsx';
 import ColorsKebab from './ColorsKebab';
-import classes from '../../NeoPixel.module.css';
+import classes from '../PaletteModal.module.css';
 
 const PalettePresetOption = ({ option }: { option: { label: string; value: string } }) => {
   const { label, value } = option;

@@ -5,7 +5,7 @@ import { PaletteFormValuesType, PalettePresetData } from '../../interfaces';
 import { usePaletteFormContext } from '../PaletteForm';
 import PalettePresetOption from './PalettePresetOption';
 import { getPresets } from './utils';
-import classes from '../../NeoPixel.module.css';
+import classes from '../PaletteModal.module.css';
 
 export default function PalettePresets() {
   const [presets, setPresets] = useState<PalettePresetData[]>([]);
@@ -36,8 +36,8 @@ export default function PalettePresets() {
   const formValues = Object.values(form.getValues());
   let defaultValue: string | undefined;
   for (const preset of presets) {
-    if (preset.colors.toString() === formValues.toString()) {
-      defaultValue = preset.colors.toString();
+    if (preset.palette.toString() === formValues.toString()) {
+      defaultValue = preset.palette.toString();
       break;
     }
   }
@@ -47,13 +47,13 @@ export default function PalettePresets() {
       label="Palette Presets"
       placeholder="Select Palette Preset"
       defaultValue={defaultValue}
-      data={presets?.map((preset: { name: string; colors: string[] }) => ({
-        value: preset.colors.toString(),
+      data={presets?.map((preset: { name: string; palette: string[] }) => ({
+        value: preset.palette.toString(),
         label: preset.name,
       }))}
       renderOption={PalettePresetOption}
-      className={cx(classes['palette-preset-select'])}
       onChange={handleSelect}
+      className={cx(classes['palette-preset-select'])}
       data-testid="palette-preset-select"
     />
   );

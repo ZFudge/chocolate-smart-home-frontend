@@ -1,5 +1,5 @@
 import cx from 'clsx';
-import classes from '../../NeoPixel.module.css';
+import classes from '../PaletteModal.module.css';
 
 const ColorsKebab = ({ label, palette }: { label: string; palette: string[] }) => {
   return (

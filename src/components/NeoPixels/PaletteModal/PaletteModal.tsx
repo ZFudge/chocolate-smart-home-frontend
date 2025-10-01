@@ -1,12 +1,15 @@
 import { useContext } from 'react';
 import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
+import appClasses from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
+import Header from './Header';
 import PaletteDisplay from './PaletteDisplay';
 import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 import PalettePresets from './presets/PalettePresets';
+import SavePalette from './SavePalette';
 import classes from './PaletteModal.module.css';
 
 interface PaletteModalProps {
@@ -45,23 +48,23 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   };
 
   return (
-    <Modal
-      opened
-      onClose={close}
-      title={multiple ? 'multiple' : devices[0]?.name}
-      withCloseButton={false}
-      centered
-      className={cx(classes['palette-modal'])}
-      data-testid="palette-modal"
-    >
-      <PaletteFormProvider form={form}>
+    <PaletteFormProvider form={form}>
+      <Modal
+        opened
+        onClose={close}
+        title={<Header title={multiple ? 'multiple' : devices[0]?.name} />}
+        withCloseButton={false}
+        centered
+        className={cx(classes['palette-modal'])}
+        data-testid="palette-modal"
+      >
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <FocusTrap.InitialFocus />
           <PaletteDisplay />
           <Space h="md" />
           <PalettePresets />
           <Space h="md" />
-          <Group className={cx(classes['modal-button-group'])}>
+          <Group className={cx(appClasses['modal-button-group'])}>
             <Button type="submit" data-testid="submit">
               Submit
             </Button>
@@ -71,10 +74,11 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
             <Button variant="default" onClick={close} data-testid="close">
               Cancel
             </Button>
+            <SavePalette />
           </Group>
         </form>
-      </PaletteFormProvider>
-    </Modal>
+      </Modal>
+    </PaletteFormProvider>
   );
 };
 
