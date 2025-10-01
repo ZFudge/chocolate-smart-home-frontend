@@ -9,8 +9,8 @@ import Header from './Header';
 import PaletteDisplay from './PaletteDisplay';
 import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 import PalettePresets from './presets/PalettePresets';
-import classes from './PaletteModal.module.css';
 import SavePalette from './SavePalette';
+import classes from './PaletteModal.module.css';
 
 interface PaletteModalProps {
   devices: NeoPixelObject[];

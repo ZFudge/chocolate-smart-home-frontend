@@ -1,9 +1,10 @@
-import { Button, Popover, Space, TextInput } from '@mantine/core';
-import { useField } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
-import { usePaletteFormContext } from './PaletteForm';
 import { FaRegSave } from 'react-icons/fa';
+import { Button, Flex, Group, Popover, Space, TextInput, Title } from '@mantine/core';
+import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import Palette3x3 from '../Palette3x3';
+import { usePaletteFormContext } from './PaletteForm';
 
 const SavePalette = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -25,12 +26,13 @@ const SavePalette = () => {
         name: nameField.getValue(),
         palette: Object.values(form.getValues()),
       }),
-    }).then((resp) => {
+    }).then(async (resp) => {
       if (!resp.ok) {
-        console.error(resp.statusText);
+        const data = await resp.json();
+        console.error(resp.statusText, data);
         notifications.show({
-          title: 'Error',
-          message: 'Failed to save palette preset',
+          title: 'Failed to save palette preset',
+          message: data.detail,
           color: 'red',
         });
         return [];
@@ -45,16 +47,29 @@ const SavePalette = () => {
   };
 
   return (
-    <Popover opened={opened}>
+    <Popover opened={opened} position="top">
       <Popover.Target>
         <Button data-testid="save" onClick={open}>
-          <FaRegSave/>
+          <FaRegSave />
         </Button>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <TextInput {...nameField.getInputProps()} />
+        <Flex gap="lg" align="center">
+          <Title order={5}>Save New Palette</Title>
+          <Palette3x3
+            palette={Object.values(form.getValues()) as string[]}
+            mqttIdLabel="selected"
+          />
+        </Flex>
         <Space h="md" />
-        <Button onClick={handleSavePalettePreset}>Save</Button>
+        <TextInput label="Palette Name" {...nameField.getInputProps()} />
+        <Space h="md" />
+        <Group justify="space-between">
+          <Button onClick={handleSavePalettePreset}>Save</Button>
+          <Button variant="default" onClick={close}>
+            Cancel
+          </Button>
+        </Group>
       </Popover.Dropdown>
     </Popover>
   );
