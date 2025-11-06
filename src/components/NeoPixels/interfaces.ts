@@ -1,4 +1,4 @@
-import { Tag } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 
 export type PresetFormValuesType = [
   string,
@@ -12,18 +12,11 @@ export type PresetFormValuesType = [
   string,
 ];
 
-export interface NeoPixelObject {
-  mqtt_id: number;
-  name: string;
-  remote_name?: string;
-  device_type_name: string;
-  tags?: Tag[];
+export interface NeoPixelObject extends DeviceObject {
   palette: PresetFormValuesType;
   ms: number;
   brightness: number;
   on: boolean;
-  online: boolean;
-  last_seen: string | null;
   twinkle: boolean;
   transform: boolean;
   white?: boolean;

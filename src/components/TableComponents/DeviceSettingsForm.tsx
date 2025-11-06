@@ -1,9 +1,9 @@
 import { Button, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { Device } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 
-const DeviceSettingsForm = ({ device, close }: { device: Device; close: () => void }) => {
+const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
   const form = useForm({
     name: 'device-settings-form',
     mode: 'uncontrolled',

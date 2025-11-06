@@ -2,10 +2,10 @@ import { IoSettingsSharp } from 'react-icons/io5';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
-import { Device } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import DeviceSettingsForm from './DeviceSettingsForm';
 
-const DeviceSettings = ({ device }: { device: Device }) => {
+const DeviceSettings = ({ device }: { device: DeviceObject }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
   return (

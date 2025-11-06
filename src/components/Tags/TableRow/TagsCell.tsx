@@ -4,11 +4,11 @@ import { useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import DeviceTagsForm from '@/components/Tags/TableRow/DeviceTagsForm';
 import TooltipWrapper from '@/components/TooltipWrapper';
-import { Device, TagMapping } from '@/interfaces';
+import { DeviceObject, TagMapping } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
 
 interface TagsProps {
-  device: Device;
+  device: DeviceObject;
 }
 
 const TagsCell = ({ device }: TagsProps) => {

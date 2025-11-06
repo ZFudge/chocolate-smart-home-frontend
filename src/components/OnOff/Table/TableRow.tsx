@@ -1,14 +1,13 @@
 import cx from 'clsx';
 import { FaPowerOff } from 'react-icons/fa';
-import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { Checkbox, Table } from '@mantine/core';
-import { TagsCell, ToggleButton, TooltipWrapper } from '@/components';
+import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
-import { Device } from '@/interfaces';
+import LastSeen from '@/components/TableComponents/LastSeen';
+import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
-import appClasses from '../../../App.module.css';
 import classes from '../OnOff.module.css';
 
 interface TableRowProps {
@@ -18,8 +17,6 @@ interface TableRowProps {
 }
 
 const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
-  const Icon = device.online ? HiStatusOnline : HiStatusOffline;
-
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -33,21 +30,16 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceSettings device={device as unknown as Device} />
+        <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TagsCell device={device as unknown as Device} />
+        <TagsCell device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon
-            className={appClasses['middle-center']}
-            style={{ color: device.online ? 'gray' : 'red' }}
-          />
-        </TooltipWrapper>
+        <LastSeen device={device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceName device={device as unknown as Device} />
+        <DeviceName device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
@@ -58,7 +50,6 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
           Icon={FaPowerOff}
         />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>sched</Table.Td>
     </Table.Tr>
   );
 };

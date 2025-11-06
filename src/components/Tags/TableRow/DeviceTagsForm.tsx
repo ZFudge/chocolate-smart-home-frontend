@@ -2,10 +2,10 @@ import { HiTag } from 'react-icons/hi';
 import { Button, Flex, MultiSelect, Space, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { Device } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
 
-const DeviceTagsForm = ({ device, close }: { device: Device; close: () => void }) => {
+const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
   const { tags } = useTagsStore();
   const currentTagIds = device.tags?.map((tag) => tag.id) || [];
 
