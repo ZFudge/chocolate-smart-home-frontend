@@ -5,7 +5,7 @@ import { Checkbox, Table } from '@mantine/core';
 import { TagsCell, ToggleButton, TooltipWrapper } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
-import { Device } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import appClasses from '../../../App.module.css';
@@ -33,10 +33,10 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceSettings device={device as unknown as Device} />
+        <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TagsCell device={device as unknown as Device} />
+        <TagsCell device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
@@ -47,7 +47,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceName device={device as unknown as Device} />
+        <DeviceName device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
@@ -58,7 +58,6 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
           Icon={FaPowerOff}
         />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>sched</Table.Td>
     </Table.Tr>
   );
 };

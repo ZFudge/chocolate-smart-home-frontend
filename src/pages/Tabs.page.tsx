@@ -1,8 +1,10 @@
 import classes from './Tabs.module.scss';
-import { FaLightbulb, FaPowerOff } from 'react-icons/fa';
+import { FaLightbulb, FaMicrochip, FaPowerOff } from 'react-icons/fa';
 import { Tabs } from '@mantine/core';
+import { LEONARDO } from '../components/Leonardo/constants';
 import { NEO_PIXEL } from '../components/NeoPixels/constants';
 import { ON_OFF } from '../components/OnOff/constants';
+import LeonardoPage from '../pages/Leonardo.page';
 import NeoPixelsPage from '../pages/NeoPixels.page';
 import OnOffPage from '../pages/OnOff.page';
 
@@ -16,6 +18,9 @@ function TabsPage() {
         <Tabs.Tab value={ON_OFF} leftSection={<FaPowerOff size={15} />}>
           On/Off
         </Tabs.Tab>
+        <Tabs.Tab value={LEONARDO} leftSection={<FaMicrochip size={15} />}>
+          Leonardo
+        </Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value={NEO_PIXEL}>
@@ -24,6 +29,10 @@ function TabsPage() {
 
       <Tabs.Panel value={ON_OFF}>
         <OnOffPage />
+      </Tabs.Panel>
+
+      <Tabs.Panel value={LEONARDO}>
+        <LeonardoPage />
       </Tabs.Panel>
     </Tabs>
   );

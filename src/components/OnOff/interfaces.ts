@@ -1,14 +1,7 @@
-import { Tag } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 
-export interface OnOffObject {
-  mqtt_id: number;
-  name: string;
-  remote_name?: string;
-  device_type_name: string;
-  online: boolean;
-  last_seen: string | null;
+export interface OnOffObject extends DeviceObject {
   on: boolean;
-  tags?: Tag[];
 }
 
 export interface IndexableObj {

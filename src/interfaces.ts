@@ -1,5 +1,4 @@
-import { NeoPixelObject } from './components/NeoPixels/interfaces';
-import { OnOffObject } from './components/OnOff/interfaces';
+import { DeviceObjectTypes } from './types';
 
 export interface Tag {
   id: number;
@@ -10,19 +9,8 @@ export interface TagMapping {
   [key: string]: Tag;
 }
 
-export interface DeviceMapping {
-  [key: number]: Devices;
-}
-
 export interface DeviceIdsByTagId {
   [key: number]: number[];
-}
-
-export interface Device {
-  mqtt_id: number;
-  remote_name: string;
-  name: string;
-  tags?: Tag[];
 }
 
 export interface DeviceType {
@@ -30,7 +18,7 @@ export interface DeviceType {
   name: string;
 }
 
-export interface DeviceObjectNoType {
+export interface DeviceObject {
   device_type: DeviceType;
   id: number;
   last_seen: string | null;
@@ -42,10 +30,6 @@ export interface DeviceObjectNoType {
   tags?: Tag[];
 }
 
-export interface DeviceObjectMapping {
-  [key: number]: DeviceObject;
+export interface DeviceMapping {
+  [key: number]: DeviceObjectTypes;
 }
-
-export type Devices = DeviceObject | NeoPixelObject | OnOffObject;
-
-export type DeviceObject = DeviceObjectNoType | NeoPixelObject | OnOffObject;

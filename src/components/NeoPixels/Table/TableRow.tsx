@@ -8,7 +8,7 @@ import { Checkbox, Table } from '@mantine/core';
 import { TagsCell, ToggleButton, TooltipWrapper } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
-import { Device } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
@@ -40,10 +40,10 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceSettings device={device as unknown as Device} />
+        <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TagsCell device={device as unknown as Device} />
+        <TagsCell device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <TooltipWrapper label={`last seen ${device.last_seen}`}>
@@ -54,7 +54,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         </TooltipWrapper>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceName device={device as unknown as Device} />
+        <DeviceName device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton

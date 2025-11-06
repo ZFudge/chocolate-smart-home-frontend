@@ -1,0 +1,16 @@
+.rowSelected {
+  background-color: var(--mantine-color-blue-light);
+}
+
+.flexTable {
+  justify-content: center;
+  user-select: none;
+}
+
+.mantine-Table-table {
+  width: auto;
+}
+
+.slider-button-group {
+  justify-content: center;
+}

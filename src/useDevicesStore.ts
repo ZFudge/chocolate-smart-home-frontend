@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
-import { DeviceMapping, DeviceObject } from './interfaces';
+import { DeviceMapping } from './interfaces';
+import { DeviceObjectTypes } from './types';
 
 const useDevicesStore = create(
   combine(
@@ -9,7 +10,7 @@ const useDevicesStore = create(
     },
     (set) => {
       return {
-        addDeviceData: (newDevice: DeviceObject) => {
+        addDeviceData: (newDevice: DeviceObjectTypes) => {
           set((state) => ({
             devices: {
               ...state.devices,
