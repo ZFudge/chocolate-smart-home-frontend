@@ -2,10 +2,9 @@ import cx from 'clsx';
 import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import { TagsCell, ToggleButton, TooltipWrapper } from '@/components';
+import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
 import { DeviceObject } from '@/interfaces';
@@ -14,8 +13,8 @@ import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
-import appClasses from '../../../App.module.css';
 import classes from '../NeoPixel.module.css';
+import LastSeen from '@/components/TableComponents/LastSeen';
 
 interface TableRowProps {
   device: NeoPixelObject;
@@ -25,8 +24,6 @@ interface TableRowProps {
 }
 
 const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowProps) => {
-  const Icon = device.online ? HiStatusOnline : HiStatusOffline;
-
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
@@ -46,12 +43,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         <TagsCell device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TooltipWrapper label={`last seen ${device.last_seen}`}>
-          <Icon
-            className={appClasses['middle-center']}
-            style={{ color: device.online ? 'gray' : 'red' }}
-          />
-        </TooltipWrapper>
+        <LastSeen device={device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <DeviceName device={device as unknown as DeviceObject} />

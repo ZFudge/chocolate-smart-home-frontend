@@ -13,9 +13,8 @@ export interface DeviceIdsByTagId {
   [key: number]: number[];
 }
 
-export interface DeviceType {
-  id: number;
-  name: string;
+export interface DeviceMapping {
+  [key: number]: DeviceObjectTypes;
 }
 
 export interface DeviceObject {
@@ -28,8 +27,4 @@ export interface DeviceObject {
   reboots?: number;
   remote_name?: string;
   tags?: Tag[];
-}
-
-export interface DeviceMapping {
-  [key: number]: DeviceObjectTypes;
 }

@@ -1,0 +1,33 @@
+.online {
+  animation-duration: 1s;
+  animation-name: fadeOnline;
+}
+
+@keyframes fadeOnline {
+  0% {
+    background-color: var(--mantine-color-white-6);
+  }
+  50% {
+    background-color: var(--mantine-color-green-6);
+  }
+  100% {
+    background-color: var(--mantine-color-white-6);
+  }
+}
+
+.offline {
+  animation-duration: 1s;
+  animation-name: fadeOffline;
+}
+
+@keyframes fadeOffline {
+  0% {
+    background-color: var(--mantine-color-white-6);
+  }
+  50% {
+    background-color: var(--mantine-color-red-6);
+  }
+  100% {
+    background-color: var(--mantine-color-white-6);
+  }
+}
