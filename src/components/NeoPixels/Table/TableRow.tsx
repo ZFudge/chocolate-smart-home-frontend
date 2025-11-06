@@ -7,6 +7,7 @@ import { Checkbox, Table } from '@mantine/core';
 import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
+import LastSeen from '@/components/TableComponents/LastSeen';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { NeoPixelObject } from '../interfaces';
@@ -14,7 +15,6 @@ import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
 import PopoverSlider from './PopoverSlider';
 import classes from '../NeoPixel.module.css';
-import LastSeen from '@/components/TableComponents/LastSeen';
 
 interface TableRowProps {
   device: NeoPixelObject;

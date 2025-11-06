@@ -1,14 +1,14 @@
-import { Button } from "@mantine/core";
-import { LeonardoCommandObject } from "../interfaces";
-import { DeviceObject } from "@/interfaces";
-import { LeonardoCommand } from "../types";
-import { getColor } from "../utils";
+import { Button } from '@mantine/core';
+import { DeviceObject } from '@/interfaces';
+import { LeonardoCommandObject } from '../interfaces';
+import { LeonardoCommand } from '../types';
+import { getColor } from '../utils';
 
 interface LeoButtonProps {
   command: LeonardoCommand;
   device: DeviceObject;
   setLeonardoCommand: (command: LeonardoCommandObject) => void;
-};
+}
 
 const LeoButton = ({ command, device, setLeonardoCommand }: LeoButtonProps) => {
   return (

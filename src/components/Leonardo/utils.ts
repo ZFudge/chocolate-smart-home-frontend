@@ -1,5 +1,5 @@
-import { LeonardoCommand } from "./types";
-import { LOCK, MOVE, TALON, UNLOCK } from "./constants";
+import { LOCK, MOVE, TALON, UNLOCK } from './constants';
+import { LeonardoCommand } from './types';
 
 export const getColor = (command: LeonardoCommand) => {
   switch (command) {

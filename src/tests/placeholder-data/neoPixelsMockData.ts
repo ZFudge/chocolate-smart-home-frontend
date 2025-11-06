@@ -2,6 +2,7 @@ import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 
 const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
   '1': {
+    id: 1,
     mqtt_id: 1,
     name: 'NeoPixel 1',
     device_type_name: 'neo_pixel',
@@ -34,6 +35,7 @@ const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
     timeout: 10,
   },
   '2': {
+    id: 2,
     mqtt_id: 2,
     name: 'NeoPixel 2',
     device_type_name: 'neo_pixel',

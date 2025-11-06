@@ -4,11 +4,11 @@ import { Checkbox, Table } from '@mantine/core';
 import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
+import LastSeen from '@/components/TableComponents/LastSeen';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
-import LastSeen from '@/components/TableComponents/LastSeen';
 
 interface TableRowProps {
   device: OnOffObject;

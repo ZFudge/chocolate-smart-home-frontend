@@ -2,10 +2,8 @@ import { Table } from '@mantine/core';
 import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
-import { DeviceObject } from '@/interfaces';
 
 interface HeaderProps {
-  devices: DeviceObject[];
   filteredTagIds: number[];
   setFilteredTagIds: (filteredTagIds: number[]) => void;
   filteredValue: string;
@@ -13,7 +11,6 @@ interface HeaderProps {
 }
 
 const Header = ({
-  devices,
   filteredTagIds,
   setFilteredTagIds,
   filteredValue,

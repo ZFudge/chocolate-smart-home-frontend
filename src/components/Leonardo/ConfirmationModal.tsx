@@ -1,22 +1,34 @@
-import { useContext } from "react";
-import WebSocketContext from "@/WebsocketContext";
-import { DeviceObject } from "@/interfaces";
-import { PostData, postUpdate } from "@/lib/api";
-import { Badge, Button, Flex, FocusTrap, Group, Modal, Space, Text } from "@mantine/core";
-import { LeonardoCommand } from "./types";
-import { getColor } from "./utils";
+import { useContext } from 'react';
+import { Badge, Button, Flex, FocusTrap, Group, Modal, Space, Text } from '@mantine/core';
+import { DeviceObject } from '@/interfaces';
+import { PostData, postUpdate } from '@/lib/api';
+import WebSocketContext from '@/WebsocketContext';
+import { LeonardoCommand } from './types';
+import { getColor } from './utils';
 
-const Title = ({ command, device }: { command: LeonardoCommand | undefined, device: DeviceObject | undefined }) => {
-  if (!command || !device) return null;
+const Title = ({
+  command,
+  device,
+}: {
+  command: LeonardoCommand | undefined;
+  device: DeviceObject | undefined;
+}) => {
+  if (!command || !device) {
+    return null;
+  }
   return (
     <Flex>
       <Text ta="center">Confirm</Text>
       <Space w="md" />
-      <Badge color={getColor(command)} size="lg">{command}</Badge>
+      <Badge color={getColor(command)} size="lg">
+        {command}
+      </Badge>
       <Space w="md" />
-      <Text ta="center" >for</Text>
+      <Text ta="center">for</Text>
       <Space w="md" />
-      <Text ta="center" fw={700}>{device?.name}</Text>
+      <Text ta="center" fw={700}>
+        {device?.name}
+      </Text>
     </Flex>
   );
 };
@@ -32,10 +44,12 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
   const websocket = useContext(WebSocketContext);
   console.log(device);
   const handleSubmit = () => {
-    if (!device?.mqtt_id) return;
+    if (!device?.mqtt_id) {
+      return;
+    }
     const data: PostData = {
       mqtt_id: device.mqtt_id,
-      name: "command",
+      name: 'command',
       device_type_name: device.device_type_name,
       value: command as LeonardoCommand,
     };

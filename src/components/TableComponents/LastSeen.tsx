@@ -1,8 +1,8 @@
-import { TooltipWrapper } from "..";
-import { DeviceObject } from "@/interfaces";
-import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
-import appClasses from "../../App.module.css";
-import classes from "./Table.module.css";
+import { TooltipWrapper } from '..';
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
+import { DeviceObject } from '@/interfaces';
+import appClasses from '../../App.module.css';
+import classes from './Table.module.css';
 
 interface LastSeenProps {
   device: DeviceObject;
@@ -11,10 +11,9 @@ interface LastSeenProps {
 const LastSeen = ({ device }: LastSeenProps) => {
   const Icon = device.online ? HiStatusOnline : HiStatusOffline;
   const colorClass = device.online ? 'online' : 'offline';
-  console.log(colorClass);
   return (
     <TooltipWrapper
-      key={`last-seen-${device.mqtt_id}-${device.last_seen}`} 
+      key={`last-seen-${device.mqtt_id}-${device.last_seen}`}
       label={`last seen ${device.last_seen}`}
     >
       <Icon

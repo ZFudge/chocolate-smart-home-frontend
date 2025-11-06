@@ -1,5 +1,5 @@
-import { DeviceObject } from "@/interfaces";
-import { LeonardoCommand } from "./types";
+import { DeviceObject } from '@/interfaces';
+import { LeonardoCommand } from './types';
 
 export interface LeonardoCommandObject {
   command: LeonardoCommand;

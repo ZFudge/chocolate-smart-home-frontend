@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
+import { DeviceObject } from '@/interfaces';
 import { getFilteredDeviceIds } from '@/lib/utils';
 import useTagsStore from '@/useTagsStore';
-import { DeviceObject } from '@/interfaces';
+import ConfirmationModal from '../ConfirmationModal';
+import { LeonardoCommand } from '../types';
 import Header from './Header';
 import TableRow from './TableRow';
 import classes from '../Leonardo.module.css';
-import { LeonardoCommand } from '../types';
-import ConfirmationModal from '../ConfirmationModal';
 
 interface LeonardoCommandObject {
   command: LeonardoCommand;
@@ -20,8 +20,10 @@ interface LeonardoTableProps {
 }
 
 const filterByValue = (filteredValue: string, device: DeviceObject) => {
-  return !filteredValue || (
-    device.name.includes(filteredValue) || Number(device.reboots).toString().includes(filteredValue)
+  return (
+    !filteredValue ||
+    device.name.includes(filteredValue) ||
+    Number(device.reboots).toString().includes(filteredValue)
   );
 };
 
@@ -40,7 +42,6 @@ const LeonardoTable = ({ devices }: LeonardoTableProps) => {
           <Table withTableBorder className={classes['mantine-Table-table']}>
             <Table.Thead>
               <Header
-                devices={devices}
                 filteredTagIds={filteredTagIds}
                 setFilteredTagIds={setFilteredTagIds}
                 filteredValue={filteredValue}
