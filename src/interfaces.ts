@@ -19,7 +19,7 @@ export interface DeviceType {
 }
 
 export interface DeviceObject {
-  device_type: DeviceType;
+  device_type_name: string;
   id: number;
   last_seen: string | null;
   mqtt_id: number;

@@ -1,7 +1,9 @@
-import { Badge, Button, Flex, FocusTrap, Modal, Space, Stack, Text } from "@mantine/core";
-import { Group } from "@mantine/core";
-import { LeonardoCommand } from "./types";
+import { useContext } from "react";
+import WebSocketContext from "@/WebsocketContext";
 import { DeviceObject } from "@/interfaces";
+import { PostData, postUpdate } from "@/lib/api";
+import { Badge, Button, Flex, FocusTrap, Group, Modal, Space, Text } from "@mantine/core";
+import { LeonardoCommand } from "./types";
 import { getColor } from "./utils";
 
 const Title = ({ command, device }: { command: LeonardoCommand | undefined, device: DeviceObject | undefined }) => {
@@ -27,8 +29,22 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationModalProps) => {
+  const websocket = useContext(WebSocketContext);
+  console.log(device);
   const handleSubmit = () => {
-    console.log(`Sending "${command}" to "${device?.name}"`);
+    if (!device?.mqtt_id) return;
+    const data: PostData = {
+      mqtt_id: device.mqtt_id,
+      name: "command",
+      device_type_name: device.device_type_name,
+      value: command as LeonardoCommand,
+    };
+
+    if (websocket) {
+      websocket.send(JSON.stringify(data));
+    } else {
+      postUpdate(data);
+    }
     onClose();
   };
 
@@ -39,7 +55,6 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
       title={<Title command={command} device={device} />}
       withCloseButton={false}
       centered
-      // className={cx(classes['confirmation-modal'])}
       data-testid="confirmation-modal"
     >
       <FocusTrap.InitialFocus />

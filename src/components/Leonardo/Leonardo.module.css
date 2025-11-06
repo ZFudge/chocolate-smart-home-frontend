@@ -14,3 +14,7 @@
 .slider-button-group {
   justify-content: center;
 }
+
+.tableButtonCell {
+  min-width: 7em;
+}

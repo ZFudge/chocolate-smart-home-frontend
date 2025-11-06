@@ -22,6 +22,9 @@ const TableRow = ({ device, setLeonardoCommand }: TableRowProps) => {
   return (
     <Table.Tr
       data-testid={`${device.mqtt_id}-tr`}
+      style={{
+        minHeight: '5em',
+      }}
     >
       <Table.Td className={classes.tableCell}>
         <DeviceSettings device={device} />
@@ -37,19 +40,21 @@ const TableRow = ({ device, setLeonardoCommand }: TableRowProps) => {
           />
         </TooltipWrapper>
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td className={classes.tableCell}
+        style={{ maxWidth: '10em', }}
+      >
         <DeviceName device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td className={classes.tableButtonCell}>
         <LeoButton command={MOVE} device={device} setLeonardoCommand={setLeonardoCommand} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td className={classes.tableButtonCell}>
         <LeoButton command={LOCK} device={device} setLeonardoCommand={setLeonardoCommand} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td className={classes.tableButtonCell}>
         <LeoButton command={UNLOCK} device={device} setLeonardoCommand={setLeonardoCommand} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td className={classes.tableButtonCell}>
         <LeoButton command={TALON} device={device} setLeonardoCommand={setLeonardoCommand} />
       </Table.Td>
     </Table.Tr>

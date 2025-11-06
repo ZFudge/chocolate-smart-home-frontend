@@ -31,6 +31,10 @@ const Header = ({
         <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
       </Table.Th>
       <Table.Th key="device-names-header">Leonardo Devices</Table.Th>
+      <Table.Th />
+      <Table.Th />
+      <Table.Th />
+      <Table.Th />
     </Table.Tr>
   );
 };
