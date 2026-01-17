@@ -11,10 +11,19 @@ const useDevicesStore = create(
     (set) => {
       return {
         addDeviceData: (newDevice: DeviceObjectTypes) => {
+          const addedDevices: DeviceMapping = {};
+          if (Array.isArray(newDevice)) {
+            newDevice.forEach((device) => {
+              addedDevices[device.mqtt_id] = device;
+            });
+          }
+          else {
+            addedDevices[newDevice.mqtt_id] = newDevice;
+          }
           set((state) => ({
             devices: {
               ...state.devices,
-              [newDevice.mqtt_id]: newDevice,
+              ...addedDevices,
             },
           }));
         },
