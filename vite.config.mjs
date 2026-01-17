@@ -9,7 +9,12 @@ export default defineConfig({
         target: 'http://csm-backend-dev:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-      }
+      },
+      '/ws': {
+        target: 'ws://csm-ws-service:8050',
+        changeOrigin: true,
+        ws: true,
+      },
     }
   },
   plugins: [react(), tsconfigPaths()],
