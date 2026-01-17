@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const RETRY_TIMEOUT = 3000;
 const RETRY_COUNT = 3;
-const WEBSOCKET_URL = "/ws";
+const WEBSOCKET_URL = '/ws';
 
 const useWebsocket = () => {
   const [websocket, setWebsocket] = useState<WebSocket | null>(null);

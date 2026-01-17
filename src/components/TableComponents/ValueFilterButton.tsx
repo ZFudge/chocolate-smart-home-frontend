@@ -39,11 +39,7 @@ const ValueFilterButton = ({
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <ValueFilter
-          filteredValue={filteredValue}
-          onChange={setFilteredValue}
-          close={close}
-        />
+        <ValueFilter filteredValue={filteredValue} onChange={setFilteredValue} close={close} />
       </Popover.Dropdown>
     </Popover>
   );

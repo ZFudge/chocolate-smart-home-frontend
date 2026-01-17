@@ -60,7 +60,9 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
       <Space h="md" />
       <Flex justify="space-between">
         <Button type="submit">Save</Button>
-        <Button onClick={close} variant="transparent">Cancel</Button>
+        <Button onClick={close} variant="transparent">
+          Cancel
+        </Button>
       </Flex>
     </form>
   );

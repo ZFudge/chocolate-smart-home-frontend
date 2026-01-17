@@ -22,7 +22,9 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProp
           <Space w="xs" />
           Filter by tag
         </span>
-        <Button onClick={close} variant="transparent">Close</Button>
+        <Button onClick={close} variant="transparent">
+          Close
+        </Button>
       </Flex>
       <Divider my="sm" />
       {tags.length ? (

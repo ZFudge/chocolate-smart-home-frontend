@@ -45,10 +45,7 @@ const App = () => {
     <MantineProvider>
       <Notifications />
       <WebSocketContext.Provider value={websocket}>
-        <AppShell
-          header={{ height: 60 }}
-          padding="md"
-        >
+        <AppShell header={{ height: 60 }} padding="md">
           <AppShell.Header
             style={{
               display: 'flex',
