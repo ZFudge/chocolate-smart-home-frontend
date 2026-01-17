@@ -8,11 +8,7 @@ interface ValueFilterProps {
   close: () => void;
 }
 
-const ValueFilter = ({
-  filteredValue,
-  onChange,
-  close,
-}: ValueFilterProps) => {
+const ValueFilter = ({ filteredValue, onChange, close }: ValueFilterProps) => {
   return (
     <>
       <span className={classes['vertically-centered']}>
@@ -28,8 +24,12 @@ const ValueFilter = ({
       />
       <Space h="md" />
       <Flex justify="space-between">
-        <Button onClick={() => onChange('')} variant="transparent">Clear</Button>
-        <Button onClick={close} variant="transparent">Close</Button>
+        <Button onClick={() => onChange('')} variant="transparent">
+          Clear
+        </Button>
+        <Button onClick={close} variant="transparent">
+          Close
+        </Button>
       </Flex>
     </>
   );

@@ -16,8 +16,7 @@ const useDevicesStore = create(
             newDevice.forEach((device) => {
               addedDevices[device.mqtt_id] = device;
             });
-          }
-          else {
+          } else {
             addedDevices[newDevice.mqtt_id] = newDevice;
           }
           set((state) => ({
