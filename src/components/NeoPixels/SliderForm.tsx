@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
-import { Button, Group, rem, Slider, Text } from '@mantine/core';
+import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
 import WebSocketContext from '@/WebsocketContext';
@@ -65,7 +65,7 @@ const SliderForm = ({
 
   return (
     <>
-      <Text size="sm">
+      <Text fw={500} size="sm">
         {name}: {value}
       </Text>
       <Slider
@@ -79,7 +79,8 @@ const SliderForm = ({
         thumbSize={26}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
       />
-      <Group className={cx(classes['slider-button-group'])}>
+      <Divider my="sm" />
+      <Flex justify="space-between" className={cx(classes['slider-button-group'])}>
         <Button
           type="submit"
           onClick={handleSubmit}
@@ -90,7 +91,7 @@ const SliderForm = ({
         <Button variant="default" onClick={close} data-testid="close">
           Cancel
         </Button>
-      </Group>
+      </Flex>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { Button, Loader, Popover } from '@mantine/core';
+import { Button, Divider, Flex, Loader, Popover, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ToggleButton } from '@/components';
 import { SplitTableCell, TooltipWrapper } from '@/components/';
@@ -81,24 +81,27 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
         </Popover.Target>
         <Popover.Dropdown ref={ref}>
           <div style={{ marginBottom: '1em' }}>
-            armed
-            {indeterminate ? (
-              <IndeterminateButton
-                selection={devices.map((d) => d.mqtt_id)}
-                settingName="armed"
-                label="armed"
-                Icon={FaPersonBurst}
-                deviceTypeName={NEO_PIXEL}
-              />
-            ) : (
-              <ToggleButton
-                devices={devices}
-                settingName="armed"
-                Icon={FaPersonBurst}
-                deviceTypeName={NEO_PIXEL}
-              />
-            )}
+            <Flex justify="flex-start" gap="md">
+              <Text fw={500}>Armed:</Text>
+              {indeterminate ? (
+                <IndeterminateButton
+                  selection={devices.map((d) => d.mqtt_id)}
+                  settingName="armed"
+                  label="armed"
+                  Icon={FaPersonBurst}
+                  deviceTypeName={NEO_PIXEL}
+                />
+              ) : (
+                <ToggleButton
+                  devices={devices}
+                  settingName="armed"
+                  Icon={FaPersonBurst}
+                  deviceTypeName={NEO_PIXEL}
+                />
+              )}
+            </Flex>
           </div>
+          <Divider my="sm" />
           <SliderForm
             devices={devices}
             name="timeout"

@@ -1,6 +1,6 @@
 import { HiTag } from 'react-icons/hi';
 import { MdOutlineFilterAlt } from 'react-icons/md';
-import { Checkbox, Divider, Space, Text } from '@mantine/core';
+import { Button, Checkbox, Divider, Flex, Space, Text } from '@mantine/core';
 import classes from '@/App.module.css';
 import { Tag } from '@/interfaces';
 import useTagsStore from '@/useTagsStore';
@@ -8,18 +8,22 @@ import useTagsStore from '@/useTagsStore';
 interface TagsFilterProps {
   filteredTagIds: number[];
   setFilteredTagIds: (filteredTagIds: number[]) => void;
+  close: () => void;
 }
 
-const TagsFilter = ({ filteredTagIds, setFilteredTagIds }: TagsFilterProps) => {
+const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProps) => {
   const { tags } = useTagsStore();
 
   return (
     <>
-      <span className={classes['vertically-centered']}>
-        <MdOutlineFilterAlt />
-        <Space w="xs" />
-        Filter by tag
-      </span>
+      <Flex justify="space-between">
+        <span className={classes['vertically-centered']}>
+          <MdOutlineFilterAlt />
+          <Space w="xs" />
+          Filter by tag
+        </span>
+        <Button onClick={close} variant="transparent">Close</Button>
+      </Flex>
       <Divider my="sm" />
       {tags.length ? (
         <>
