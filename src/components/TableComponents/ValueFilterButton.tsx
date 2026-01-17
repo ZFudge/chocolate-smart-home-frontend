@@ -1,5 +1,5 @@
 import { MdOutlineFilterAlt } from 'react-icons/md';
-import { Button, Popover } from '@mantine/core';
+import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import ValueFilter from './ValueFilter';
@@ -25,19 +25,25 @@ const ValueFilterButton = ({
       closeOnClickOutside={false}
     >
       <Popover.Target>
-        <Button
-          size="compact-xs"
-          variant="transparent"
-          style={{ padding: '0.125rem' }}
-          onClick={open}
-          className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
-          data-testid="devices-value-header-button"
-        >
-          <MdOutlineFilterAlt size={16} />
-        </Button>
+        <Tooltip label="Filter by Value">
+          <Button
+            size="compact-xs"
+            variant="transparent"
+            style={{ padding: '0.125rem' }}
+            onClick={open}
+            className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
+            data-testid="devices-value-header-button"
+          >
+            <MdOutlineFilterAlt size={16} />
+          </Button>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <ValueFilter filteredValue={filteredValue} onChange={setFilteredValue} />
+        <ValueFilter
+          filteredValue={filteredValue}
+          onChange={setFilteredValue}
+          close={close}
+        />
       </Popover.Dropdown>
     </Popover>
   );

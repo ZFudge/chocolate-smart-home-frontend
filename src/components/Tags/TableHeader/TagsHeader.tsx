@@ -1,5 +1,5 @@
 import { FaTags } from 'react-icons/fa';
-import { Button, Popover } from '@mantine/core';
+import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import TagsFilter from './TagsFilter';
@@ -24,19 +24,25 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
       closeOnClickOutside={false}
     >
       <Popover.Target>
-        <Button
-          size="compact-xs"
-          variant="transparent"
-          style={{ padding: '0.125rem' }}
-          onClick={open}
-          className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
-          data-testid="devices-tags-header-button"
-        >
-          <FaTags size={16} />
-        </Button>
+        <Tooltip label="Edit Tags">
+          <Button
+            size="compact-xs"
+            variant="transparent"
+            style={{ padding: '0.125rem' }}
+            onClick={open}
+            className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
+            data-testid="devices-tags-header-button"
+          >
+            <FaTags size={16} />
+          </Button>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <TagsFilter filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
+        <TagsFilter
+          filteredTagIds={filteredTagIds}
+          setFilteredTagIds={setFilteredTagIds}
+          close={close}
+        />
       </Popover.Dropdown>
     </Popover>
   );

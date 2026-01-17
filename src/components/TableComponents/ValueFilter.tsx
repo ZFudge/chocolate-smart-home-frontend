@@ -1,14 +1,18 @@
 import { MdOutlineFilterAlt } from 'react-icons/md';
-import { Button, Divider, Space, TextInput } from '@mantine/core';
+import { Button, Divider, Flex, Space, TextInput } from '@mantine/core';
 import classes from '@/App.module.css';
+
+interface ValueFilterProps {
+  filteredValue: string;
+  onChange: (value: string) => void;
+  close: () => void;
+}
 
 const ValueFilter = ({
   filteredValue,
   onChange,
-}: {
-  filteredValue: string;
-  onChange: (value: string) => void;
-}) => {
+  close,
+}: ValueFilterProps) => {
   return (
     <>
       <span className={classes['vertically-centered']}>
@@ -23,7 +27,10 @@ const ValueFilter = ({
         onChange={(event) => onChange(event.target.value)}
       />
       <Space h="md" />
-      <Button onClick={() => onChange('')}>Clear</Button>
+      <Flex justify="space-between">
+        <Button onClick={() => onChange('')} variant="transparent">Clear</Button>
+        <Button onClick={close} variant="transparent">Close</Button>
+      </Flex>
     </>
   );
 };

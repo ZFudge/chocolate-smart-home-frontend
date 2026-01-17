@@ -1,4 +1,4 @@
-import { Button, Space, TextInput } from '@mantine/core';
+import { Button, Flex, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
@@ -58,7 +58,10 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <TextInput label="Name" {...form.getInputProps('name')} />
       <Space h="md" />
-      <Button type="submit">Save</Button>
+      <Flex justify="space-between">
+        <Button type="submit">Save</Button>
+        <Button onClick={close} variant="transparent">Cancel</Button>
+      </Flex>
     </form>
   );
 };
