@@ -6,12 +6,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://csm-backend-dev:8000',
+        target: 'http://csm-nginx:80',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/ws': {
-        target: 'ws://csm-ws-service:8050',
+        target: 'ws://csm-nginx:80',
         changeOrigin: true,
         ws: true,
       },
