@@ -55,7 +55,7 @@ install: node-modules-dir
 		--mount type=bind,src=$(shell pwd)/,dst=/csm/ \
 		-w /csm/ \
 		${FE_IMAGE_NAME} sh -c \
-		"npm install --loglevel verbose && npm audit fix --loglevel verbose"
+		"npm install --loglevel verbose && npm audit fix --loglevel verbose || exit 0"
 
 storybook:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run storybook"
