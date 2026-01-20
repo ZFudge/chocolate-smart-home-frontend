@@ -24,14 +24,7 @@ const TagsCell = ({ device }: TagsProps) => {
 
   return (
     <TooltipWrapper label={label}>
-      <Popover
-        withArrow
-        trapFocus
-        position="bottom"
-        shadow="md"
-        width={300}
-        opened={opened}
-      >
+      <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
         <Popover.Target>
           <Button
             size="compact-xs"

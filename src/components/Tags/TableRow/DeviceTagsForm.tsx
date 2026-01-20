@@ -58,7 +58,9 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
             <Text style={{ textWrapMode: 'nowrap' }}>Edit tags:</Text>
             <Space w="lg" />
             <Flex>
-              <Text fw={500} ta="end">{device.name}</Text>
+              <Text fw={500} ta="end">
+                {device.name}
+              </Text>
             </Flex>
           </Flex>
           <Space h="md" />
