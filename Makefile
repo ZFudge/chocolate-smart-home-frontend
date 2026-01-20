@@ -50,10 +50,12 @@ node-modules-dir:
 
 .PHONY: install
 install: node-modules-dir
+	@echo "Installing node modules..."
 	@docker run --rm -it \
 		--mount type=bind,src=$(shell pwd)/,dst=/csm/ \
 		-w /csm/ \
-		${FE_IMAGE_NAME} sh -c "npm install"
+		${FE_IMAGE_NAME} sh -c \
+		"npm install --loglevel verbose && npm audit fix --loglevel verbose"
 
 storybook:
 	@docker exec -it ${DEV_CONTAINER_NAME} sh -c "npm run storybook"
