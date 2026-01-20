@@ -1,6 +1,6 @@
 import { HiOutlineTag, HiTag } from 'react-icons/hi';
 import { Button, Popover } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import DeviceTagsForm from '@/components/Tags/TableRow/DeviceTagsForm';
 import TooltipWrapper from '@/components/TooltipWrapper';
@@ -13,6 +13,7 @@ interface TagsProps {
 
 const TagsCell = ({ device }: TagsProps) => {
   const [opened, { close, open }] = useDisclosure(false);
+  const ref = useClickOutside(() => close());
   const { tags } = useTagsStore();
   const tagsById: TagMapping = tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag.name }), {});
   if (!device) {
@@ -30,7 +31,6 @@ const TagsCell = ({ device }: TagsProps) => {
         shadow="md"
         width={300}
         opened={opened}
-        closeOnClickOutside={false}
       >
         <Popover.Target>
           <Button
@@ -48,7 +48,7 @@ const TagsCell = ({ device }: TagsProps) => {
             )}
           </Button>
         </Popover.Target>
-        <Popover.Dropdown>
+        <Popover.Dropdown ref={ref}>
           <DeviceTagsForm device={device} close={close} />
         </Popover.Dropdown>
       </Popover>
