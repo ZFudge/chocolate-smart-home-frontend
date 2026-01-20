@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFoundPage from './pages/404.page';
 import LeonardoPage from './pages/Leonardo.page';
 import NeoPixelsPage from './pages/NeoPixels.page';
 import OnOffPage from './pages/OnOff.page';
 import TabsPage from './pages/Tabs.page';
-import NotFoundPage from './pages/404.page';
 
 const router = createBrowserRouter([
   {

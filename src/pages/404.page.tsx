@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Flex } from "@mantine/core";
+import { Link } from 'react-router-dom';
+import { Flex } from '@mantine/core';
 
 const NotFoundPage = () => {
   return (
