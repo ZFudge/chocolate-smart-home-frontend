@@ -1,5 +1,5 @@
 import { HiTag } from 'react-icons/hi';
-import { Button, Flex, MultiSelect, Space, Text } from '@mantine/core';
+import { Button, Container, Flex, MultiSelect, Space, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
@@ -51,21 +51,26 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
   };
 
   return (
-    <>
+    <Container p="xs">
       {tags.length ? (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+          <Flex justify="center" direction="row" gap="xs">
+            <Text style={{ textWrapMode: 'nowrap' }}>Edit tags:</Text>
+            <Space w="lg" />
+            <Flex>
+              <Text fw={500} ta="end">
+                {device.name}
+              </Text>
+            </Flex>
+          </Flex>
+          <Space h="md" />
           <MultiSelect
             data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
             key={form.key('tags')}
-            label={
-              <>
-                <Text>Edit tags for {device.name}</Text>
-                <Space h="md" />
-              </>
-            }
             {...form.getInputProps('tags')}
+            comboboxProps={{ withinPortal: false }}
           />
-          <Space h="md" />
+          <Space h="xl" />
           <Flex gap="md" justify="space-between">
             <Button type="submit">Save</Button>
             <Button variant="default" onClick={close}>
@@ -79,7 +84,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
           at the top of this page.
         </Text>
       )}
-    </>
+    </Container>
   );
 };
 
