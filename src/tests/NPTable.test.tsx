@@ -18,6 +18,8 @@ describe('NPTable component', () => {
     const secondRow: HTMLElement = getByTestId('2-tr');
     const firstCheckbox: HTMLElement = getByTestId('1-checkbox');
     const secondCheckbox: HTMLElement = getByTestId('2-checkbox');
+    expect(firstRow).not.toHaveClass(cx(classes.rowSelected));
+    expect(secondRow).not.toHaveClass(cx(classes.rowSelected));
     act(() => fireEvent.click(firstCheckbox));
     expect(firstRow).toHaveClass(cx(classes.rowSelected));
     expect(secondRow).not.toHaveClass(cx(classes.rowSelected));
