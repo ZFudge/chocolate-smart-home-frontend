@@ -139,4 +139,3 @@ describe('NPTable component', () => {
     expect(checkbox2).not.toHaveAttribute('data-checked');
   });
 });
-s``
