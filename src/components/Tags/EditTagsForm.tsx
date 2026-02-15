@@ -77,6 +77,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
         placeholder="Choose tag"
         data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
         {...form.getInputProps('id')}
+        comboboxProps={{ withinPortal: false }}
       />
       <Space h="md" />
       <TextInput
