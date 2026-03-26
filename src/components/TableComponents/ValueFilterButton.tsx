@@ -1,3 +1,4 @@
+import { type KeyboardEventHandler } from 'react';
 import { MdOutlineFilterAlt } from 'react-icons/md';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -13,6 +14,16 @@ const ValueFilterButton = ({
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Popover
@@ -38,7 +49,7 @@ const ValueFilterButton = ({
           </Button>
         </Tooltip>
       </Popover.Target>
-      <Popover.Dropdown ref={ref}>
+      <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <ValueFilter filteredValue={filteredValue} onChange={setFilteredValue} close={close} />
       </Popover.Dropdown>
     </Popover>

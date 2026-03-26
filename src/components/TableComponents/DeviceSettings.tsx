@@ -1,3 +1,4 @@
+import { type KeyboardEventHandler } from 'react';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -8,6 +9,17 @@ import DeviceSettingsForm from './DeviceSettingsForm';
 const DeviceSettings = ({ device }: { device: DeviceObject }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
       <Popover.Target>
@@ -21,7 +33,7 @@ const DeviceSettings = ({ device }: { device: DeviceObject }) => {
           <IoSettingsSharp />
         </Button>
       </Popover.Target>
-      <Popover.Dropdown ref={ref}>
+      <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <DeviceSettingsForm device={device} close={close} />
       </Popover.Dropdown>
     </Popover>
