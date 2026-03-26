@@ -1,5 +1,4 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
-import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
 import { Button, Container, Divider, Flex, Loader, Popover, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';

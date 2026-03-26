@@ -1,6 +1,7 @@
+import { FaTags } from 'react-icons/fa';
 import { HiTag } from 'react-icons/hi';
-import { MdOutlineFilterAlt } from 'react-icons/md';
-import { Checkbox, CloseButton, Container, Divider, Flex, Space, Text } from '@mantine/core';
+import { Checkbox, CloseButton, Container, Divider, Flex, Text } from '@mantine/core';
+import { ICON_SIZE } from '@/constants';
 import { Tag } from '@/interfaces';
 import { useAppStore, useTagsStore } from '@/stores';
 
@@ -19,14 +20,13 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProp
     <Container p="xs">
       <Flex direction="column" gap="md">
         <Flex justify="space-between" gap="md">
-          <Flex align="center">
-            <MdOutlineFilterAlt color={color} />
-            <Space w="xs" />
+          <Flex align="center" gap="xs">
+            <FaTags color={color} size={ICON_SIZE} />
             Filter by tag
           </Flex>
           <CloseButton onClick={close} />
         </Flex>
-        <Divider my="sm" color={color} />
+        <Divider my="xs" color={color} />
         {tags.length ? (
           <Flex direction="column" gap="md">
             <Checkbox

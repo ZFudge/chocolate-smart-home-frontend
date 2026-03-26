@@ -21,6 +21,7 @@ const Palette = ({ devices, openPaletteModal, label }: PaletteProps) => {
   return (
     <TooltipWrapper label={label}>
       <Button
+        m="auto"
         variant="transparent"
         data-testid={`${mqttIdLabel}-palette-button`}
         className={cx(classes['neo-pixel-table-palette-status'])}

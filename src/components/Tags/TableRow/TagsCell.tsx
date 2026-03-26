@@ -40,9 +40,9 @@ const TagsCell = ({ device }: TagsProps) => {
       <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
         <Popover.Target>
           <Button
-            size="compact-xs"
             variant="transparent"
             onClick={open}
+            p="0.125rem"
             className={`${classes['cursor-pointer']} ${classes['middle-center']} ${classes['theme-match']}`}
             data-testid={`${device.mqtt_id}-tags-button`}
           >

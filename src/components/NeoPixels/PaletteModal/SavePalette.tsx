@@ -64,7 +64,12 @@ const SavePalette = () => {
           />
         </Flex>
         <Space h="md" />
-        <TextInput label="Palette Name" {...nameField.getInputProps()} />
+        <TextInput
+          autoFocus
+          label="Palette Name"
+          {...nameField.getInputProps()}
+          styles={{ input: { border: `0.5px solid ${color}` } }}
+        />
         <Space h="md" />
         <Group justify="space-between">
           <Button onClick={handleSavePalettePreset} color={color}>

@@ -1,6 +1,5 @@
-import classes from './Tabs.module.scss';
 import { FaLightbulb, FaMicrochip, FaPowerOff } from 'react-icons/fa';
-import { Tabs } from '@mantine/core';
+import { Tabs, Text } from '@mantine/core';
 import { useAppStore } from '@/stores';
 import { LEONARDO } from '../components/Leonardo/constants';
 import { NEO_PIXEL } from '../components/NeoPixels/constants';
@@ -16,13 +15,13 @@ function TabsPage() {
     <Tabs color={color} variant="pills" defaultValue={NEO_PIXEL}>
       <Tabs.List>
         <Tabs.Tab value={NEO_PIXEL} leftSection={<FaLightbulb size={15} />}>
-          Neo Pixels
+          <Text fw={700}>Neo Pixels</Text>
         </Tabs.Tab>
         <Tabs.Tab value={ON_OFF} leftSection={<FaPowerOff size={15} />}>
-          On/Off
+          <Text fw={700}>On/Off</Text>
         </Tabs.Tab>
         <Tabs.Tab value={LEONARDO} leftSection={<FaMicrochip size={15} />}>
-          Leonardo
+          <Text fw={700}>Leonardo</Text>
         </Tabs.Tab>
       </Tabs.List>
 

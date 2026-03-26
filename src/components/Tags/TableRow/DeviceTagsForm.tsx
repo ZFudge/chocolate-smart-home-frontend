@@ -1,5 +1,5 @@
 import { HiTag } from 'react-icons/hi';
-import { Button, Container, Flex, MultiSelect, Space, Text } from '@mantine/core';
+import { Button, Container, Divider, Flex, MultiSelect, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
@@ -42,7 +42,6 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
       });
       return;
     }
-    const data = await response.json();
     notifications.show({
       title: 'Tags saved',
       message: `Tags for ${device.name} were saved successfully`,
@@ -61,7 +60,10 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
                 {device.name}
               </Text>
             </Flex>
+            <Divider color={color} />
             <MultiSelect
+              autoFocus
+              label="Tags"
               data={Object.values(tags).map((tag) => ({
                 value: tag.id.toString(),
                 label: tag.name,

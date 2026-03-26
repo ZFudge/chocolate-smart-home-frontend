@@ -72,3 +72,8 @@
 .theme-match {
   background-color: var(--mantine-color-body);
 }
+
+.table-cell {
+  justify-content: center;
+  text-align: center;
+}

@@ -20,7 +20,7 @@ const TableRow = ({ device, setLeonardoCommand }: TableRowProps) => {
     <Table.Tr
       data-testid={`${device.mqtt_id}-tr`}
       style={{
-        minHeight: '5em',
+        height: '5rem',
       }}
     >
       <Table.Td className={classes.tableCell}>

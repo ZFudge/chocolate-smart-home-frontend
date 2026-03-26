@@ -31,7 +31,7 @@ const HeaderColumnToggler = ({
   }
 
   return (
-    <Table.Th key={`${settingName}-header`} className={trSettingsClass}>
+    <Table.Th>
       {allValuesMatch ? (
         <ToggleButton
           devices={devices}

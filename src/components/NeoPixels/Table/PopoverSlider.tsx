@@ -1,11 +1,9 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
-import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
 import { Button, Container, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { SplitTableCell, TooltipWrapper } from '@/components/';
-import { useAppStore } from '@/stores';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import classes from '../NeoPixel.module.css';
@@ -27,7 +25,6 @@ const PopoverSlider = ({
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const { color } = useAppStore();
 
   let dynamicDeviceTypeName: string | undefined = deviceTypeName;
   if (!deviceTypeName) {
@@ -84,6 +81,7 @@ const PopoverSlider = ({
             </div>
           ) : (
             <Button
+              m="auto"
               onClick={open}
               variant="transparent"
               className={`${classes['split-button']} ${classes['theme-match']}`}

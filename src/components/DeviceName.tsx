@@ -7,7 +7,7 @@ const DeviceName = ({ device }: { device: DeviceObject }) => {
 
   return (
     <Tooltip label={label} position="left" withArrow>
-      <Text ta="left" className={classes['theme-match']}>
+      <Text ta="left" fw={500} className={classes['theme-match']}>
         {device.name}
       </Text>
     </Tooltip>

@@ -3,7 +3,7 @@ import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
-import { Checkbox, Container, Table } from '@mantine/core';
+import { Checkbox, Table } from '@mantine/core';
 import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
 import CellContainer from '@/components/TableComponents/CellContainer';
@@ -32,7 +32,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
       data-testid={`${device.mqtt_id}-tr`}
-      style={{ backgroundColor: selected ? color : 'transparent' }}
+      style={{ backgroundColor: selected ? `${color}99` : 'transparent', height: '5rem' }}
     >
       <Table.Td className={classes.tableCell}>
         <Checkbox

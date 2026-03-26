@@ -1,6 +1,7 @@
 import { KeyboardEventHandler } from 'react';
 import { MdOutlineFilterAlt } from 'react-icons/md';
-import { CloseButton, Container, Flex, TextInput } from '@mantine/core';
+import { CloseButton, Container, Divider, Flex, TextInput } from '@mantine/core';
+import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
 
 interface ValueFilterProps {
@@ -33,11 +34,12 @@ const ValueFilter = ({ filteredValue, onChange, close }: ValueFilterProps) => {
       <Flex direction="column" gap="md">
         <Flex align="center" justify="space-between" gap="xs">
           <Flex align="center" gap="xs">
-            <MdOutlineFilterAlt color={color} />
+            <MdOutlineFilterAlt color={color} size={ICON_SIZE} />
             Filter by value
           </Flex>
           <CloseButton onClick={close} />
         </Flex>
+        <Divider my="xs" color={color} />
         <TextInput
           placeholder="Enter value"
           value={filteredValue}

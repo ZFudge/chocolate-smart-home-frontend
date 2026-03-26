@@ -1,4 +1,4 @@
-import { Container, Flex } from '@mantine/core';
+import { Flex } from '@mantine/core';
 import appClasses from '@/App.module.css';
 
 const CellContainer = ({ children }: { children: React.ReactNode }) => {

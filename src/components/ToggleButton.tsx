@@ -104,15 +104,15 @@ const ToggleButton = ({
   return (
     <TooltipWrapper label={label}>
       <Button
+        m="auto"
         onClick={handleToggle}
         color={color}
         variant="outline"
-        size="xs"
         radius="lg"
         data-testid={dataTestId}
         className={`${classes['fade-in']} ${classes['color-transition']} ${classes['theme-match']}`}
       >
-        {isLoading ? <Loader size="0.75rem" /> : Icon && <Icon />}
+        {isLoading ? <Loader size="0.75rem" /> : Icon && <Icon size={18} />}
         {children}
       </Button>
     </TooltipWrapper>

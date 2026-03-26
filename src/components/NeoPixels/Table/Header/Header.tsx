@@ -3,7 +3,7 @@ import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import classes from '@/App.module.css';
+import appClasses from '@/App.module.css';
 import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
@@ -13,6 +13,7 @@ import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
 import PopoverSlider from '../PopoverSlider';
 import HeaderColumnToggler from './HeaderColumnToggler';
+import classes from '../../NeoPixel.module.css';
 
 interface HeaderProps {
   devices: NeoPixelObject[];
@@ -35,33 +36,36 @@ const Header = ({
   filteredValue,
   setFilteredValue,
 }: HeaderProps) => {
-  const trSettingsClass = `${selection.length < 2 ? classes.hidden : classes.visible} ${classes['visibility-transition']}`;
+  const trSettingsClass = `${selection.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
   const { color } = useAppStore();
 
   return (
-    <Table.Tr style={{ height: '48px' }}>
-      <Table.Th w={40}>
+    <Table.Tr style={{ height: '5rem' }}>
+      <Table.Th w={40} ta="center">
         <Checkbox
           onChange={toggleAll}
           checked={selection.length === devices.length}
           indeterminate={selection.length > 0 && selection.length !== devices.length}
           data-testid="toggle-all-checkbox"
           color={color}
+          styles={{
+            input: {
+              border: `0.5px solid ${color}`,
+            },
+          }}
         />
       </Table.Th>
-      <Table.Th w={40}>
+      <Table.Th ta="center">
         <SyncDeviceDataButton />
       </Table.Th>
-      <Table.Th key="tags">
+      <Table.Th key="tags" ta="center">
         <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
       </Table.Th>
-      <Table.Th key="last-seen">
+      <Table.Th key="last-seen" ta="center">
         <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
       </Table.Th>
-      <Table.Th key="device-names-header" style={{ minWidth: '100px' }}>
-        Neo Pixels
-      </Table.Th>
+      <Table.Th />
       <HeaderColumnToggler
         settingName="on"
         Icon={FaPowerOff}
@@ -69,7 +73,7 @@ const Header = ({
         devices={selectedDevices}
         trSettingsClass={trSettingsClass}
       />
-      <Table.Th key="palette-header">
+      <Table.Th key="palette-header" ta="center">
         <Palette devices={selectedDevices} openPaletteModal={openPaletteModal} label="palette" />
       </Table.Th>
       <HeaderColumnToggler
@@ -102,7 +106,7 @@ const Header = ({
           Icon={BsBrightnessHigh}
         />
       </Table.Th>
-      <Table.Th key="ms" className={trSettingsClass} w={75}>
+      <Table.Th key="ms" w={75} ta="center">
         <PopoverSlider
           devices={selectedDevices}
           deviceTypeName="neo_pixel"

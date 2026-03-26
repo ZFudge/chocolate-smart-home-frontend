@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Space, TextInput } from '@mantine/core';
+import { Button, Flex, Select, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
@@ -71,29 +71,29 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <Select
-        key={form.key('id')}
-        label="Existing Tags"
-        placeholder="Choose tag"
-        data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
-        {...form.getInputProps('id')}
-        comboboxProps={{ withinPortal: false }}
-      />
-      <Space h="md" />
-      <TextInput
-        placeholder="Edit Tag Name"
-        label="Edit Tag Name"
-        key={form.key('name')}
-        {...form.getInputProps('name')}
-      />
-      <Space h="md" />
-      <Flex gap="md" justify="space-between">
-        <Button disabled={!form.isValid()} type="submit" color={color}>
-          Save
-        </Button>
-        <Button variant="default" onClick={close}>
-          Cancel
-        </Button>
+      <Flex direction="column" gap="md">
+        <Select
+          key={form.key('id')}
+          label="Existing Tags"
+          placeholder="Choose tag"
+          data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
+          {...form.getInputProps('id')}
+          comboboxProps={{ withinPortal: false }}
+        />
+        <TextInput
+          placeholder="Edit Tag Name"
+          label="Edit Tag Name"
+          key={form.key('name')}
+          {...form.getInputProps('name')}
+        />
+        <Flex gap="md" justify="space-between">
+          <Button disabled={!form.isValid()} type="submit" color={color}>
+            Save
+          </Button>
+          <Button variant="default" onClick={close}>
+            Cancel
+          </Button>
+        </Flex>
       </Flex>
     </form>
   );

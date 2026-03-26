@@ -2,6 +2,7 @@ import { FaSyncAlt } from 'react-icons/fa';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import classes from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
 import TooltipWrapper from './TooltipWrapper';
 
 const SyncDeviceDataButton = () => {
@@ -28,15 +29,15 @@ const SyncDeviceDataButton = () => {
   return (
     <TooltipWrapper label="Synchronize device data">
       <Button
-        size="compact-xs"
+        m="auto"
         variant="transparent"
         style={{ padding: '0.125rem' }}
-        className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
+        className={classes['cursor-pointer']}
         data-testid="devices-sync-data-button"
         color="gray"
         onClick={onClick}
       >
-        <FaSyncAlt size={16} />
+        <FaSyncAlt size={ICON_SIZE} />
       </Button>
     </TooltipWrapper>
   );

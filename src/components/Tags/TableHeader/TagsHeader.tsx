@@ -3,6 +3,7 @@ import { FaTags } from 'react-icons/fa';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
 import TagsFilter from './TagsFilter';
 
@@ -47,14 +48,14 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
       <Popover.Target>
         <Tooltip label="Edit Tags">
           <Button
-            size="compact-xs"
+            m="auto"
             variant="transparent"
             style={{ padding: '0.125rem' }}
             onClick={open}
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid="devices-tags-header-button"
           >
-            <FaTags color={color} size={16} />
+            <FaTags color={color} size={ICON_SIZE} />
           </Button>
         </Tooltip>
       </Popover.Target>
