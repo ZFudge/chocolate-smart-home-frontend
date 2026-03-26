@@ -1,7 +1,7 @@
 import { LEONARDO } from '@/components/Leonardo/constants';
 import NoLeonardo from '@/components/Leonardo/NoLeonardo';
 import LeonardoTable from '@/components/Leonardo/Table/LeonardoTable';
-import useDevicesStore from '@/useDevicesStore';
+import { useDevicesStore } from '@/stores';
 
 const LeonardoPage = () => {
   const { devices } = useDevicesStore();

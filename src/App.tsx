@@ -5,12 +5,12 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
+import ColorThemePickerIcon from './components/ColorTheme/ColorThemePickerIcon';
 import SyncDeviceDataButton from './components/SyncDeviceDataButton';
 import TagsButton from './components/Tags/TagsButton';
 import ThemeToggle from './components/ToggleTheme';
 import Router from './Router';
-import useDevicesStore from './useDevicesStore';
-import useTagsStore from './useTagsStore';
+import { useDevicesStore, useTagsStore } from './stores';
 import useWebsocket from './useWebsocket';
 import WebSocketContext from './WebsocketContext';
 
@@ -54,6 +54,7 @@ const App = () => {
             }}
           >
             <Flex gap="md">
+              <ColorThemePickerIcon />
               <SyncDeviceDataButton />
               <TagsButton />
             </Flex>

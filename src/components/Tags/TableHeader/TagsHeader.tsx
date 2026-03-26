@@ -3,6 +3,7 @@ import { FaTags } from 'react-icons/fa';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
+import { useAppStore } from '@/stores';
 import TagsFilter from './TagsFilter';
 
 interface TagsHeaderProps {
@@ -13,11 +14,20 @@ interface TagsHeaderProps {
 const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'Escape':
+        event.preventDefault();
         close();
+        break;
+      case 'x':
+        if (!event.metaKey) {
+          return;
+        }
+        event.preventDefault();
+        setFilteredTagIds([]);
         break;
       default:
         break;
@@ -44,11 +54,11 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid="devices-tags-header-button"
           >
-            <FaTags size={16} />
+            <FaTags color={color} size={16} />
           </Button>
         </Tooltip>
       </Popover.Target>
-      <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
+      <Popover.Dropdown ref={ref} onKeyDown={onKeyDown} autoFocus>
         <TagsFilter
           filteredTagIds={filteredTagIds}
           setFilteredTagIds={setFilteredTagIds}

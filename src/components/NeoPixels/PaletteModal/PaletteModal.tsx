@@ -3,6 +3,7 @@ import cx from 'clsx';
 import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
+import { useAppStore } from '@/stores';
 import WebSocketContext from '@/WebsocketContext';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
 import Header from './Header';
@@ -20,6 +21,7 @@ interface PaletteModalProps {
 const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   const multiple = devices && devices.length > 1;
   const websocket = useContext(WebSocketContext);
+  const { color } = useAppStore();
   const form = usePaletteForm({
     mode: 'uncontrolled',
     name: 'edit-palette-form',
@@ -65,7 +67,7 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
           <PalettePresets />
           <Space h="md" />
           <Group className={cx(appClasses['modal-button-group'])}>
-            <Button type="submit" data-testid="submit">
+            <Button type="submit" color={color} data-testid="submit">
               Submit
             </Button>
             <Button onClick={form.reset} variant="default" data-testid="reset">

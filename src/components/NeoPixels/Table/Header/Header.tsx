@@ -7,6 +7,7 @@ import classes from '@/App.module.css';
 import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
@@ -36,6 +37,7 @@ const Header = ({
 }: HeaderProps) => {
   const trSettingsClass = `${selection.length < 2 ? classes.hidden : classes.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
+  const { color } = useAppStore();
 
   return (
     <Table.Tr style={{ height: '48px' }}>
@@ -45,6 +47,7 @@ const Header = ({
           checked={selection.length === devices.length}
           indeterminate={selection.length > 0 && selection.length !== devices.length}
           data-testid="toggle-all-checkbox"
+          color={color}
         />
       </Table.Th>
       <Table.Th w={40}>

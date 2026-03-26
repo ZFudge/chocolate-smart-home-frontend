@@ -3,10 +3,12 @@ import { Button, Flex, Group, Popover, Space, TextInput, Title } from '@mantine/
 import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { useAppStore } from '@/stores';
 import Palette3x3 from '../Palette3x3';
 import { usePaletteFormContext } from './PaletteForm';
 
 const SavePalette = () => {
+  const { color } = useAppStore();
   const [opened, { open, close }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
   const form = usePaletteFormContext();
@@ -49,7 +51,7 @@ const SavePalette = () => {
   return (
     <Popover opened={opened} position="top">
       <Popover.Target>
-        <Button data-testid="save" onClick={open}>
+        <Button data-testid="save" onClick={open} color={color}>
           <FaRegSave />
         </Button>
       </Popover.Target>
@@ -65,7 +67,9 @@ const SavePalette = () => {
         <TextInput label="Palette Name" {...nameField.getInputProps()} />
         <Space h="md" />
         <Group justify="space-between">
-          <Button onClick={handleSavePalettePreset}>Save</Button>
+          <Button onClick={handleSavePalettePreset} color={color}>
+            Save
+          </Button>
           <Button variant="default" onClick={close}>
             Cancel
           </Button>

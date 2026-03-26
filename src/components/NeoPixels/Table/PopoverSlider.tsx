@@ -2,9 +2,10 @@ import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
-import { Button, Loader, Popover } from '@mantine/core';
+import { Button, Container, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { SplitTableCell, TooltipWrapper } from '@/components/';
+import { useAppStore } from '@/stores';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import classes from '../NeoPixel.module.css';
@@ -26,6 +27,7 @@ const PopoverSlider = ({
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+  const { color } = useAppStore();
 
   let dynamicDeviceTypeName: string | undefined = deviceTypeName;
   if (!deviceTypeName) {
@@ -84,7 +86,7 @@ const PopoverSlider = ({
             <Button
               onClick={open}
               variant="transparent"
-              className={cx(classes['split-button'])}
+              className={`${classes['split-button']} ${classes['theme-match']}`}
               data-testid={`${multiple ? 'selected-devices' : mqttId}-${name}-slider-button`}
             >
               <SplitTableCell value={value} Icon={Icon}>
@@ -94,16 +96,18 @@ const PopoverSlider = ({
           )}
         </Popover.Target>
         <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
-          <SliderForm
-            devices={devices}
-            name={name}
-            initialValue={value}
-            Icon={Icon}
-            close={close}
-            setIsLoading={setIsLoading}
-            deviceTypeName={dynamicDeviceTypeName || ''}
-            mqttId={mqttId}
-          />
+          <Container p="xs">
+            <SliderForm
+              devices={devices}
+              name={name}
+              initialValue={value}
+              Icon={Icon}
+              close={close}
+              setIsLoading={setIsLoading}
+              deviceTypeName={dynamicDeviceTypeName || ''}
+              mqttId={mqttId}
+            />
+          </Container>
         </Popover.Dropdown>
       </Popover>
     </TooltipWrapper>

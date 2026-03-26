@@ -1,7 +1,7 @@
 import { ON_OFF } from '@/components/OnOff/constants';
 import NoOnOff from '@/components/OnOff/NoOnOff';
 import OnOffTable from '@/components/OnOff/Table/OnOffTable';
-import useDevicesStore from '@/useDevicesStore';
+import { useDevicesStore } from '@/stores';
 
 const OnOffPage = () => {
   const { devices } = useDevicesStore();

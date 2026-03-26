@@ -68,3 +68,7 @@
     opacity: 1;
   }
 }
+
+.theme-match {
+  background-color: var(--mantine-color-body);
+}

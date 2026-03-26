@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
 import { getFilteredDeviceIds } from '@/lib/utils';
-import useTagsStore from '@/useTagsStore';
+import { useTagsStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
 import Header from './Header';
 import TableRow from './TableRow';

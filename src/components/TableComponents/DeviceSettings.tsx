@@ -4,11 +4,13 @@ import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import { DeviceObject } from '@/interfaces';
+import { useAppStore } from '@/stores';
 import DeviceSettingsForm from './DeviceSettingsForm';
 
 const DeviceSettings = ({ device }: { device: DeviceObject }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -28,9 +30,9 @@ const DeviceSettings = ({ device }: { device: DeviceObject }) => {
           variant="transparent"
           size="compact-xs"
           style={{ padding: '0.125rem' }}
-          className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
+          className={`${classes['cursor-pointer']} ${classes['middle-center']} ${classes['theme-match']}`}
         >
-          <IoSettingsSharp />
+          <IoSettingsSharp color={color} />
         </Button>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>

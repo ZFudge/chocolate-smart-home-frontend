@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons';
 import { Flex, Text } from '@mantine/core';
+import classes from '@/App.module.css';
 
 const SplitTableCell = ({
   children,
@@ -14,7 +15,14 @@ const SplitTableCell = ({
 }) => {
   const color = explicitColor || 'inherit';
   return (
-    <Flex columnGap={5} justify="flex-end" align="center" direction="row-reverse" style={{ color }}>
+    <Flex
+      columnGap={5}
+      justify="flex-end"
+      align="center"
+      direction="row-reverse"
+      style={{ color }}
+      className={classes['theme-match']}
+    >
       {value && <Text ta="right">{value}</Text>}
       <Icon />
       {children}

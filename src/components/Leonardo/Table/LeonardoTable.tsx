@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { getFilteredDeviceIds } from '@/lib/utils';
-import useTagsStore from '@/useTagsStore';
+import { useTagsStore } from '@/stores';
 import ConfirmationModal from '../ConfirmationModal';
 import { LeonardoCommand } from '../types';
 import Header from './Header';

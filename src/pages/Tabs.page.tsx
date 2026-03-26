@@ -1,6 +1,7 @@
 import classes from './Tabs.module.scss';
 import { FaLightbulb, FaMicrochip, FaPowerOff } from 'react-icons/fa';
 import { Tabs } from '@mantine/core';
+import { useAppStore } from '@/stores';
 import { LEONARDO } from '../components/Leonardo/constants';
 import { NEO_PIXEL } from '../components/NeoPixels/constants';
 import { ON_OFF } from '../components/OnOff/constants';
@@ -9,8 +10,10 @@ import NeoPixelsPage from '../pages/NeoPixels.page';
 import OnOffPage from '../pages/OnOff.page';
 
 function TabsPage() {
+  const { color } = useAppStore();
+
   return (
-    <Tabs defaultValue={NEO_PIXEL} classNames={classes}>
+    <Tabs color={color} variant="pills" defaultValue={NEO_PIXEL}>
       <Tabs.List>
         <Tabs.Tab value={NEO_PIXEL} leftSection={<FaLightbulb size={15} />}>
           Neo Pixels

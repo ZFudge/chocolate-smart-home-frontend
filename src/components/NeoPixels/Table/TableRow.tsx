@@ -3,13 +3,15 @@ import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
-import { Checkbox, Table } from '@mantine/core';
+import { Checkbox, Container, Table } from '@mantine/core';
 import { TagsCell, ToggleButton } from '@/components';
 import DeviceName from '@/components/DeviceName';
+import CellContainer from '@/components/TableComponents/CellContainer';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
 import LastSeen from '@/components/TableComponents/LastSeen';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
+import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
 import PopoverPIRConfig from './PopoverPIRConfig';
@@ -24,89 +26,122 @@ interface TableRowProps {
 }
 
 const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowProps) => {
+  const { color } = useAppStore();
+
   return (
     <Table.Tr
       className={cx({ [classes.rowSelected]: selected })}
       data-testid={`${device.mqtt_id}-tr`}
+      style={{ backgroundColor: selected ? color : 'transparent' }}
     >
       <Table.Td className={classes.tableCell}>
         <Checkbox
           checked={selected}
           onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
+          color={color}
+          styles={{
+            input: {
+              border: `0.5px solid ${color}`,
+            },
+          }}
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceSettings device={device as unknown as DeviceObject} />
+        <CellContainer>
+          <DeviceSettings device={device as unknown as DeviceObject} />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <TagsCell device={device as unknown as DeviceObject} />
+        <CellContainer>
+          <TagsCell device={device as unknown as DeviceObject} />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <LastSeen device={device} />
+        <CellContainer>
+          <LastSeen device={device} />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceName device={device as unknown as DeviceObject} />
+        <CellContainer>
+          <DeviceName device={device as unknown as DeviceObject} />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          settingName="on"
-          label={`power is ${boolToOnOff(device.on)}`}
-          Icon={FaPowerOff}
-        />
+        <CellContainer>
+          <ToggleButton
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            settingName="on"
+            label={`power is ${boolToOnOff(device.on)}`}
+            Icon={FaPowerOff}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <Palette devices={[device]} openPaletteModal={openPaletteModal} label="Update Palette" />
+        <CellContainer>
+          <Palette devices={[device]} openPaletteModal={openPaletteModal} label="Update Palette" />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          settingName="scheduled_palette_rotation"
-          label={`palette rotation ${device.scheduled ? '' : 'not'} scheduled`}
-          Icon={BsFillPaletteFill}
-        />
+        <CellContainer>
+          <ToggleButton
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            settingName="scheduled_palette_rotation"
+            label={`palette rotation ${device.scheduled ? '' : 'not'} scheduled`}
+            Icon={BsFillPaletteFill}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          settingName="twinkle"
-          label={`twinkle is ${boolToOnOff(device.twinkle)}`}
-          Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
-        />
+        <CellContainer>
+          <ToggleButton
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            settingName="twinkle"
+            label={`twinkle is ${boolToOnOff(device.twinkle)}`}
+            Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          settingName="transform"
-          label={`transform is ${boolToOnOff(device.transform)}`}
-          Icon={GiTransform}
-        />
+        <CellContainer>
+          <ToggleButton
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            settingName="transform"
+            label={`transform is ${boolToOnOff(device.transform)}`}
+            Icon={GiTransform}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <PopoverSlider
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          label="adjust brightness"
-          name="brightness"
-          Icon={BsBrightnessHigh}
-        />
+        <CellContainer>
+          <PopoverSlider
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            label="adjust brightness"
+            name="brightness"
+            Icon={BsBrightnessHigh}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <PopoverSlider
-          devices={[device]}
-          deviceTypeName="neo_pixel"
-          label="adjust speed"
-          name="ms"
-          Icon={IoSpeedometerOutline}
-        />
+        <CellContainer>
+          <PopoverSlider
+            devices={[device]}
+            deviceTypeName="neo_pixel"
+            label="adjust speed"
+            name="ms"
+            Icon={IoSpeedometerOutline}
+          />
+        </CellContainer>
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <PopoverPIRConfig devices={[device]} />
+        <CellContainer>
+          <PopoverPIRConfig devices={[device]} />
+        </CellContainer>
       </Table.Td>
     </Table.Tr>
   );

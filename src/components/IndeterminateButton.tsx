@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { PostData, postUpdate } from '@/lib/api';
+import { useAppStore } from '@/stores';
 import WebSocketContext from '@/WebsocketContext';
 
 const IndeterminateButton = ({
@@ -19,6 +20,7 @@ const IndeterminateButton = ({
   deviceTypeName?: string;
 }) => {
   const websocket = useContext(WebSocketContext);
+  const { color } = useAppStore();
 
   let dynamicDeviceTypeName: string | undefined = deviceTypeName;
   if (!deviceTypeName) {
@@ -71,6 +73,7 @@ const IndeterminateButton = ({
         defaultValue={0.5}
         marks={marks}
         thumbSize={20}
+        color={color}
         styles={{
           thumb: { borderWidth: 2, padding: 3 },
           markLabel: { display: 'none' },

@@ -4,6 +4,7 @@ import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
+import { useAppStore } from '@/stores';
 import WebSocketContext from '@/WebsocketContext';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
@@ -36,7 +37,7 @@ const SliderForm = ({
   const websocket = useContext(WebSocketContext);
   const [value, setValue] = useState(initialValue);
   const multiple = devices.length > 1;
-
+  const { color } = useAppStore();
   const field = useField({
     mode: 'uncontrolled',
     initialValue,
@@ -75,8 +76,9 @@ const SliderForm = ({
         key={field.key}
         label={null}
         className={cx(classes['number-slider'])}
-        thumbChildren={<Icon size="1rem" />}
+        thumbChildren={<Icon color={color} size="1rem" />}
         thumbSize={26}
+        color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
       />
       <Divider my="sm" />
@@ -85,6 +87,7 @@ const SliderForm = ({
           type="submit"
           onClick={handleSubmit}
           data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
+          color={color}
         >
           Submit
         </Button>

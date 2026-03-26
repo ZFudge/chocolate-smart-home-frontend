@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Badge, Button, Flex, FocusTrap, Group, Modal, Space, Text } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { PostData, postUpdate } from '@/lib/api';
+import { useAppStore } from '@/stores';
 import WebSocketContext from '@/WebsocketContext';
 import { LeonardoCommand } from './types';
 import { getColor } from './utils';
@@ -42,7 +43,8 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationModalProps) => {
   const websocket = useContext(WebSocketContext);
-  console.log(device);
+  const { color } = useAppStore();
+
   const handleSubmit = () => {
     if (!device?.mqtt_id) {
       return;
@@ -74,7 +76,7 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
       <FocusTrap.InitialFocus />
       <Space h="md" />
       <Group justify="center" gap={75}>
-        <Button onClick={handleSubmit} data-testid="submit">
+        <Button onClick={handleSubmit} color={color} data-testid="submit">
           Submit
         </Button>
         <Button variant="default" onClick={onClose} data-testid="close">

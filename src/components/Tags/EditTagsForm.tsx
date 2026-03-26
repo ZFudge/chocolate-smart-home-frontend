@@ -2,13 +2,13 @@ import { Button, Flex, Select, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
-import useTagsStore from '@/useTagsStore';
+import { useAppStore, useTagsStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
 
 const EditTagsForm = ({ close }: { close: () => void }) => {
   const { tags, addTagsData } = useTagsStore();
-
+  const { color } = useAppStore();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -88,7 +88,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
       />
       <Space h="md" />
       <Flex gap="md" justify="space-between">
-        <Button disabled={!form.isValid()} type="submit">
+        <Button disabled={!form.isValid()} type="submit" color={color}>
           Save
         </Button>
         <Button variant="default" onClick={close}>

@@ -110,7 +110,7 @@ const ToggleButton = ({
         size="xs"
         radius="lg"
         data-testid={dataTestId}
-        className={`${classes['fade-in']} ${classes['color-transition']}`}
+        className={`${classes['fade-in']} ${classes['color-transition']} ${classes['theme-match']}`}
       >
         {isLoading ? <Loader size="0.75rem" /> : Icon && <Icon />}
         {children}
