@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
 import { Button, Divider, Flex, Loader, Popover, Text } from '@mantine/core';
@@ -56,6 +56,16 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
 
   const indeterminate = multiple && new Set(devices.map((np) => np.armed)).size > 1;
 
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <TooltipWrapper label="PIR Config">
       <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
@@ -79,7 +89,7 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
             </Button>
           )}
         </Popover.Target>
-        <Popover.Dropdown ref={ref}>
+        <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
           <div style={{ marginBottom: '1em' }}>
             <Flex justify="flex-start" gap="md">
               <Text fw={500}>Armed:</Text>

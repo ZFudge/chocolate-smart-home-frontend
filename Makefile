@@ -78,5 +78,12 @@ static: static-dir
 		-w /csm/ \
 	 	${FE_IMAGE_NAME} sh -c "npm run build"
 
+prettier:
+	@docker run --rm -it \
+		--mount type=bind,src=$(shell pwd)/,dst=/csm \
+		--mount type=bind,src=$(shell pwd)/dist,dst=/csm/dist \
+		-w /csm/ \
+	 	${FE_IMAGE_NAME} sh -c "npm run prettier:write"
 
 run: network container dev
+

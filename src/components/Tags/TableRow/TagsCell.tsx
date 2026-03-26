@@ -1,3 +1,4 @@
+import { type KeyboardEventHandler } from 'react';
 import { HiOutlineTag, HiTag } from 'react-icons/hi';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -22,6 +23,16 @@ const TagsCell = ({ device }: TagsProps) => {
 
   const label = device.tags?.map((tag) => tagsById[tag.id]).join(', ') || 'no tags';
 
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <TooltipWrapper label={label}>
       <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
@@ -41,7 +52,7 @@ const TagsCell = ({ device }: TagsProps) => {
             )}
           </Button>
         </Popover.Target>
-        <Popover.Dropdown ref={ref}>
+        <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
           <DeviceTagsForm device={device} close={close} />
         </Popover.Dropdown>
       </Popover>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
@@ -59,6 +59,16 @@ const PopoverSlider = ({
     value = devices[0][name];
   }
 
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <TooltipWrapper label={label}>
       <Popover width={300} trapFocus position="bottom" withArrow shadow="md" opened={opened}>
@@ -83,7 +93,7 @@ const PopoverSlider = ({
             </Button>
           )}
         </Popover.Target>
-        <Popover.Dropdown ref={ref}>
+        <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
           <SliderForm
             devices={devices}
             name={name}

@@ -1,3 +1,4 @@
+import { type KeyboardEventHandler } from 'react';
 import { ImPriceTags } from 'react-icons/im';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -7,6 +8,16 @@ import TagsForm from './TagsForm';
 const TagsButton = () => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className={classes['cursor-pointer']}>
@@ -18,7 +29,7 @@ const TagsButton = () => {
             </Button>
           </Tooltip>
         </Popover.Target>
-        <Popover.Dropdown ref={ref}>
+        <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
           <TagsForm close={close} />
         </Popover.Dropdown>
       </Popover>

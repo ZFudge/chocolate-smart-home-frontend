@@ -1,3 +1,4 @@
+import { type KeyboardEventHandler } from 'react';
 import { FaTags } from 'react-icons/fa';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -12,6 +13,16 @@ interface TagsHeaderProps {
 const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'Escape':
+        close();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Popover
@@ -37,7 +48,7 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
           </Button>
         </Tooltip>
       </Popover.Target>
-      <Popover.Dropdown ref={ref}>
+      <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <TagsFilter
           filteredTagIds={filteredTagIds}
           setFilteredTagIds={setFilteredTagIds}
