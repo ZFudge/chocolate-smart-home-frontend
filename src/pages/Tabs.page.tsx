@@ -9,10 +9,10 @@ import NeoPixelsPage from '../pages/NeoPixels.page';
 import OnOffPage from '../pages/OnOff.page';
 
 function TabsPage() {
-  const { color } = useAppStore();
+  const { color, tab, setTab } = useAppStore();
 
   return (
-    <Tabs color={color} variant="pills" defaultValue={NEO_PIXEL}>
+    <Tabs color={color} variant="pills" defaultValue={tab} onChange={setTab}>
       <Tabs.List>
         <Tabs.Tab value={NEO_PIXEL} leftSection={<FaLightbulb size={15} />}>
           <Text fw={700}>Neo Pixels</Text>

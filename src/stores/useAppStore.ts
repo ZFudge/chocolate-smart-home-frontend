@@ -1,8 +1,11 @@
+import { NEO_PIXEL } from '@/components/NeoPixels/constants';
 import { create } from 'zustand';
 
 export interface AppStore {
   color: string;
   setColor: (color: string) => void;
+  tab: string;
+  setTab: (value: string | null) => void;
 }
 
 const useAppStore = create<AppStore>((set) => ({
@@ -10,6 +13,11 @@ const useAppStore = create<AppStore>((set) => ({
   setColor: (color: string) => {
     localStorage.setItem('color', color);
     set({ color });
+  },
+  tab: localStorage.getItem('tab') ?? NEO_PIXEL,
+  setTab: (tab: string | null) => {
+    localStorage.setItem('tab', tab || NEO_PIXEL);
+    set({ tab: tab || NEO_PIXEL });
   },
 }));
 
