@@ -1,7 +1,5 @@
-import { NEO_PIXEL } from '@/components/NeoPixels/constants';
-import NoNeoPixels from '@/components/NeoPixels/NoNeoPixels';
-import NPTable from '@/components/NeoPixels/Table/NPTable';
-import useDevicesStore from '@/useDevicesStore';
+import { NEO_PIXEL, NoNeoPixels, NPTable } from '@/components/NeoPixels';
+import { useDevicesStore } from '@/stores';
 
 const NeoPixelsPage = () => {
   const { devices } = useDevicesStore();

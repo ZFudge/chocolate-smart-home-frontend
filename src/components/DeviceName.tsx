@@ -1,4 +1,5 @@
 import { Text, Tooltip } from '@mantine/core';
+import classes from '@/App.module.css';
 import { DeviceObject } from '@/interfaces';
 
 const DeviceName = ({ device }: { device: DeviceObject }) => {
@@ -6,7 +7,9 @@ const DeviceName = ({ device }: { device: DeviceObject }) => {
 
   return (
     <Tooltip label={label} position="left" withArrow>
-      <Text ta="left">{device.name}</Text>
+      <Text ta="left" fw={500} className={classes['theme-match']}>
+        {device.name}
+      </Text>
     </Tooltip>
   );
 };

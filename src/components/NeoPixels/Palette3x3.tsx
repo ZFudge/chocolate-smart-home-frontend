@@ -1,8 +1,9 @@
 import { ColorSwatch, Flex } from '@mantine/core';
+import classes from '@/App.module.css';
 
 const Palette3x3 = ({ palette, mqttIdLabel }: { palette: string[]; mqttIdLabel: string }) => {
   return (
-    <Flex wrap="wrap" direction="column">
+    <Flex wrap="wrap" direction="column" className={classes['theme-match']}>
       {palette
         .map((color: string, i: number) => (
           <ColorSwatch color={color} size="10" key={`${i}-${color}-${mqttIdLabel}`} />

@@ -3,9 +3,12 @@ import { ImPriceTags } from 'react-icons/im';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
+import { useAppStore } from '@/stores';
 import TagsForm from './TagsForm';
 
 const TagsButton = () => {
+  const { color } = useAppStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -21,11 +24,16 @@ const TagsButton = () => {
 
   return (
     <div className={classes['cursor-pointer']}>
-      <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
+      <Popover withArrow trapFocus position="bottom" shadow="md" opened={opened}>
         <Popover.Target>
           <Tooltip label="Edit Tags">
-            <Button variant="transparent" onClick={open} style={{ height: '100%' }}>
-              <ImPriceTags size={16} />
+            <Button
+              variant="transparent"
+              onClick={open}
+              style={{ height: '100%' }}
+              className={classes['theme-match']}
+            >
+              <ImPriceTags color={color} size={ICON_SIZE} />
             </Button>
           </Tooltip>
         </Popover.Target>

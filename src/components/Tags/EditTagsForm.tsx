@@ -1,13 +1,15 @@
-import { Button, Flex, Select, Space, TextInput } from '@mantine/core';
+import { Button, Flex, Select, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
-import useTagsStore from '@/useTagsStore';
+import { getBorderColor } from '@/lib/utils';
+import { useAppStore, useTagsStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
 
 const EditTagsForm = ({ close }: { close: () => void }) => {
   const { tags, addTagsData } = useTagsStore();
+  const { color } = useAppStore();
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -71,29 +73,34 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <Select
-        key={form.key('id')}
-        label="Existing Tags"
-        placeholder="Choose tag"
-        data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
-        {...form.getInputProps('id')}
-        comboboxProps={{ withinPortal: false }}
-      />
-      <Space h="md" />
-      <TextInput
-        placeholder="Edit Tag Name"
-        label="Edit Tag Name"
-        key={form.key('name')}
-        {...form.getInputProps('name')}
-      />
-      <Space h="md" />
-      <Flex gap="md" justify="space-between">
-        <Button disabled={!form.isValid()} type="submit">
-          Save
-        </Button>
-        <Button variant="default" onClick={close}>
-          Cancel
-        </Button>
+      <Flex direction="column" gap="md">
+        <Select
+          key={form.key('id')}
+          label="Existing Tag"
+          placeholder="Choose tag"
+          data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
+          {...form.getInputProps('id')}
+          data-testid="edit-tag-select"
+          comboboxProps={{ withinPortal: false }}
+          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
+        />
+        <TextInput
+          placeholder="Edit Tag Name"
+          label="Edit Tag Name"
+          key={form.key('name')}
+          {...form.getInputProps('name')}
+          data-testid="edit-tag-input"
+          autoFocus
+          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
+        />
+        <Flex gap="md" justify="space-between">
+          <Button disabled={!form.isValid()} type="submit" color={color}>
+            Save
+          </Button>
+          <Button variant="default" onClick={close}>
+            Cancel
+          </Button>
+        </Flex>
       </Flex>
     </form>
   );

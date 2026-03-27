@@ -3,6 +3,8 @@ import { MdOutlineFilterAlt } from 'react-icons/md';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
+import { useAppStore } from '@/stores';
 import ValueFilter from './ValueFilter';
 
 const ValueFilterButton = ({
@@ -14,6 +16,7 @@ const ValueFilterButton = ({
 }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -28,7 +31,6 @@ const ValueFilterButton = ({
   return (
     <Popover
       withArrow
-      trapFocus
       position="bottom"
       shadow="md"
       width={300}
@@ -38,14 +40,14 @@ const ValueFilterButton = ({
       <Popover.Target>
         <Tooltip label="Filter by Value">
           <Button
-            size="compact-xs"
+            m="auto"
             variant="transparent"
             style={{ padding: '0.125rem' }}
             onClick={open}
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid="devices-value-header-button"
           >
-            <MdOutlineFilterAlt size={16} />
+            <MdOutlineFilterAlt color={color} size={ICON_SIZE} />
           </Button>
         </Tooltip>
       </Popover.Target>

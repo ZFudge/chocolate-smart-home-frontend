@@ -4,7 +4,9 @@ import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
-import WebSocketContext from '@/WebsocketContext';
+import { getDividerColor } from '@/lib/utils';
+import { useAppStore } from '@/stores';
+import { WebSocketContext } from '@/ws';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
 
@@ -36,7 +38,7 @@ const SliderForm = ({
   const websocket = useContext(WebSocketContext);
   const [value, setValue] = useState(initialValue);
   const multiple = devices.length > 1;
-
+  const { color } = useAppStore();
   const field = useField({
     mode: 'uncontrolled',
     initialValue,
@@ -64,27 +66,28 @@ const SliderForm = ({
   };
 
   return (
-    <>
+    <Flex direction="column" gap="md">
       <Text fw={500} size="sm">
         {name}: {value}
       </Text>
       <Slider
-        {...field.getInputProps()}
         min={0}
         max={255}
         key={field.key}
-        label={null}
-        className={cx(classes['number-slider'])}
         thumbChildren={<Icon size="1rem" />}
         thumbSize={26}
+        color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
+        label={null}
+        {...field.getInputProps()}
       />
-      <Divider my="sm" />
+      <Divider my="xs" color={getDividerColor(color)} />
       <Flex justify="space-between" className={cx(classes['slider-button-group'])}>
         <Button
           type="submit"
           onClick={handleSubmit}
           data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
+          color={color}
         >
           Submit
         </Button>
@@ -92,7 +95,7 @@ const SliderForm = ({
           Cancel
         </Button>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

@@ -1,7 +1,5 @@
 import { Table } from '@mantine/core';
-import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
-import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
-import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
 
 interface HeaderProps {
   filteredTagIds: number[];
@@ -17,17 +15,17 @@ const Header = ({
   setFilteredValue,
 }: HeaderProps) => {
   return (
-    <Table.Tr style={{ height: '3rem' }}>
-      <Table.Th w={40}>
+    <Table.Tr style={{ height: '5rem' }}>
+      <Table.Th>
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th key="tags">
         <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
       </Table.Th>
-      <Table.Th w={30}>
+      <Table.Th>
         <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
       </Table.Th>
-      <Table.Th key="device-names-header">Leonardo Devices</Table.Th>
+      <Table.Th />
       <Table.Th />
       <Table.Th />
       <Table.Th />

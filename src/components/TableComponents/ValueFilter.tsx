@@ -1,6 +1,9 @@
+import { KeyboardEventHandler } from 'react';
 import { MdOutlineFilterAlt } from 'react-icons/md';
-import { Button, Divider, Flex, Space, TextInput } from '@mantine/core';
-import classes from '@/App.module.css';
+import { CloseButton, Container, Divider, Flex, TextInput } from '@mantine/core';
+import { ICON_SIZE } from '@/constants';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { useAppStore } from '@/stores';
 
 interface ValueFilterProps {
   filteredValue: string;
@@ -9,29 +12,50 @@ interface ValueFilterProps {
 }
 
 const ValueFilter = ({ filteredValue, onChange, close }: ValueFilterProps) => {
+  const { color } = useAppStore();
+
+  const clear = () => onChange('');
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    switch (event.key) {
+      case 'x':
+        if (!event.metaKey) {
+          return;
+        }
+        event.preventDefault();
+        clear();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <>
-      <span className={classes['vertically-centered']}>
-        <MdOutlineFilterAlt />
-        <Space w="xs" />
-        Filter by value
-      </span>
-      <Divider my="sm" />
-      <TextInput
-        placeholder="Enter value"
-        value={filteredValue}
-        onChange={(event) => onChange(event.target.value)}
-      />
-      <Space h="md" />
-      <Flex justify="space-between">
-        <Button onClick={() => onChange('')} variant="transparent">
-          Clear
-        </Button>
-        <Button onClick={close} variant="transparent">
-          Close
-        </Button>
+    <Container p="xs">
+      <Flex direction="column" gap="md">
+        <Flex align="center" justify="space-between" gap="xs">
+          <Flex align="center" gap="xs">
+            <MdOutlineFilterAlt color={color} size={ICON_SIZE} />
+            Filter by value
+          </Flex>
+          <CloseButton onClick={close} />
+        </Flex>
+        <Divider my="xs" color={getDividerColor(color)} />
+        <TextInput
+          placeholder="Enter value"
+          value={filteredValue}
+          onChange={(event) => onChange(event.target.value)}
+          rightSection={<CloseButton onClick={clear} />}
+          onKeyDown={onKeyDown}
+          autoFocus
+          styles={{
+            input: {
+              border: `0.5px solid ${getBorderColor(color)}`,
+            },
+          }}
+        />
       </Flex>
-    </>
+    </Container>
   );
 };
 

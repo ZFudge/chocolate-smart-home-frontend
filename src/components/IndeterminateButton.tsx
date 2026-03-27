@@ -2,8 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
 import appClasses from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
 import { PostData, postUpdate } from '@/lib/api';
-import WebSocketContext from '@/WebsocketContext';
+import { useAppStore } from '@/stores';
+import { WebSocketContext } from '@/ws';
 
 const IndeterminateButton = ({
   Icon,
@@ -19,6 +21,7 @@ const IndeterminateButton = ({
   deviceTypeName?: string;
 }) => {
   const websocket = useContext(WebSocketContext);
+  const { color } = useAppStore();
 
   let dynamicDeviceTypeName: string | undefined = deviceTypeName;
   if (!deviceTypeName) {
@@ -62,37 +65,37 @@ const IndeterminateButton = ({
       <Loader size="1rem" />
     </div>
   ) : (
-    <div style={{ maxWidth: '2.5em' }}>
-      <Slider
-        disabled={isLoading}
-        min={0}
-        max={1}
-        step={0.5}
-        defaultValue={0.5}
-        marks={marks}
-        thumbSize={20}
-        styles={{
-          thumb: { borderWidth: 2, padding: 3 },
-          markLabel: { display: 'none' },
-        }}
-        thumbChildren={<Icon size={16} />}
-        onChangeEnd={handleChange}
-        className={appClasses['fade-in']}
-        showLabelOnHover
-        label={(value) => {
-          const label =
-            value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`;
-          if (!label) {
-            return null;
-          }
-          return (
-            <div className={appClasses['slider-label-container']}>
-              <span className={appClasses['slider-label']}>{label}</span>
-            </div>
-          );
-        }}
-      />
-    </div>
+    <Slider
+      m="auto"
+      disabled={isLoading}
+      min={0}
+      max={1}
+      step={0.5}
+      defaultValue={0.5}
+      marks={marks}
+      thumbSize={ICON_SIZE}
+      color={color}
+      styles={{
+        thumb: { borderWidth: 2, padding: 3 },
+        markLabel: { display: 'none' },
+      }}
+      thumbChildren={<Icon />}
+      onChangeEnd={handleChange}
+      className={appClasses['fade-in']}
+      showLabelOnHover
+      label={(value) => {
+        const label =
+          value === 0 ? `${dynamicLabel} OFF` : value === 0.5 ? null : `${dynamicLabel} ON`;
+        if (!label) {
+          return null;
+        }
+        return (
+          <div className={appClasses['slider-label-container']}>
+            <span className={appClasses['slider-label']}>{label}</span>
+          </div>
+        );
+      }}
+    />
   );
 };
 

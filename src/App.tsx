@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
-import { AppShell, Flex, MantineProvider } from '@mantine/core';
+import { AppShell, createTheme, Flex, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
-import SyncDeviceDataButton from './components/SyncDeviceDataButton';
-import TagsButton from './components/Tags/TagsButton';
-import ThemeToggle from './components/ToggleTheme';
+import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
 import Router from './Router';
-import useDevicesStore from './useDevicesStore';
-import useTagsStore from './useTagsStore';
-import useWebsocket from './useWebsocket';
-import WebSocketContext from './WebsocketContext';
+import { useDevicesStore, useTagsStore } from './stores';
+import { useWebsocket, WebSocketContext } from './ws';
+
+// allow theme toggle cursor to be a pointer
+const theme = createTheme({
+  cursorType: 'pointer',
+});
 
 const App = () => {
   const { connect, websocket } = useWebsocket();
@@ -42,7 +43,7 @@ const App = () => {
   }, []);
 
   return (
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       <Notifications />
       <WebSocketContext.Provider value={websocket}>
         <AppShell header={{ height: 60 }} padding="md">
@@ -53,11 +54,12 @@ const App = () => {
               padding: '1em',
             }}
           >
-            <Flex gap="md">
+            <Flex gap="md" align="center">
+              <ColorThemePickerIcon />
               <SyncDeviceDataButton />
               <TagsButton />
             </Flex>
-            <ThemeToggle />
+            <ThemeToggler />
           </AppShell.Header>
 
           <AppShell.Main>

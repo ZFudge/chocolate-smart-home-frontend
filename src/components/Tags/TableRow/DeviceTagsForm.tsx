@@ -1,13 +1,15 @@
 import { HiTag } from 'react-icons/hi';
-import { Button, Container, Flex, MultiSelect, Space, Text } from '@mantine/core';
+import { Button, Container, Divider, Flex, MultiSelect, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
-import useTagsStore from '@/useTagsStore';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { useAppStore, useTagsStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
   const { tags } = useTagsStore();
   const currentTagIds = device.tags?.map((tag) => tag.id) || [];
+  const { color } = useAppStore();
 
   const form = useForm({
     name: 'device-tags-form',
@@ -41,8 +43,6 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
       });
       return;
     }
-    const data = await response.json();
-    console.log('data', data);
     notifications.show({
       title: 'Tags saved',
       message: `Tags for ${device.name} were saved successfully`,
@@ -54,28 +54,38 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
     <Container p="xs">
       {tags.length ? (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-          <Flex justify="center" direction="row" gap="xs">
-            <Text style={{ textWrapMode: 'nowrap' }}>Edit tags:</Text>
-            <Space w="lg" />
-            <Flex>
+          <Flex direction="column" gap="md">
+            <Flex direction="row" gap="xs" align="center">
+              <HiTag color={color} />
               <Text fw={500} ta="end">
                 {device.name}
               </Text>
             </Flex>
-          </Flex>
-          <Space h="md" />
-          <MultiSelect
-            data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
-            key={form.key('tags')}
-            {...form.getInputProps('tags')}
-            comboboxProps={{ withinPortal: false }}
-          />
-          <Space h="xl" />
-          <Flex gap="md" justify="space-between">
-            <Button type="submit">Save</Button>
-            <Button variant="default" onClick={close}>
-              Cancel
-            </Button>
+            <Divider color={getDividerColor(color)} />
+            <MultiSelect
+              autoFocus
+              label="Tags"
+              data={Object.values(tags).map((tag) => ({
+                value: tag.id.toString(),
+                label: tag.name,
+              }))}
+              key={form.key('tags')}
+              {...form.getInputProps('tags')}
+              comboboxProps={{ withinPortal: false }}
+              styles={{
+                input: {
+                  border: `0.5px solid ${getBorderColor(color)}`,
+                },
+              }}
+            />
+            <Flex gap="md" justify="space-between">
+              <Button type="submit" color={color}>
+                Save
+              </Button>
+              <Button variant="default" onClick={close}>
+                Cancel
+              </Button>
+            </Flex>
           </Flex>
         </form>
       ) : (

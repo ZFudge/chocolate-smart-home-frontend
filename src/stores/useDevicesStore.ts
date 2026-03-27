@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
-import { DeviceMapping } from './interfaces';
-import { DeviceObjectTypes } from './types';
+import { DeviceMapping } from '@/interfaces';
+import { DeviceObjectTypes } from '@/types';
 
 const useDevicesStore = create(
   combine(

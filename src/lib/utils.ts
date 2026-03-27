@@ -34,3 +34,6 @@ export const getFilteredDeviceIds = (
 
   return filteredDeviceIds;
 };
+
+export const getBorderColor = (color: string) => `${color}77`;
+export const getDividerColor = (color: string) => `${color}55`;

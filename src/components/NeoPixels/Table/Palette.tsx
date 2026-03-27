@@ -1,6 +1,6 @@
 import cx from 'clsx';
 import { Button, Flex } from '@mantine/core';
-import TooltipWrapper from '@/components/TooltipWrapper';
+import { TooltipWrapper } from '@/components';
 import { NeoPixelObject } from '../interfaces';
 import Palette3x3 from '../Palette3x3';
 import classes from '../NeoPixel.module.css';
@@ -21,6 +21,7 @@ const Palette = ({ devices, openPaletteModal, label }: PaletteProps) => {
   return (
     <TooltipWrapper label={label}>
       <Button
+        m="auto"
         variant="transparent"
         data-testid={`${mqttIdLabel}-palette-button`}
         className={cx(classes['neo-pixel-table-palette-status'])}

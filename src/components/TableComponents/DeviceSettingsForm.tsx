@@ -1,9 +1,14 @@
-import { Button, Flex, Space, TextInput } from '@mantine/core';
+import { IoSettingsSharp } from 'react-icons/io5';
+import { Button, Container, Divider, Flex, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { useAppStore } from '@/stores';
 
 const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
+  const { color } = useAppStore();
+
   const form = useForm({
     name: 'device-settings-form',
     mode: 'uncontrolled',
@@ -55,16 +60,32 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
   };
 
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <TextInput label="Name" {...form.getInputProps('name')} />
-      <Space h="md" />
-      <Flex justify="space-between">
-        <Button type="submit">Save</Button>
-        <Button onClick={close} variant="transparent">
-          Cancel
-        </Button>
-      </Flex>
-    </form>
+    <Container p="xs">
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+        <Flex direction="row" gap="xs" align="center">
+          <IoSettingsSharp color={color} />
+          <Text fw={500} ta="left">
+            Device Settings
+          </Text>
+        </Flex>
+        <Divider my="md" color={getDividerColor(color)} />
+        <Flex direction="column" gap="md">
+          <TextInput
+            label="Name"
+            {...form.getInputProps('name')}
+            styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
+          />
+          <Flex justify="space-between">
+            <Button type="submit" color={color}>
+              Save
+            </Button>
+            <Button onClick={close} variant="default">
+              Cancel
+            </Button>
+          </Flex>
+        </Flex>
+      </form>
+    </Container>
   );
 };
 

@@ -1,17 +1,17 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
-import cx from 'clsx';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { Button, Divider, Flex, Loader, Popover, Text } from '@mantine/core';
+import { Button, Flex, Loader, Popover, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import { ToggleButton } from '@/components';
-import { SplitTableCell, TooltipWrapper } from '@/components/';
-import IndeterminateButton from '@/components/IndeterminateButton';
+import { IndeterminateButton, SplitTableCell, ToggleButton, TooltipWrapper } from '@/components';
+import { getBorderColor } from '@/lib/utils';
+import { useAppStore } from '@/stores';
 import { NEO_PIXEL } from '../constants';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import classes from '../NeoPixel.module.css';
 
 const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
+  const { color } = useAppStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -82,7 +82,7 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
               onClick={open}
               disabled={opened}
               variant="transparent"
-              className={cx(classes['split-button'])}
+              className={`${classes['split-button']} ${classes['theme-match']}`}
               data-testid={`${multiple ? 'selected-devices' : mqttId}-pir-config-button`}
             >
               <SplitTableCell value={value} Icon={FaPersonBurst} explicitColor={explicitColor} />
@@ -90,8 +90,17 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
           )}
         </Popover.Target>
         <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
-          <div style={{ marginBottom: '1em' }}>
-            <Flex justify="flex-start" gap="md">
+          <Flex direction="column" gap="md">
+            <Flex
+              justify="flex-start"
+              gap="md"
+              align="center"
+              style={{
+                border: `1px solid ${getBorderColor(color)}`,
+                borderRadius: '4px',
+                padding: '1em',
+              }}
+            >
               <Text fw={500}>Armed:</Text>
               {indeterminate ? (
                 <IndeterminateButton
@@ -110,18 +119,25 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
                 />
               )}
             </Flex>
-          </div>
-          <Divider my="sm" />
-          <SliderForm
-            devices={devices}
-            name="timeout"
-            initialValue={value}
-            Icon={FaClock}
-            close={close}
-            setIsLoading={setIsLoading}
-            deviceTypeName={NEO_PIXEL}
-            mqttId={mqttId}
-          />
+            <div
+              style={{
+                border: `1px solid ${getBorderColor(color)}`,
+                borderRadius: '4px',
+                padding: '1em',
+              }}
+            >
+              <SliderForm
+                devices={devices}
+                name="timeout"
+                initialValue={value}
+                Icon={FaClock}
+                close={close}
+                setIsLoading={setIsLoading}
+                deviceTypeName={NEO_PIXEL}
+                mqttId={mqttId}
+              />
+            </div>
+          </Flex>
         </Popover.Dropdown>
       </Popover>
     </TooltipWrapper>

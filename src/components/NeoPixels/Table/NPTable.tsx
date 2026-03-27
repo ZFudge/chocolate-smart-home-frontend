@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ScrollArea, Table } from '@mantine/core';
 import { getFilteredDeviceIds } from '@/lib/utils';
-import useTagsStore from '@/useTagsStore';
+import { useTagsStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
 import PaletteModal from '../PaletteModal';
 import Header from './Header';

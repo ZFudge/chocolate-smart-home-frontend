@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { LeonardoCommandObject } from '../interfaces';
 import { LeonardoCommand } from '../types';
@@ -15,11 +15,10 @@ const LeoButton = ({ command, device, setLeonardoCommand }: LeoButtonProps) => {
     <Button
       color={getColor(command)}
       variant="outline"
-      size="xs"
       radius="lg"
       onClick={() => setLeonardoCommand({ command, device })}
     >
-      {command}
+      <Text fw={700}>{command}</Text>
     </Button>
   );
 };

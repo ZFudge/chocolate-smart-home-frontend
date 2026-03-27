@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FaPowerOff } from 'react-icons/fa';
-import IndeterminateButton from '@/components/IndeterminateButton';
+import { IndeterminateButton } from '@/components';
 
 const meta: Meta<typeof IndeterminateButton> = {
   component: IndeterminateButton,

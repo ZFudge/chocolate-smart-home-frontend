@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Button, Loader } from '@mantine/core';
 import classes from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 import { IndexableObj } from './NeoPixels/interfaces';
 import TooltipWrapper from './TooltipWrapper';
 
@@ -104,15 +104,15 @@ const ToggleButton = ({
   return (
     <TooltipWrapper label={label}>
       <Button
+        m="auto"
         onClick={handleToggle}
         color={color}
         variant="outline"
-        size="xs"
         radius="lg"
         data-testid={dataTestId}
-        className={`${classes['fade-in']} ${classes['color-transition']}`}
+        className={`${classes['fade-in']} ${classes['color-transition']} ${classes['theme-match']}`}
       >
-        {isLoading ? <Loader size="0.75rem" /> : Icon && <Icon />}
+        {isLoading ? <Loader size="0.75rem" /> : Icon && <Icon size={18} />}
         {children}
       </Button>
     </TooltipWrapper>
