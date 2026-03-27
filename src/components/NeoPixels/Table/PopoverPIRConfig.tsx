@@ -1,16 +1,18 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { Button, Container, Divider, Flex, Loader, Popover, Text } from '@mantine/core';
+import { Button, Flex, Loader, Popover, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ToggleButton } from '@/components';
 import { SplitTableCell, TooltipWrapper } from '@/components/';
 import IndeterminateButton from '@/components/IndeterminateButton';
+import { useAppStore } from '@/stores';
 import { NEO_PIXEL } from '../constants';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import classes from '../NeoPixel.module.css';
 
 const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
+  const { color } = useAppStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -89,40 +91,44 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
           )}
         </Popover.Target>
         <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
-          <Container p="xs">
-            <div style={{ marginBottom: '1em' }}>
-              <Flex justify="flex-start" gap="md">
-                <Text fw={500}>Armed:</Text>
-                {indeterminate ? (
-                  <IndeterminateButton
-                    selection={devices.map((d) => d.mqtt_id)}
-                    settingName="armed"
-                    label="armed"
-                    Icon={FaPersonBurst}
-                    deviceTypeName={NEO_PIXEL}
-                  />
-                ) : (
-                  <ToggleButton
-                    devices={devices}
-                    settingName="armed"
-                    Icon={FaPersonBurst}
-                    deviceTypeName={NEO_PIXEL}
-                  />
-                )}
-              </Flex>
+          <Flex direction="column" gap="md">
+            <Flex
+              justify="flex-start"
+              gap="md"
+              align="center"
+              style={{ border: `1px solid ${color}`, borderRadius: '4px', padding: '1em' }}
+            >
+              <Text fw={500}>Armed:</Text>
+              {indeterminate ? (
+                <IndeterminateButton
+                  selection={devices.map((d) => d.mqtt_id)}
+                  settingName="armed"
+                  label="armed"
+                  Icon={FaPersonBurst}
+                  deviceTypeName={NEO_PIXEL}
+                />
+              ) : (
+                <ToggleButton
+                  devices={devices}
+                  settingName="armed"
+                  Icon={FaPersonBurst}
+                  deviceTypeName={NEO_PIXEL}
+                />
+              )}
+            </Flex>
+            <div style={{ border: `1px solid ${color}`, borderRadius: '4px', padding: '1em' }}>
+              <SliderForm
+                devices={devices}
+                name="timeout"
+                initialValue={value}
+                Icon={FaClock}
+                close={close}
+                setIsLoading={setIsLoading}
+                deviceTypeName={NEO_PIXEL}
+                mqttId={mqttId}
+              />
             </div>
-            <Divider my="sm" />
-            <SliderForm
-              devices={devices}
-              name="timeout"
-              initialValue={value}
-              Icon={FaClock}
-              close={close}
-              setIsLoading={setIsLoading}
-              deviceTypeName={NEO_PIXEL}
-              mqttId={mqttId}
-            />
-          </Container>
+          </Flex>
         </Popover.Dropdown>
       </Popover>
     </TooltipWrapper>

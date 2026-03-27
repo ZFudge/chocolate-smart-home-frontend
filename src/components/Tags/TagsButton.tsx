@@ -24,7 +24,7 @@ const TagsButton = () => {
 
   return (
     <div className={classes['cursor-pointer']}>
-      <Popover withArrow trapFocus position="bottom" shadow="md" width={300} opened={opened}>
+      <Popover withArrow trapFocus position="bottom" shadow="md" opened={opened}>
         <Popover.Target>
           <Tooltip label="Edit Tags">
             <Button

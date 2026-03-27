@@ -9,6 +9,7 @@ const MIN_TAG_LENGTH = 3;
 const EditTagsForm = ({ close }: { close: () => void }) => {
   const { tags, addTagsData } = useTagsStore();
   const { color } = useAppStore();
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -74,17 +75,22 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
       <Flex direction="column" gap="md">
         <Select
           key={form.key('id')}
-          label="Existing Tags"
+          label="Existing Tag"
           placeholder="Choose tag"
           data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
           {...form.getInputProps('id')}
+          data-testid="edit-tag-select"
           comboboxProps={{ withinPortal: false }}
+          styles={{ input: { border: `0.5px solid ${color}` } }}
         />
         <TextInput
           placeholder="Edit Tag Name"
           label="Edit Tag Name"
           key={form.key('name')}
           {...form.getInputProps('name')}
+          data-testid="edit-tag-input"
+          autoFocus
+          styles={{ input: { border: `0.5px solid ${color}` } }}
         />
         <Flex gap="md" justify="space-between">
           <Button disabled={!form.isValid()} type="submit" color={color}>

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
-import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
+import { Button, Divider, Flex, rem, Slider, Stack, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
@@ -65,29 +65,29 @@ const SliderForm = ({
   };
 
   return (
-    <>
+    <Flex direction="column" gap="md">
       <Text fw={500} size="sm">
         {name}: {value}
       </Text>
       <Slider
-        {...field.getInputProps()}
         min={0}
         max={255}
         key={field.key}
-        label={null}
-        className={cx(classes['number-slider'])}
-        thumbChildren={<Icon color={color} size="1rem" />}
+        thumbChildren={<Icon size="1rem" />}
         thumbSize={26}
         color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
+        label={null}
+        {...field.getInputProps()}
       />
-      <Divider my="sm" />
+      <Divider my="xs" color={color} />
       <Flex justify="space-between" className={cx(classes['slider-button-group'])}>
         <Button
           type="submit"
           onClick={handleSubmit}
           data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
           color={color}
+          disabled={!field.isDirty()}
         >
           Submit
         </Button>
@@ -95,7 +95,7 @@ const SliderForm = ({
           Cancel
         </Button>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

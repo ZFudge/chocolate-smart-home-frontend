@@ -18,15 +18,12 @@ const Title = ({
     return null;
   }
   return (
-    <Flex>
+    <Flex direction="column" gap="md" align="center" w="auto">
       <Text ta="center">Confirm</Text>
-      <Space w="md" />
-      <Badge color={getColor(command)} size="lg">
+      <Badge color={getColor(command)} size="xl" variant="filled">
         {command}
       </Badge>
-      <Space w="md" />
       <Text ta="center">for</Text>
-      <Space w="md" />
       <Text ta="center" fw={700}>
         {device?.name}
       </Text>
@@ -72,10 +69,22 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
       withCloseButton={false}
       centered
       data-testid="confirmation-modal"
+      size="xs"
+      styles={{
+        header: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2em 2em 0 2em',
+        },
+        body: {
+          padding: '2em',
+        },
+      }}
     >
       <FocusTrap.InitialFocus />
-      <Space h="md" />
-      <Group justify="center" gap={75}>
+      <Group justify="space-between">
         <Button onClick={handleSubmit} color={color} data-testid="submit">
           Submit
         </Button>

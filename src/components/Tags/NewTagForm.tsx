@@ -3,13 +3,14 @@ import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
-import { useTagsStore } from '@/stores';
+import { useAppStore, useTagsStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
 
 const NewTagForm = ({ close }: { close: () => void }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { addTagsData, tags } = useTagsStore();
+  const { color } = useAppStore();
 
   const form = useForm({
     name: 'new-tag-form',
@@ -74,6 +75,9 @@ const NewTagForm = ({ close }: { close: () => void }) => {
           label="New Tag Name"
           key={form.key('name')}
           {...form.getInputProps('name')}
+          data-testid="new-tag-input"
+          autoFocus
+          styles={{ input: { border: `0.5px solid ${color}` } }}
         />
         <Space h="md" />
         <Flex gap="md" justify="space-between">
