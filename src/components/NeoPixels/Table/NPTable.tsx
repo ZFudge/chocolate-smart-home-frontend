@@ -1,38 +1,25 @@
 import { useState } from 'react';
 import { ScrollArea, Table } from '@mantine/core';
-import { getFilteredDeviceIds } from '@/lib/utils';
+import { filterDevicesByTags } from '@/lib/utils';
 import { useDevicesStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
 import PaletteModal from '../PaletteModal';
 import Header from './Header';
 import TableRow from './TableRow';
+import { filterByValue } from './utils';
 import classes from '../NeoPixel.module.css';
 
-const filterByValue = (filteredValue: string, device: NeoPixelObject) =>
-  device.name.includes(filteredValue) ||
-  device.ms.toString().includes(filteredValue) ||
-  device.brightness.toString().includes(filteredValue) ||
-  Number(device.on).toString().includes(filteredValue) ||
-  Number(device.online).toString().includes(filteredValue) ||
-  device.last_seen?.includes(filteredValue) ||
-  Number(device.twinkle).toString().includes(filteredValue) ||
-  Number(device.transform).toString().includes(filteredValue) ||
-  device.timeout?.toString().includes(filteredValue);
-
-interface NPTableProps {
-  devices: NeoPixelObject[];
-  onClick?: () => void;
-}
-
-const NPTable = ({ devices }: NPTableProps) => {
-  const { tags, filteredTagIds, filteredValue } = useDevicesStore();
+const NPTable = () => {
+  const { filteredTagIds, filteredValue, neoPixelDevices } = useDevicesStore();
+  const neoPixelDevicesArray = Object.values(neoPixelDevices);
   const [selection, setSelection] = useState<number[]>([]);
   const [editPaletteDevice, setEditPaletteDevice] = useState<NeoPixelObject[] | null>(null);
-  const filteredDeviceIds = getFilteredDeviceIds(devices, tags, filteredTagIds);
 
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === devices.length ? [] : devices.map((device) => device.mqtt_id)
+      current.length === neoPixelDevicesArray.length
+        ? []
+        : neoPixelDevicesArray.map((device) => device.mqtt_id)
     );
 
   const toggleRow = (mqtt_id: number) =>
@@ -40,10 +27,16 @@ const NPTable = ({ devices }: NPTableProps) => {
       current.includes(mqtt_id) ? current.filter((item) => item !== mqtt_id) : [...current, mqtt_id]
     );
 
-  const filteredDevices: NeoPixelObject[] = Object.values(devices).filter(
-    (device: NeoPixelObject) =>
-      filteredDeviceIds.includes(device.mqtt_id) && filterByValue(filteredValue, device)
-  );
+  const filteredDevicesByTags = filterDevicesByTags(
+    neoPixelDevicesArray,
+    filteredTagIds
+  ) as NeoPixelObject[];
+  const filterByValueFn = (device: NeoPixelObject) => filterByValue(filteredValue, device);
+  const filteredDevices: NeoPixelObject[] = filteredDevicesByTags.filter(filterByValueFn);
+
+  const closePaletteModal = () => setEditPaletteDevice(null);
+  const openPaletteModalSelectedDevices = () =>
+    setEditPaletteDevice(selection.map((mqtt_id) => neoPixelDevices[mqtt_id]));
 
   return (
     <ScrollArea>
@@ -52,21 +45,14 @@ const NPTable = ({ devices }: NPTableProps) => {
           <Header
             toggleAll={toggleAll}
             selection={selection}
-            devices={devices}
-            openPaletteModal={() =>
-              setEditPaletteDevice(
-                selection.map(
-                  (id) => devices.find((device) => device.mqtt_id === id) as NeoPixelObject
-                )
-              )
-            }
+            openPaletteModal={openPaletteModalSelectedDevices}
           />
         </Table.Thead>
         <Table.Tbody>
           {filteredDevices.map((device, index) => (
             <TableRow
               key={`${device.mqtt_id}-${index}-tr`}
-              selected={device.mqtt_id !== undefined && selection.includes(device.mqtt_id)}
+              selected={selection.includes(device.mqtt_id)}
               openPaletteModal={() => setEditPaletteDevice([device])}
               device={device}
               toggleRow={toggleRow}
@@ -75,7 +61,7 @@ const NPTable = ({ devices }: NPTableProps) => {
         </Table.Tbody>
       </Table>
       {editPaletteDevice && editPaletteDevice.length > 0 && (
-        <PaletteModal devices={editPaletteDevice} close={() => setEditPaletteDevice(null)} />
+        <PaletteModal devices={editPaletteDevice} close={closePaletteModal} />
       )}
     </ScrollArea>
   );

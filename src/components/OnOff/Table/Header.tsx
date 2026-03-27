@@ -1,25 +1,25 @@
 import { Checkbox, Table } from '@mantine/core';
 import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
 import { getBorderColor } from '@/lib/utils';
-import { useAppStore } from '@/stores';
-import { OnOffObject } from '../interfaces';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 interface HeaderProps {
-  devices: OnOffObject[];
   selection: number[];
   toggleAll: () => void;
 }
 
-const Header = ({ devices, selection, toggleAll }: HeaderProps) => {
+const Header = ({ selection, toggleAll }: HeaderProps) => {
   const { color } = useAppStore();
+  const { onOffDevices } = useDevicesStore();
+  const onOffDevicesArray = Object.values(onOffDevices);
 
   return (
     <Table.Tr style={{ height: '5rem' }}>
       <Table.Th>
         <Checkbox
           onChange={toggleAll}
-          checked={selection.length === devices.length}
-          indeterminate={selection.length > 0 && selection.length !== devices.length}
+          checked={selection.length === onOffDevicesArray.length}
+          indeterminate={selection.length > 0 && selection.length !== onOffDevicesArray.length}
           data-testid="toggle-all-checkbox"
           color={color}
           styles={{

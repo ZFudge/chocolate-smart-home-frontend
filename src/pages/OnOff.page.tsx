@@ -1,18 +1,13 @@
-import { NoOnOff, ON_OFF, OnOffTable } from '@/components/OnOff';
-import { OnOffObject } from '@/components/OnOff/interfaces';
+import { NoOnOff, OnOffTable } from '@/components/OnOff';
 import { useDevicesStore } from '@/stores';
 
 const OnOffPage = () => {
-  const { devices } = useDevicesStore();
+  const { onOffDevices } = useDevicesStore();
 
-  const devicesArray = Object.values(devices).filter(
-    (device) => device.device_type_name === ON_OFF
-  );
-
-  if (devicesArray.length === 0) {
+  if (Object.keys(onOffDevices).length === 0) {
     return <NoOnOff />;
   }
-  return <OnOffTable devices={devicesArray as OnOffObject[]} />;
+  return <OnOffTable />;
 };
 
 export default OnOffPage;

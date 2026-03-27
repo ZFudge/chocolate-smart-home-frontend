@@ -6,8 +6,7 @@ import { Checkbox, Table } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
 import { getBorderColor } from '@/lib/utils';
-import { useAppStore } from '@/stores';
-import { NeoPixelObject } from '../../interfaces';
+import { useAppStore, useDevicesStore } from '@/stores';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
 import PopoverSlider from '../PopoverSlider';
@@ -15,24 +14,28 @@ import HeaderColumnToggler from './HeaderColumnToggler';
 import classes from '../../NeoPixel.module.css';
 
 interface HeaderProps {
-  devices: NeoPixelObject[];
   toggleAll: () => void;
   openPaletteModal: () => void;
   selection: number[];
 }
 
-const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps) => {
-  const trSettingsClass = `${selection.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
-  const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
+const Header = ({ selection, toggleAll, openPaletteModal }: HeaderProps) => {
   const { color } = useAppStore();
+  const { neoPixelDevices } = useDevicesStore();
+  const neoPixelDevicesArray = Object.values(neoPixelDevices);
+
+  const trSettingsClass = `${selection.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
+  const selectedDevices = neoPixelDevicesArray.filter((device) =>
+    selection.includes(device.mqtt_id)
+  );
 
   return (
     <Table.Tr style={{ height: '5rem' }}>
       <Table.Th w={40} ta="center">
         <Checkbox
           onChange={toggleAll}
-          checked={selection.length === devices.length}
-          indeterminate={selection.length > 0 && selection.length !== devices.length}
+          checked={selection.length === neoPixelDevicesArray.length}
+          indeterminate={selection.length > 0 && selection.length !== neoPixelDevicesArray.length}
           data-testid="toggle-all-checkbox"
           color={color}
           styles={{

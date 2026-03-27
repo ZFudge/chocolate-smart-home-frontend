@@ -1,27 +1,25 @@
 import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
-import { getFilteredDeviceIds } from '@/lib/utils';
+import { filterDevicesByTags } from '@/lib/utils';
 import { useDevicesStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
 import Header from './Header';
 import TableRow from './TableRow';
 import classes from '../OnOff.module.css';
 
-interface OnOffTableProps {
-  devices: OnOffObject[];
-  onClick?: () => void;
-}
-
 const filterByValue = (filteredValue: string, device: OnOffObject) =>
   device.name.includes(filteredValue) || Number(device.on).toString().includes(filteredValue);
 
-const OnOffTable = ({ devices }: OnOffTableProps) => {
+const OnOffTable = () => {
   const [selection, setSelection] = useState<number[]>([]);
-  const { tags, filteredTagIds, filteredValue } = useDevicesStore();
+  const { filteredTagIds, filteredValue, onOffDevices } = useDevicesStore();
+  const onOffDevicesArray = Object.values(onOffDevices);
 
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === devices.length ? [] : devices.map((device) => device.mqtt_id)
+      current.length === onOffDevicesArray.length
+        ? []
+        : onOffDevicesArray.map((device) => device.mqtt_id)
     );
 
   const toggleRow = (mqtt_id: number) =>
@@ -29,17 +27,18 @@ const OnOffTable = ({ devices }: OnOffTableProps) => {
       current.includes(mqtt_id) ? current.filter((item) => item !== mqtt_id) : [...current, mqtt_id]
     );
 
-  const filteredDeviceIds = getFilteredDeviceIds(devices, tags, filteredTagIds);
-
-  const filteredDevices: OnOffObject[] = Object.values(devices).filter(
-    (device) => filteredDeviceIds.includes(device.mqtt_id) && filterByValue(filteredValue, device)
-  );
+  const filteredDevicesByTags = filterDevicesByTags(
+    onOffDevicesArray,
+    filteredTagIds
+  ) as OnOffObject[];
+  const filterByValueFn = (device: OnOffObject) => filterByValue(filteredValue, device);
+  const filteredDevices: OnOffObject[] = filteredDevicesByTags.filter(filterByValueFn);
   return (
     <ScrollArea>
       <Flex>
         <Table withTableBorder className={classes['mantine-Table-table']}>
           <Table.Thead>
-            <Header toggleAll={toggleAll} selection={selection} devices={devices} />
+            <Header toggleAll={toggleAll} selection={selection} />
           </Table.Thead>
           <Table.Tbody>
             {filteredDevices.map((device, index) => (

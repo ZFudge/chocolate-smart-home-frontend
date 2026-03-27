@@ -1,38 +1,15 @@
-import { DeviceIdsByTagId, DeviceObject, Tag } from '@/interfaces';
+import { DeviceObject, Tag } from '@/interfaces';
 
 export const boolToOnOff = (b: boolean) => (b ? 'ON' : 'OFF');
 
-export const getFilteredDeviceIds = (
-  devices: DeviceObject[],
-  tags: Tag[],
-  filteredTagIds: number[]
-) => {
+export const filterDevicesByTags = (devices: DeviceObject[], filteredTagIds: number[]) => {
   if (filteredTagIds.length === 0) {
-    return devices.map((device) => device.mqtt_id);
+    return devices;
   }
 
-  const deviceIdsByTagId = tags.reduce((acc: DeviceIdsByTagId, tag: Tag) => {
-    const deviceIds = devices
-      .filter((device: DeviceObject) =>
-        device.tags?.some((deviceTag: Tag) => deviceTag.id === tag.id)
-      )
-      .map((device) => device.mqtt_id);
-    acc[tag.id] = deviceIds;
-    return acc;
-  }, {});
-
-  const filteredDeviceIds: number[] = filteredTagIds.length
-    ? Array.from(
-        new Set(
-          filteredTagIds.reduce(
-            (acc: number[], id: number) => [...acc, ...deviceIdsByTagId[id]],
-            []
-          )
-        )
-      )
-    : devices.map((device) => device.mqtt_id);
-
-  return filteredDeviceIds;
+  return devices.filter((device: DeviceObject) =>
+    device.tags?.some((deviceTag: Tag) => filteredTagIds.includes(deviceTag.id))
+  );
 };
 
 export const getBorderColor = (color: string) => `${color}77`;

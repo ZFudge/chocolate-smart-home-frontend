@@ -1,17 +1,13 @@
-import { LEONARDO, LeonardoTable, NoLeonardo } from '@/components/Leonardo';
+import { LeonardoTable, NoLeonardo } from '@/components/Leonardo';
 import { useDevicesStore } from '@/stores';
 
 const LeonardoPage = () => {
-  const { devices } = useDevicesStore();
+  const { leonardoDevices } = useDevicesStore();
 
-  const devicesArray = Object.values(devices).filter(
-    (device) => device.device_type_name === LEONARDO
-  );
-
-  if (devicesArray.length === 0) {
+  if (Object.keys(leonardoDevices).length === 0) {
     return <NoLeonardo />;
   }
-  return <LeonardoTable devices={devicesArray} />;
+  return <LeonardoTable />;
 };
 
 export default LeonardoPage;

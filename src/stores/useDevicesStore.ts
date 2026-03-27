@@ -1,5 +1,10 @@
 import { create } from 'zustand';
-import { DeviceMapping, DeviceObjectType, Tag } from '@/interfaces';
+import { LEONARDO } from '@/components/Leonardo';
+import { NEO_PIXEL } from '@/components/NeoPixels';
+import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
+import { ON_OFF } from '@/components/OnOff';
+import { OnOffObject } from '@/components/OnOff/interfaces';
+import { DeviceMapping, DeviceObject, DeviceObjectType, Tag } from '@/interfaces';
 
 interface DevicesStore {
   devices: DeviceMapping;
@@ -10,16 +15,54 @@ interface DevicesStore {
   addTagsData: (newTags: Tag[]) => void;
   setFilteredTagIds: (filteredTagIds: number[]) => void;
   setFilteredValue: (filteredValue: string) => void;
+  onOffDevices: Record<number, OnOffObject>;
+  neoPixelDevices: Record<number, NeoPixelObject>;
+  leonardoDevices: Record<number, DeviceObject>;
+  triageDevice: (newDevice: DeviceObjectType) => void;
 }
 
 const useDevicesStore = create<DevicesStore>((set, get) => ({
   devices: {} as DeviceMapping,
+  onOffDevices: {} as Record<number, OnOffObject>,
+  neoPixelDevices: {} as Record<number, NeoPixelObject>,
+  leonardoDevices: {} as Record<number, DeviceObject>,
+  triageDevice: (newDevice: DeviceObjectType) => {
+    switch (newDevice.device_type_name) {
+      case ON_OFF:
+        set({
+          onOffDevices: { ...get().onOffDevices, [newDevice.mqtt_id]: newDevice as OnOffObject },
+        });
+        break;
+      case NEO_PIXEL:
+        set({
+          neoPixelDevices: {
+            ...get().neoPixelDevices,
+            [newDevice.mqtt_id]: newDevice as NeoPixelObject,
+          },
+        });
+        break;
+      case LEONARDO:
+        set({
+          leonardoDevices: {
+            ...get().leonardoDevices,
+            [newDevice.mqtt_id]: newDevice as DeviceObject,
+          },
+        });
+        break;
+      default:
+        break;
+    }
+  },
   addDeviceData: (newDevice: DeviceObjectType | DeviceObjectType[]) => {
     const devices = get().devices;
+    const handleDevice = (device: DeviceObjectType) => {
+      devices[device.mqtt_id] = device;
+      get().triageDevice(device);
+    };
     if (Array.isArray(newDevice)) {
-      newDevice.forEach((device) => (devices[device.mqtt_id] = device));
+      newDevice.forEach(handleDevice);
     } else {
-      devices[newDevice.mqtt_id] = newDevice;
+      handleDevice(newDevice);
     }
     set({ devices });
   },

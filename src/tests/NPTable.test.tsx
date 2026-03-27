@@ -2,6 +2,7 @@ import { act, fireEvent, render, userEvent } from '@test-utils';
 import cx from 'clsx';
 import classes from '@/components/NeoPixels/NeoPixel.module.css';
 import NPTable from '@/components/NeoPixels/Table/NPTable';
+import { useDevicesStore } from '@/stores';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
@@ -10,10 +11,15 @@ vi.mock('@/components/NeoPixels/PaletteModal/presets/utils', () => ({
 }));
 
 describe('NPTable component', () => {
+  beforeEach(() => {
+    useDevicesStore.setState({
+      neoPixelDevices: neoPixelsMockData,
+    });
+  });
   afterEach(vi.clearAllMocks);
 
   it('should add/remove rows from selection when clicked', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const firstRow: HTMLElement = getByTestId('1-tr');
     const secondRow: HTMLElement = getByTestId('2-tr');
     const firstCheckbox: HTMLElement = getByTestId('1-checkbox');
@@ -32,7 +38,7 @@ describe('NPTable component', () => {
   });
 
   it('should call api.postUpdate when power button clicked', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const powerButton: HTMLElement = getByTestId('1-on-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(powerButton));
@@ -46,7 +52,7 @@ describe('NPTable component', () => {
   });
 
   it('should open/close palette modal', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const paletteButton: HTMLElement = getByTestId('1-palette-button');
     fireEvent.click(paletteButton);
     const paletteModal = getByTestId('palette-modal');
@@ -54,7 +60,7 @@ describe('NPTable component', () => {
   });
 
   it('should call api.postUpdate when twinkle button clicked', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const twinkleButton: HTMLElement = getByTestId('1-twinkle-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(twinkleButton));
@@ -68,7 +74,7 @@ describe('NPTable component', () => {
   });
 
   it('should call api.postUpdate when transform button clicked', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const transformButton: HTMLElement = getByTestId('1-transform-toggle');
     const apiModule = await import('@/lib/api');
     act(() => fireEvent.click(transformButton));
@@ -82,9 +88,7 @@ describe('NPTable component', () => {
   });
 
   it('should set ms', async () => {
-    const { getByTestId, findByTestId } = render(
-      <NPTable devices={Object.values(neoPixelsMockData)} />
-    );
+    const { getByTestId, findByTestId } = render(<NPTable />);
     const msButton: HTMLElement = getByTestId('1-ms-slider-button');
     fireEvent.click(msButton);
     const submitButton = await findByTestId('1-ms-submit-button');
@@ -102,9 +106,7 @@ describe('NPTable component', () => {
   });
 
   it('should set brightness', async () => {
-    const { getByTestId, findByTestId } = render(
-      <NPTable devices={Object.values(neoPixelsMockData)} />
-    );
+    const { getByTestId, findByTestId } = render(<NPTable />);
     const brightnessButton: HTMLElement = getByTestId('1-brightness-slider-button');
     fireEvent.click(brightnessButton);
     const submitButton = await findByTestId('1-brightness-submit-button');
@@ -122,7 +124,7 @@ describe('NPTable component', () => {
   });
 
   it('should select/deselect all devices when toggle all checkbox clicked', async () => {
-    const { getByTestId } = render(<NPTable devices={Object.values(neoPixelsMockData)} />);
+    const { getByTestId } = render(<NPTable />);
     const toggleAllCheckbox: HTMLElement = getByTestId('toggle-all-checkbox');
     const checkbox1: HTMLElement = getByTestId('1-checkbox').parentElement?.parentElement
       ?.parentElement as HTMLElement;
