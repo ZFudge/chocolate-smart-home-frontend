@@ -1,29 +1,17 @@
 import { Table } from '@mantine/core';
 import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
 
-interface HeaderProps {
-  filteredTagIds: number[];
-  setFilteredTagIds: (filteredTagIds: number[]) => void;
-  filteredValue: string;
-  setFilteredValue: (filteredValue: string) => void;
-}
-
-const Header = ({
-  filteredTagIds,
-  setFilteredTagIds,
-  filteredValue,
-  setFilteredValue,
-}: HeaderProps) => {
+const Header = () => {
   return (
     <Table.Tr style={{ height: '5rem' }}>
       <Table.Th>
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th key="tags">
-        <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
+        <TagsHeader />
       </Table.Th>
       <Table.Th>
-        <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
+        <ValueFilterButton />
       </Table.Th>
       <Table.Th />
       <Table.Th />

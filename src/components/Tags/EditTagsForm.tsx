@@ -3,12 +3,12 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
 import { getBorderColor } from '@/lib/utils';
-import { useAppStore, useTagsStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
 
 const EditTagsForm = ({ close }: { close: () => void }) => {
-  const { tags, addTagsData } = useTagsStore();
+  const { tags, addTagsData } = useDevicesStore();
   const { color } = useAppStore();
 
   const form = useForm({

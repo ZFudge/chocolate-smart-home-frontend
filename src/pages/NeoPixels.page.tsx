@@ -1,4 +1,5 @@
 import { NEO_PIXEL, NoNeoPixels, NPTable } from '@/components/NeoPixels';
+import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
 import { useDevicesStore } from '@/stores';
 
 const NeoPixelsPage = () => {
@@ -11,7 +12,7 @@ const NeoPixelsPage = () => {
   if (devicesArray.length === 0) {
     return <NoNeoPixels />;
   }
-  return <NPTable devices={devicesArray} />;
+  return <NPTable devices={devicesArray as NeoPixelObject[]} />;
 };
 
 export default NeoPixelsPage;

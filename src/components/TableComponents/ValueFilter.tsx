@@ -3,18 +3,17 @@ import { MdOutlineFilterAlt } from 'react-icons/md';
 import { CloseButton, Container, Divider, Flex, TextInput } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
 import { getBorderColor, getDividerColor } from '@/lib/utils';
-import { useAppStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 interface ValueFilterProps {
-  filteredValue: string;
-  onChange: (value: string) => void;
   close: () => void;
 }
 
-const ValueFilter = ({ filteredValue, onChange, close }: ValueFilterProps) => {
+const ValueFilter = ({ close }: ValueFilterProps) => {
   const { color } = useAppStore();
+  const { filteredValue, setFilteredValue } = useDevicesStore();
 
-  const clear = () => onChange('');
+  const clear = () => setFilteredValue('');
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -44,7 +43,7 @@ const ValueFilter = ({ filteredValue, onChange, close }: ValueFilterProps) => {
         <TextInput
           placeholder="Enter value"
           value={filteredValue}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => setFilteredValue(event.target.value)}
           rightSection={<CloseButton onClick={clear} />}
           onKeyDown={onKeyDown}
           autoFocus

@@ -6,7 +6,7 @@ import classes from '@/App.module.css';
 import { TooltipWrapper } from '@/components';
 import { ICON_SIZE } from '@/constants';
 import { DeviceObject, TagMapping } from '@/interfaces';
-import { useAppStore, useTagsStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 import DeviceTagsForm from './DeviceTagsForm';
 
 interface TagsProps {
@@ -16,7 +16,7 @@ interface TagsProps {
 const TagsCell = ({ device }: TagsProps) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const { tags } = useTagsStore();
+  const { tags } = useDevicesStore();
   const { color } = useAppStore();
   const tagsById: TagMapping = tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag.name }), {});
   if (!device) {

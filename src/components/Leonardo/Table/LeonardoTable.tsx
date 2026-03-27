@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Flex, ScrollArea, Table } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { getFilteredDeviceIds } from '@/lib/utils';
-import { useTagsStore } from '@/stores';
+import { useDevicesStore } from '@/stores';
 import ConfirmationModal from '../ConfirmationModal';
 import { LeonardoCommand } from '../types';
 import Header from './Header';
@@ -19,21 +19,19 @@ interface LeonardoTableProps {
   onClick?: () => void;
 }
 
-const filterByValue = (filteredValue: string, device: DeviceObject) => {
-  return (
-    !filteredValue ||
-    device.name.includes(filteredValue) ||
-    Number(device.reboots).toString().includes(filteredValue)
-  );
-};
+const filterByValue = (filteredValue: string, device: DeviceObject) =>
+  !filteredValue ||
+  device.name.includes(filteredValue) ||
+  Number(device.reboots).toString().includes(filteredValue);
 
 const LeonardoTable = ({ devices }: LeonardoTableProps) => {
-  const [filteredTagIds, setFilteredTagIds] = useState<number[]>([]);
-  const [filteredValue, setFilteredValue] = useState<string>('');
   const [leonardoCommand, setLeonardoCommand] = useState<LeonardoCommandObject | null>(null);
-  const { tags } = useTagsStore();
+  const { tags, filteredTagIds, filteredValue } = useDevicesStore();
 
   const filteredDeviceIds = getFilteredDeviceIds(devices, tags, filteredTagIds);
+  const filteredDevices: DeviceObject[] = Object.values(devices).filter(
+    (device) => filteredDeviceIds.includes(device.mqtt_id) && filterByValue(filteredValue, device)
+  );
 
   return (
     <>
@@ -41,24 +39,16 @@ const LeonardoTable = ({ devices }: LeonardoTableProps) => {
         <Flex>
           <Table withTableBorder className={classes['mantine-Table-table']}>
             <Table.Thead>
-              <Header
-                filteredTagIds={filteredTagIds}
-                setFilteredTagIds={setFilteredTagIds}
-                filteredValue={filteredValue}
-                setFilteredValue={setFilteredValue}
-              />
+              <Header />
             </Table.Thead>
             <Table.Tbody>
-              {Object.values(devices)
-                .filter((device: DeviceObject) => filteredDeviceIds.includes(device.mqtt_id))
-                .filter((device: DeviceObject) => filterByValue(filteredValue, device))
-                .map((device: DeviceObject, index: number) => (
-                  <TableRow
-                    key={`${device.mqtt_id}-${index}-tr`}
-                    device={device}
-                    setLeonardoCommand={setLeonardoCommand}
-                  />
-                ))}
+              {filteredDevices.map((device, index) => (
+                <TableRow
+                  key={`${device.mqtt_id}-${index}-tr`}
+                  device={device}
+                  setLeonardoCommand={setLeonardoCommand}
+                />
+              ))}
             </Table.Tbody>
           </Table>
         </Flex>

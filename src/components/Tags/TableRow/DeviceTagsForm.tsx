@@ -4,10 +4,10 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
 import { getBorderColor, getDividerColor } from '@/lib/utils';
-import { useAppStore, useTagsStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
-  const { tags } = useTagsStore();
+  const { tags } = useDevicesStore();
   const currentTagIds = device.tags?.map((tag) => tag.id) || [];
   const { color } = useAppStore();
 

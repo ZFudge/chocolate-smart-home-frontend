@@ -7,13 +7,7 @@ import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
 import ValueFilter from './ValueFilter';
 
-const ValueFilterButton = ({
-  filteredValue,
-  setFilteredValue,
-}: {
-  filteredValue: string;
-  setFilteredValue: (filteredValue: string) => void;
-}) => {
+const ValueFilterButton = () => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
   const { color } = useAppStore();
@@ -52,7 +46,7 @@ const ValueFilterButton = ({
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
-        <ValueFilter filteredValue={filteredValue} onChange={setFilteredValue} close={close} />
+        <ValueFilter close={close} />
       </Popover.Dropdown>
     </Popover>
   );

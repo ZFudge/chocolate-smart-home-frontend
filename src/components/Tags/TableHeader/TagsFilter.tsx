@@ -4,16 +4,14 @@ import { Checkbox, CloseButton, Container, Divider, Flex, Text } from '@mantine/
 import { ICON_SIZE } from '@/constants';
 import { Tag } from '@/interfaces';
 import { getBorderColor, getDividerColor } from '@/lib/utils';
-import { useAppStore, useTagsStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 interface TagsFilterProps {
-  filteredTagIds: number[];
-  setFilteredTagIds: (filteredTagIds: number[]) => void;
   close: () => void;
 }
 
-const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProps) => {
-  const { tags } = useTagsStore();
+const TagsFilter = ({ close }: TagsFilterProps) => {
+  const { tags, filteredTagIds, setFilteredTagIds } = useDevicesStore();
   const { color } = useAppStore();
 
   const clearAllTags = () => setFilteredTagIds([]);

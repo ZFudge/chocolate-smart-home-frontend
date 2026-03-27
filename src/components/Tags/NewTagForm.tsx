@@ -4,13 +4,13 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
 import { getBorderColor } from '@/lib/utils';
-import { useAppStore, useTagsStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
 
 const NewTagForm = ({ close }: { close: () => void }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { addTagsData, tags } = useTagsStore();
+  const { addTagsData, tags } = useDevicesStore();
   const { color } = useAppStore();
 
   const form = useForm({

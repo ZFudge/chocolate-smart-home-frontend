@@ -4,18 +4,14 @@ import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
-import { useAppStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 import TagsFilter from './TagsFilter';
 
-interface TagsHeaderProps {
-  filteredTagIds: number[];
-  setFilteredTagIds: (filteredTagIds: number[]) => void;
-}
-
-const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
+const TagsHeader = () => {
+  const { color } = useAppStore();
+  const { filteredTagIds, setFilteredTagIds } = useDevicesStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -64,11 +60,7 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown} autoFocus>
-        <TagsFilter
-          filteredTagIds={filteredTagIds}
-          setFilteredTagIds={setFilteredTagIds}
-          close={close}
-        />
+        <TagsFilter close={close} />
       </Popover.Dropdown>
     </Popover>
   );

@@ -7,7 +7,7 @@ import '@mantine/notifications/styles.css';
 
 import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
 import Router from './Router';
-import { useDevicesStore, useTagsStore } from './stores';
+import { useDevicesStore } from './stores';
 import { useWebsocket, WebSocketContext } from './ws';
 
 // allow theme toggle cursor to be a pointer
@@ -17,8 +17,7 @@ const theme = createTheme({
 
 const App = () => {
   const { connect, websocket } = useWebsocket();
-  const { addDeviceData } = useDevicesStore();
-  const { addTagsData } = useTagsStore();
+  const { addDeviceData, addTagsData } = useDevicesStore();
 
   const handleMessage = (msgEvent: MessageEvent) => {
     const data = JSON.parse(msgEvent.data);

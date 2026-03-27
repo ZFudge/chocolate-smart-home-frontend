@@ -8,21 +8,9 @@ interface HeaderProps {
   devices: OnOffObject[];
   selection: number[];
   toggleAll: () => void;
-  filteredTagIds: number[];
-  setFilteredTagIds: (filteredTagIds: number[]) => void;
-  filteredValue: string;
-  setFilteredValue: (filteredValue: string) => void;
 }
 
-const Header = ({
-  devices,
-  selection,
-  toggleAll,
-  filteredTagIds,
-  setFilteredTagIds,
-  filteredValue,
-  setFilteredValue,
-}: HeaderProps) => {
+const Header = ({ devices, selection, toggleAll }: HeaderProps) => {
   const { color } = useAppStore();
 
   return (
@@ -45,10 +33,10 @@ const Header = ({
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th key="tags">
-        <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
+        <TagsHeader />
       </Table.Th>
       <Table.Th>
-        <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
+        <ValueFilterButton />
       </Table.Th>
       <Table.Th key="device-names-header">On / Off Devices</Table.Th>
     </Table.Tr>

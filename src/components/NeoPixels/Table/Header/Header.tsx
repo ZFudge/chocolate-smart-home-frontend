@@ -19,22 +19,9 @@ interface HeaderProps {
   toggleAll: () => void;
   openPaletteModal: () => void;
   selection: number[];
-  filteredTagIds: number[];
-  setFilteredTagIds: (filteredTagIds: number[]) => void;
-  filteredValue: string;
-  setFilteredValue: (filteredValue: string) => void;
 }
 
-const Header = ({
-  devices,
-  selection,
-  toggleAll,
-  openPaletteModal,
-  filteredTagIds,
-  setFilteredTagIds,
-  filteredValue,
-  setFilteredValue,
-}: HeaderProps) => {
+const Header = ({ devices, selection, toggleAll, openPaletteModal }: HeaderProps) => {
   const trSettingsClass = `${selection.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
   const selectedDevices = devices.filter((device) => selection.includes(device.mqtt_id));
   const { color } = useAppStore();
@@ -59,10 +46,10 @@ const Header = ({
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th key="tags" ta="center">
-        <TagsHeader filteredTagIds={filteredTagIds} setFilteredTagIds={setFilteredTagIds} />
+        <TagsHeader />
       </Table.Th>
       <Table.Th key="last-seen" ta="center">
-        <ValueFilterButton filteredValue={filteredValue} setFilteredValue={setFilteredValue} />
+        <ValueFilterButton />
       </Table.Th>
       <Table.Th />
       <HeaderColumnToggler
