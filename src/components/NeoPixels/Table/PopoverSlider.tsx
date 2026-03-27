@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
 import { Button, Container, Loader, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import { SplitTableCell, TooltipWrapper } from '@/components/';
+import { SplitTableCell, TooltipWrapper } from '@/components';
 import { IndexableObj } from '../interfaces';
 import SliderForm from '../SliderForm';
 import classes from '../NeoPixel.module.css';

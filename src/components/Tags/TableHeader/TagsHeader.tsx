@@ -1,5 +1,5 @@
 import { type KeyboardEventHandler } from 'react';
-import { BsTags, BsTagsFill } from 'react-icons/bs';// FaTags } from 'react-icons/fa';
+import { BsTags, BsTagsFill } from 'react-icons/bs'; // FaTags } from 'react-icons/fa';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
@@ -55,7 +55,11 @@ const TagsHeader = ({ filteredTagIds, setFilteredTagIds }: TagsHeaderProps) => {
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid="devices-tags-header-button"
           >
-            {filteredTagIds.length > 0 ? <BsTagsFill color={color} size={ICON_SIZE} /> : <BsTags color={color} size={ICON_SIZE} />}
+            {filteredTagIds.length > 0 ? (
+              <BsTagsFill color={color} size={ICON_SIZE} />
+            ) : (
+              <BsTags color={color} size={ICON_SIZE} />
+            )}
           </Button>
         </Tooltip>
       </Popover.Target>

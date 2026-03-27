@@ -5,7 +5,7 @@ import IndeterminateButton from './IndeterminateButton';
 import SplitTableCell from './SplitTableCell';
 import SyncDeviceDataButton from './SyncDeviceDataButton';
 import { CellContainer, DeviceSettings, LastSeen, ValueFilterButton } from './TableComponents';
-import { TagsButton, TagsCell } from './Tags';
+import { TagsButton, TagsCell, TagsFilter, TagsHeader } from './Tags';
 import ThemeToggler from './ThemeToggler';
 import ToggleButton from './ToggleButton';
 import TooltipWrapper from './TooltipWrapper';
@@ -26,4 +26,6 @@ export {
   TooltipWrapper,
   ValueFilterButton,
   TagsButton,
+  TagsFilter,
+  TagsHeader,
 };

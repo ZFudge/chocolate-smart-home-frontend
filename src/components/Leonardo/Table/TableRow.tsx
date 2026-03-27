@@ -1,8 +1,5 @@
 import { Table } from '@mantine/core';
-import { TagsCell } from '@/components';
-import DeviceName from '@/components/DeviceName';
-import DeviceSettings from '@/components/TableComponents/DeviceSettings';
-import LastSeen from '@/components/TableComponents/LastSeen';
+import { DeviceName, DeviceSettings, LastSeen, TagsCell } from '@/components';
 import { DeviceObject } from '@/interfaces';
 import { LOCK, MOVE, TALON, UNLOCK } from '../constants';
 import { LeonardoCommandObject } from '../interfaces';

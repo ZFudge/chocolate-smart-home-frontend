@@ -1,6 +1,5 @@
 import { Table } from '@mantine/core';
-import IndeterminateButton from '@/components/IndeterminateButton';
-import ToggleButton from '@/components/ToggleButton';
+import { IndeterminateButton, ToggleButton } from '@/components';
 import { NeoPixelObject } from '../../interfaces';
 
 interface HeaderColumnTogglerProps {

@@ -1,9 +1,6 @@
 import { FaPowerOff } from 'react-icons/fa';
 import { Checkbox, Table } from '@mantine/core';
-import { TagsCell, ToggleButton } from '@/components';
-import DeviceName from '@/components/DeviceName';
-import DeviceSettings from '@/components/TableComponents/DeviceSettings';
-import LastSeen from '@/components/TableComponents/LastSeen';
+import { DeviceName, DeviceSettings, LastSeen, TagsCell, ToggleButton } from '@/components';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff, getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';

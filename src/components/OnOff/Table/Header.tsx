@@ -1,7 +1,5 @@
 import { Checkbox, Table } from '@mantine/core';
-import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
-import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
-import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
 import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
