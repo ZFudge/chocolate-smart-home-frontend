@@ -1,5 +1,6 @@
 import { type KeyboardEventHandler } from 'react';
-import { MdOutlineFilterAlt } from 'react-icons/md';
+import { MdOutlineFilterAlt } from "react-icons/md";
+
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';

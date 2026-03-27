@@ -5,7 +5,7 @@ import DeviceName from '@/components/DeviceName';
 import DeviceSettings from '@/components/TableComponents/DeviceSettings';
 import LastSeen from '@/components/TableComponents/LastSeen';
 import { DeviceObject } from '@/interfaces';
-import { boolToOnOff } from '@/lib/utils';
+import { boolToOnOff, getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
@@ -22,7 +22,10 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
   return (
     <Table.Tr
       data-testid={`${device.mqtt_id}-tr`}
-      style={{ backgroundColor: selected ? `${color}99` : 'transparent', height: '4.5rem' }}
+      style={{
+        backgroundColor: selected ? getBorderColor(color) : 'transparent',
+        height: '4.5rem',
+      }}
     >
       <Table.Td className={classes.tableCell}>
         <Checkbox
@@ -32,7 +35,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
           color={color}
           styles={{
             input: {
-              border: `0.5px solid ${color}`,
+              border: `0.5px solid ${getBorderColor(color)}`,
             },
           }}
         />

@@ -1,17 +1,14 @@
 import { useContext } from 'react';
-import cx from 'clsx';
-import { Button, FocusTrap, Group, Modal, Space } from '@mantine/core';
-import appClasses from '@/App.module.css';
+import { Button, Flex, FocusTrap, Modal } from '@mantine/core';
 import { postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
 import Header from './Header';
 import PaletteDisplay from './PaletteDisplay';
 import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 import PalettePresets from './presets/PalettePresets';
 import SavePalette from './SavePalette';
-import classes from './PaletteModal.module.css';
 
 interface PaletteModalProps {
   devices: NeoPixelObject[];
@@ -57,27 +54,40 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
         title={<Header title={multiple ? 'multiple' : devices[0]?.name} />}
         withCloseButton={false}
         centered
-        className={cx(classes['palette-modal'])}
         data-testid="palette-modal"
+        styles={{
+          header: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2em 2em 0 2em',
+          },
+          body: {
+            padding: '2em',
+          },
+        }}
       >
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <FocusTrap.InitialFocus />
-          <PaletteDisplay />
-          <Space h="md" />
-          <PalettePresets />
-          <Space h="md" />
-          <Group className={cx(appClasses['modal-button-group'])}>
-            <Button type="submit" color={color} data-testid="submit">
-              Submit
-            </Button>
-            <Button onClick={form.reset} variant="default" data-testid="reset">
-              Reset
-            </Button>
-            <Button variant="default" onClick={close} data-testid="close">
-              Cancel
-            </Button>
-            <SavePalette />
-          </Group>
+          <Flex direction="column" gap="md">
+            <Flex direction="column">
+              <PaletteDisplay />
+            </Flex>
+            <PalettePresets />
+            <Flex justify="space-between">
+              <Button type="submit" color={color} data-testid="submit">
+                Submit
+              </Button>
+              <Button onClick={form.reset} variant="default" data-testid="reset">
+                Reset
+              </Button>
+              <Button variant="default" onClick={close} data-testid="close">
+                Cancel
+              </Button>
+              <SavePalette />
+            </Flex>
+          </Flex>
         </form>
       </Modal>
     </PaletteFormProvider>

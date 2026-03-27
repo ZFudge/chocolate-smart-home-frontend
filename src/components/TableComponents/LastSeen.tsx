@@ -19,7 +19,7 @@ const LastSeen = ({ device }: LastSeenProps) => {
       key={`last-seen-${device.mqtt_id}-${device.last_seen}`}
       label={`last seen ${device.last_seen}`}
     >
-      <ActionIcon variant="transparent" className={appClasses['theme-match']}>
+      <ActionIcon variant="transparent" className={appClasses['theme-match']} style={{ cursor: 'default' }}>
         <Icon
           className={`${classes[colorClass]} ${appClasses['middle-center']}`}
           style={{ borderRadius: '50%', padding: '1px' }}

@@ -3,6 +3,7 @@ import { Button, Flex, Group, Popover, Space, TextInput, Title } from '@mantine/
 import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import Palette3x3 from '../Palette3x3';
 import { usePaletteFormContext } from './PaletteForm';
@@ -68,7 +69,7 @@ const SavePalette = () => {
           autoFocus
           label="Palette Name"
           {...nameField.getInputProps()}
-          styles={{ input: { border: `0.5px solid ${color}` } }}
+          styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
         />
         <Space h="md" />
         <Group justify="space-between">

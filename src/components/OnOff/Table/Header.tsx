@@ -2,6 +2,7 @@ import { Checkbox, Table } from '@mantine/core';
 import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
 
@@ -37,7 +38,7 @@ const Header = ({
           color={color}
           styles={{
             input: {
-              border: `0.5px solid ${color}`,
+              border: `0.5px solid ${getBorderColor(color)}`,
             },
           }}
         />

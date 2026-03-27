@@ -3,11 +3,11 @@ import { HiOutlineTag, HiTag } from 'react-icons/hi';
 import { Button, Popover } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
-import DeviceTagsForm from '@/components/Tags/TableRow/DeviceTagsForm';
-import TooltipWrapper from '@/components/TooltipWrapper';
+import { TooltipWrapper } from '@/components';
 import { ICON_SIZE } from '@/constants';
 import { DeviceObject, TagMapping } from '@/interfaces';
 import { useAppStore, useTagsStore } from '@/stores';
+import DeviceTagsForm from './DeviceTagsForm';
 
 interface TagsProps {
   device: DeviceObject;

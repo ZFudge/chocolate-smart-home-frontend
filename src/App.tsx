@@ -5,14 +5,10 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
-import ColorThemePickerIcon from './components/ColorTheme/ColorThemePickerIcon';
-import SyncDeviceDataButton from './components/SyncDeviceDataButton';
-import TagsButton from './components/Tags/TagsButton';
-import ThemeToggle from './components/ToggleTheme';
+import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
 import Router from './Router';
 import { useDevicesStore, useTagsStore } from './stores';
-import useWebsocket from './useWebsocket';
-import WebSocketContext from './WebsocketContext';
+import { useWebsocket, WebSocketContext } from './ws';
 
 // allow theme toggle cursor to be a pointer
 const theme = createTheme({
@@ -63,7 +59,7 @@ const App = () => {
               <SyncDeviceDataButton />
               <TagsButton />
             </Flex>
-            <ThemeToggle />
+            <ThemeToggler />
           </AppShell.Header>
 
           <AppShell.Main>

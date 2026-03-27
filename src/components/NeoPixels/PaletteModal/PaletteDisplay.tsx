@@ -1,5 +1,3 @@
-// import cx from 'clsx';
-// import classes from './PaletteModal.module.css';
 import { ColorInput } from '@mantine/core';
 import { SWATCHES } from './constants';
 import { usePaletteFormContext } from './PaletteForm';

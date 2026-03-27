@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
 import appClasses from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
 import { PostData, postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 
 const IndeterminateButton = ({
   Icon,
@@ -72,13 +73,13 @@ const IndeterminateButton = ({
       step={0.5}
       defaultValue={0.5}
       marks={marks}
-      thumbSize={20}
+      thumbSize={ICON_SIZE}
       color={color}
       styles={{
         thumb: { borderWidth: 2, padding: 3 },
         markLabel: { display: 'none' },
       }}
-      thumbChildren={<Icon size={16} />}
+      thumbChildren={<Icon />}
       onChangeEnd={handleChange}
       className={appClasses['fade-in']}
       showLabelOnHover

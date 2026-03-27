@@ -3,6 +3,7 @@ import { Button, Container, Divider, Flex, Text, TextInput } from '@mantine/core
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 
 const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
@@ -67,12 +68,12 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
             Device Settings
           </Text>
         </Flex>
-        <Divider my="md" color={color} />
+        <Divider my="md" color={getDividerColor(color)} />
         <Flex direction="column" gap="md">
           <TextInput
             label="Name"
             {...form.getInputProps('name')}
-            styles={{ input: { border: `0.5px solid ${color}` } }}
+            styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
           />
           <Flex justify="space-between">
             <Button type="submit" color={color}>

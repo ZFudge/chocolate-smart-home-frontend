@@ -2,9 +2,8 @@ import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
 import { Button, Flex, Loader, Popover, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import { ToggleButton } from '@/components';
-import { SplitTableCell, TooltipWrapper } from '@/components/';
-import IndeterminateButton from '@/components/IndeterminateButton';
+import { IndeterminateButton, SplitTableCell, ToggleButton, TooltipWrapper } from '@/components';
+import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { NEO_PIXEL } from '../constants';
 import { IndexableObj } from '../interfaces';
@@ -96,7 +95,11 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
               justify="flex-start"
               gap="md"
               align="center"
-              style={{ border: `1px solid ${color}`, borderRadius: '4px', padding: '1em' }}
+              style={{
+                border: `1px solid ${getBorderColor(color)}`,
+                borderRadius: '4px',
+                padding: '1em',
+              }}
             >
               <Text fw={500}>Armed:</Text>
               {indeterminate ? (
@@ -116,7 +119,13 @@ const PopoverPIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
                 />
               )}
             </Flex>
-            <div style={{ border: `1px solid ${color}`, borderRadius: '4px', padding: '1em' }}>
+            <div
+              style={{
+                border: `1px solid ${getBorderColor(color)}`,
+                borderRadius: '4px',
+                padding: '1em',
+              }}
+            >
               <SliderForm
                 devices={devices}
                 name="timeout"

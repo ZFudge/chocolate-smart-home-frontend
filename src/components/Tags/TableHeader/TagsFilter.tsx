@@ -3,6 +3,7 @@ import { HiTag } from 'react-icons/hi';
 import { Checkbox, CloseButton, Container, Divider, Flex, Text } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
 import { Tag } from '@/interfaces';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore, useTagsStore } from '@/stores';
 
 interface TagsFilterProps {
@@ -14,6 +15,7 @@ interface TagsFilterProps {
 const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProps) => {
   const { tags } = useTagsStore();
   const { color } = useAppStore();
+
   const clearAllTags = () => setFilteredTagIds([]);
 
   return (
@@ -26,7 +28,7 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProp
           </Flex>
           <CloseButton onClick={close} />
         </Flex>
-        <Divider my="xs" color={color} />
+        <Divider my="xs" color={getDividerColor(color)} />
         {tags.length ? (
           <Flex direction="column" gap="md">
             <Checkbox
@@ -37,7 +39,7 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProp
               color={color}
               styles={{
                 input: {
-                  border: `0.5px solid ${color}`,
+                  border: `0.5px solid ${getBorderColor(color)}`,
                 },
               }}
             />
@@ -56,7 +58,7 @@ const TagsFilter = ({ filteredTagIds, setFilteredTagIds, close }: TagsFilterProp
                     color={color}
                     styles={{
                       input: {
-                        border: `0.5px solid ${color}`,
+                        border: `0.5px solid ${getBorderColor(color)}`,
                       },
                     }}
                   />

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaEdit, FaPlusCircle } from 'react-icons/fa';
 import { Button, CloseButton, Container, Divider, Flex, Space, Stack } from '@mantine/core';
-import { ICON_SIZE } from '@/constants';
+import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import EditTagsForm from './EditTagsForm';
 import NewTagForm from './NewTagForm';
@@ -47,7 +47,7 @@ const TagsForm = ({ close }: { close: () => void }) => {
             onClick={() => setActiveForm('new')}
             isPrimary={activeForm === 'new'}
           />
-          <Divider orientation="vertical" color={color} />
+          <Divider orientation="vertical" color={getDividerColor(color)} />
           <TagButton
             name="Edit"
             icon={<FaEdit />}
@@ -57,7 +57,7 @@ const TagsForm = ({ close }: { close: () => void }) => {
         </Flex>
         {activeForm && (
           <>
-            <Divider my="xs" color={color} />
+            <Divider my="xs" color={getDividerColor(color)} />
             {activeForm === 'new' && <NewTagForm close={() => setActiveForm(null)} />}
             {activeForm === 'edit' && <EditTagsForm close={() => setActiveForm(null)} />}
           </>

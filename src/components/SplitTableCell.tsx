@@ -1,6 +1,7 @@
 import { IconType } from 'react-icons';
 import { Flex, Text } from '@mantine/core';
 import classes from '@/App.module.css';
+import { ICON_SIZE } from '@/constants';
 
 const SplitTableCell = ({
   children,
@@ -24,8 +25,12 @@ const SplitTableCell = ({
       style={{ color }}
       className={classes['theme-match']}
     >
-      {value && <Text ta="right">{value}</Text>}
-      <Icon size={18} />
+      {value && (
+        <Text fz="xl" ta="right">
+          {value}
+        </Text>
+      )}
+      <Icon size={ICON_SIZE} />
       {children}
     </Flex>
   );

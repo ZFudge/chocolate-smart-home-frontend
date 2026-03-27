@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Button, Loader } from '@mantine/core';
 import classes from '@/App.module.css';
 import { postUpdate } from '@/lib/api';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 import { IndexableObj } from './NeoPixels/interfaces';
 import TooltipWrapper from './TooltipWrapper';
 

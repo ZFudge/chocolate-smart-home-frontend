@@ -4,7 +4,7 @@ import classes from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
 
-const ThemeToggle = () => {
+const ThemeToggler = () => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const { color } = useAppStore();
@@ -21,4 +21,4 @@ const ThemeToggle = () => {
   );
 };
 
-export default ThemeToggle;
+export default ThemeToggler;

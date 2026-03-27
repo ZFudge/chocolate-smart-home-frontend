@@ -3,6 +3,7 @@ import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Tag } from '@/interfaces';
+import { getBorderColor } from '@/lib/utils';
 import { useAppStore, useTagsStore } from '@/stores';
 
 const MIN_TAG_LENGTH = 3;
@@ -77,7 +78,7 @@ const NewTagForm = ({ close }: { close: () => void }) => {
           {...form.getInputProps('name')}
           data-testid="new-tag-input"
           autoFocus
-          styles={{ input: { border: `0.5px solid ${color}` } }}
+          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
         />
         <Space h="md" />
         <Flex gap="md" justify="space-between">

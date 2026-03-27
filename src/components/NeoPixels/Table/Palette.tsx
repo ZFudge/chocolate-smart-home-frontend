@@ -1,6 +1,6 @@
 import cx from 'clsx';
 import { Button, Flex } from '@mantine/core';
-import TooltipWrapper from '@/components/TooltipWrapper';
+import { TooltipWrapper } from '@/components';
 import { NeoPixelObject } from '../interfaces';
 import Palette3x3 from '../Palette3x3';
 import classes from '../NeoPixel.module.css';

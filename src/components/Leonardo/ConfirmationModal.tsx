@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { Badge, Button, Flex, FocusTrap, Group, Modal, Space, Text } from '@mantine/core';
+import { Badge, Button, Flex, FocusTrap, Group, Modal, Text } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { PostData, postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 import { LeonardoCommand } from './types';
 import { getColor } from './utils';
 

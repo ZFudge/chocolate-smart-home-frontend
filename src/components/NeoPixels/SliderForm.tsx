@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react';
 import cx from 'clsx';
 import { IconType } from 'react-icons';
-import { Button, Divider, Flex, rem, Slider, Stack, Text } from '@mantine/core';
+import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { postUpdate } from '@/lib/api';
+import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
-import WebSocketContext from '@/WebsocketContext';
+import { WebSocketContext } from '@/ws';
 import { IndexableObj } from './interfaces';
 import classes from './NeoPixel.module.css';
 
@@ -80,14 +81,13 @@ const SliderForm = ({
         label={null}
         {...field.getInputProps()}
       />
-      <Divider my="xs" color={color} />
+      <Divider my="xs" color={getDividerColor(color)} />
       <Flex justify="space-between" className={cx(classes['slider-button-group'])}>
         <Button
           type="submit"
           onClick={handleSubmit}
           data-testid={`${multiple ? mqttId : devices[0].mqtt_id}-${name}-submit-button`}
           color={color}
-          disabled={!field.isDirty()}
         >
           Submit
         </Button>

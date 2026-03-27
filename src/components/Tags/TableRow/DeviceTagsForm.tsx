@@ -3,6 +3,7 @@ import { Button, Container, Divider, Flex, MultiSelect, Text } from '@mantine/co
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
+import { getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore, useTagsStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
@@ -60,7 +61,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
                 {device.name}
               </Text>
             </Flex>
-            <Divider color={color} />
+            <Divider color={getDividerColor(color)} />
             <MultiSelect
               autoFocus
               label="Tags"
@@ -73,7 +74,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
               comboboxProps={{ withinPortal: false }}
               styles={{
                 input: {
-                  border: `0.5px solid ${color}`,
+                  border: `0.5px solid ${getBorderColor(color)}`,
                 },
               }}
             />

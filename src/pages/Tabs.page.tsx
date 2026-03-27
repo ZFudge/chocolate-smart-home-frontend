@@ -1,12 +1,10 @@
 import { FaLightbulb, FaMicrochip, FaPowerOff } from 'react-icons/fa';
 import { Tabs, Text } from '@mantine/core';
+import { LEONARDO } from '@/components/Leonardo/constants';
+import { NEO_PIXEL } from '@/components/NeoPixels/constants';
+import { ON_OFF } from '@/components/OnOff/constants';
 import { useAppStore } from '@/stores';
-import { LEONARDO } from '../components/Leonardo/constants';
-import { NEO_PIXEL } from '../components/NeoPixels/constants';
-import { ON_OFF } from '../components/OnOff/constants';
-import LeonardoPage from '../pages/Leonardo.page';
-import NeoPixelsPage from '../pages/NeoPixels.page';
-import OnOffPage from '../pages/OnOff.page';
+import { LeonardoPage, NeoPixelsPage, OnOffPage } from './index';
 
 function TabsPage() {
   const { color, tab, setTab } = useAppStore();

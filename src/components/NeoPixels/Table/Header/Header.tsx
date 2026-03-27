@@ -7,6 +7,7 @@ import appClasses from '@/App.module.css';
 import SyncDeviceDataButton from '@/components/SyncDeviceDataButton';
 import ValueFilterButton from '@/components/TableComponents/ValueFilterButton';
 import TagsHeader from '@/components/Tags/TableHeader/TagsHeader';
+import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../../interfaces';
 import Palette from '../Palette';
@@ -51,7 +52,7 @@ const Header = ({
           color={color}
           styles={{
             input: {
-              border: `0.5px solid ${color}`,
+              border: `0.5px solid ${getBorderColor(color)}`,
             },
           }}
         />
