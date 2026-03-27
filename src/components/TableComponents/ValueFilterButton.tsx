@@ -1,16 +1,17 @@
 import { type KeyboardEventHandler } from 'react';
-import { MdOutlineFilterAlt } from 'react-icons/md';
+import { MdFilterListAlt, MdOutlineFilterAlt } from 'react-icons/md';
 import { Button, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
-import { useAppStore } from '@/stores';
+import { useAppStore, useDevicesStore } from '@/stores';
 import ValueFilter from './ValueFilter';
 
 const ValueFilterButton = () => {
+  const { color } = useAppStore();
+  const { filteredValue } = useDevicesStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -41,7 +42,11 @@ const ValueFilterButton = () => {
             className={`${classes['cursor-pointer']} ${classes['middle-center']}`}
             data-testid="devices-value-header-button"
           >
-            <MdOutlineFilterAlt color={color} size={ICON_SIZE} />
+            {filteredValue.length > 0 ? (
+              <MdFilterListAlt color={color} size={ICON_SIZE} />
+            ) : (
+              <MdOutlineFilterAlt color={color} size={ICON_SIZE} />
+            )}
           </Button>
         </Tooltip>
       </Popover.Target>
