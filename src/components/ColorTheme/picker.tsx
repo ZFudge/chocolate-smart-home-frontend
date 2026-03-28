@@ -9,11 +9,13 @@ const ColorThemePicker = () => {
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'ArrowLeft':
+        event.preventDefault();
         setColor(
           OPTIONS[(OPTIONS.indexOf(color) >= 0 ? OPTIONS.indexOf(color) : OPTIONS.length) - 1]
         );
         break;
       case 'ArrowRight':
+        event.preventDefault();
         setColor(OPTIONS[OPTIONS.indexOf(color) + 1]);
         break;
       default:

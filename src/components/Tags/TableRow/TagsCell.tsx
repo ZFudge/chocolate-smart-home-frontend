@@ -9,11 +9,7 @@ import { DeviceObject, TagMapping } from '@/interfaces';
 import { useAppStore, useDevicesStore } from '@/stores';
 import DeviceTagsForm from './DeviceTagsForm';
 
-interface TagsProps {
-  device: DeviceObject;
-}
-
-const TagsCell = ({ device }: TagsProps) => {
+const TagsCell = ({ device }: { device: DeviceObject }) => {
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
   const { tags } = useDevicesStore();
@@ -28,6 +24,7 @@ const TagsCell = ({ device }: TagsProps) => {
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'Escape':
+        event.preventDefault();
         close();
         break;
       default:

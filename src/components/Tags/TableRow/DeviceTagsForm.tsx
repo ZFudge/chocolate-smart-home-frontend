@@ -58,7 +58,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
             <MultiSelect
               autoFocus
               label="Tags"
-              data={Object.values(tags).map((tag) => ({
+              data={tags.map((tag) => ({
                 value: tag.id.toString(),
                 label: tag.name,
               }))}

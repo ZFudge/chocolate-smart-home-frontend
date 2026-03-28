@@ -31,11 +31,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
         if (value.length > MAX_TAG_LENGTH) {
           return `Tag must be less than ${MAX_TAG_LENGTH} characters long`;
         }
-        if (
-          Object.values(tags)
-            .map((tag) => tag.name)
-            .includes(value)
-        ) {
+        if (tags.map((tag) => tag.name).includes(value)) {
           return 'Tag already exists';
         }
         return null;
@@ -57,9 +53,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
       return;
     }
     const data = await response.json();
-    const modifiedTags = Object.values(tags).map((tag) =>
-      tag.id === data.id ? (data as Tag) : tag
-    );
+    const modifiedTags = tags.map((tag) => (tag.id === data.id ? (data as Tag) : tag));
     notifyTagUpdated(tags.find((tag) => tag.id === data.id)?.name || '');
     addTagsData(modifiedTags);
     close();
@@ -71,7 +65,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
         <Select
           label="Tags"
           placeholder="Choose tag"
-          data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
+          data={tags.map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
           data-testid="edit-tag-select"
           comboboxProps={{ withinPortal: false }}
           styles={getTextInputStyles(color)}

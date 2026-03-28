@@ -16,6 +16,7 @@ const ValueFilterButton = () => {
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'Escape':
+        event.preventDefault();
         close();
         break;
       default:

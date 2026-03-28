@@ -12,8 +12,13 @@ const ColorThemePickerIcon = () => {
   const ref = useClickOutside(() => close());
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (event.key === 'Escape') {
-      close();
+    switch (event.key) {
+      case 'Escape':
+        event.preventDefault();
+        close();
+        break;
+      default:
+        break;
     }
   };
 

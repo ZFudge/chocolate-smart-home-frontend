@@ -27,11 +27,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
         if (value.length > MAX_TAG_LENGTH) {
           return `Tag must be less than ${MAX_TAG_LENGTH} characters long`;
         }
-        if (
-          Object.values(tags)
-            .map((tag) => tag.name)
-            .includes(value)
-        ) {
+        if (tags.map((tag) => tag.name).includes(value)) {
           return 'Tag already exists';
         }
         return null;
@@ -55,7 +51,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
       return;
     }
     const data = await response.json();
-    addTagsData([...Object.values(tags), data as Tag]);
+    addTagsData([...tags, data as Tag]);
     form.reset();
     notifyTagCreated(name);
     close();
