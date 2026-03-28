@@ -1,6 +1,6 @@
 import { Checkbox, Table } from '@mantine/core';
 import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
-import { getBorderColor } from '@/lib/utils';
+import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 interface HeaderProps {
@@ -22,11 +22,7 @@ const Header = ({ selection, toggleAll }: HeaderProps) => {
           indeterminate={selection.length > 0 && selection.length !== onOffDevicesArray.length}
           data-testid="toggle-all-checkbox"
           color={color}
-          styles={{
-            input: {
-              border: `0.5px solid ${getBorderColor(color)}`,
-            },
-          }}
+          styles={getTextInputStyles(color)}
         />
       </Table.Th>
       <Table.Th>

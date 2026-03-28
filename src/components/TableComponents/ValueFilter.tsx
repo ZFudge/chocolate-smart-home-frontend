@@ -2,7 +2,7 @@ import { KeyboardEventHandler } from 'react';
 import { MdOutlineFilterAlt } from 'react-icons/md';
 import { CloseButton, Container, Divider, Flex, TextInput } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
-import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { getDividerColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 interface ValueFilterProps {
@@ -47,11 +47,7 @@ const ValueFilter = ({ close }: ValueFilterProps) => {
           rightSection={<CloseButton onClick={clear} />}
           onKeyDown={onKeyDown}
           autoFocus
-          styles={{
-            input: {
-              border: `0.5px solid ${getBorderColor(color)}`,
-            },
-          }}
+          styles={getTextInputStyles(color)}
         />
       </Flex>
     </Container>

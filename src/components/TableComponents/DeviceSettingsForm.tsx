@@ -1,9 +1,10 @@
 import { IoSettingsSharp } from 'react-icons/io5';
 import { Button, Container, Divider, Flex, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { MAX_DEVICE_NAME_LENGTH, MIN_DEVICE_NAME_LENGTH } from '@/constants';
 import { DeviceObject } from '@/interfaces';
 import { notifyDeviceNameChanged, notifyDeviceNameChangeFailed } from '@/lib/notifications';
-import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { getDividerColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 
 const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
@@ -18,11 +19,11 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
     validateInputOnChange: true,
     validate: {
       name: (value) => {
-        if (value.length < 3) {
-          return 'Name must be at least 3 characters long';
+        if (value.length < MIN_DEVICE_NAME_LENGTH) {
+          return `Name must be at least ${MIN_DEVICE_NAME_LENGTH} characters long`;
         }
-        if (value.length > 30) {
-          return 'Name must be less than 30 characters long';
+        if (value.length > MAX_DEVICE_NAME_LENGTH) {
+          return `Name must be less than ${MAX_DEVICE_NAME_LENGTH} characters long`;
         }
         if (value === device.name) {
           return 'Name must be different from the current name';
@@ -65,8 +66,8 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
         <Flex direction="column" gap="md">
           <TextInput
             label="Name"
+            styles={getTextInputStyles(color)}
             {...form.getInputProps('name')}
-            styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
           />
           <Flex justify="space-between">
             <Button type="submit" color={color}>

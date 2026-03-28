@@ -3,7 +3,7 @@ import { Button, Flex, Group, Popover, TextInput, Title, Tooltip } from '@mantin
 import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
-import { getBorderColor } from '@/lib/utils';
+import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { PalettePresetData } from '../interfaces';
 import { notifyPalettePresetSaved, notifyPalettePresetSaveFailed } from '../notifications';
@@ -67,8 +67,8 @@ const SavePalette = () => {
           <TextInput
             autoFocus
             label="Palette Name"
+            styles={getTextInputStyles(color)}
             {...nameField.getInputProps()}
-            styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
           />
           <Group justify="space-between">
             <Button

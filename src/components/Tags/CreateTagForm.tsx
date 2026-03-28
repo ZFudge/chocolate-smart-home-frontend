@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '@/constants';
 import { Tag } from '@/interfaces';
 import { notifyTagCreated, notifyTagCreationFailed } from '@/lib/notifications';
-import { getBorderColor } from '@/lib/utils';
+import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
-const MIN_TAG_LENGTH = 3;
-
-const NewTagForm = ({ close }: { close: () => void }) => {
+const CreateTagForm = ({ close }: { close: () => void }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { addTagsData, tags } = useDevicesStore();
   const { color } = useAppStore();
@@ -23,7 +22,10 @@ const NewTagForm = ({ close }: { close: () => void }) => {
     validate: {
       name: (value) => {
         if (value.length < MIN_TAG_LENGTH) {
-          return 'Tag must be at least 3 characters long';
+          return `Tag must be at least ${MIN_TAG_LENGTH} characters long`;
+        }
+        if (value.length > MAX_TAG_LENGTH) {
+          return `Tag must be less than ${MAX_TAG_LENGTH} characters long`;
         }
         if (
           Object.values(tags)
@@ -70,7 +72,7 @@ const NewTagForm = ({ close }: { close: () => void }) => {
           {...form.getInputProps('name')}
           data-testid="new-tag-input"
           autoFocus
-          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
+          styles={getTextInputStyles(color)}
         />
         <Space h="md" />
         <Flex gap="md" justify="space-between">
@@ -87,4 +89,4 @@ const NewTagForm = ({ close }: { close: () => void }) => {
   );
 };
 
-export default NewTagForm;
+export default CreateTagForm;

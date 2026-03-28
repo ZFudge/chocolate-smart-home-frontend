@@ -14,3 +14,8 @@ export const filterDevicesByTags = (devices: DeviceObject[], filteredTagIds: num
 
 export const getBorderColor = (color: string) => `${color}77`;
 export const getDividerColor = (color: string) => `${color}55`;
+export const getTextInputStyles = (color: string) => ({
+  input: {
+    border: `0.5px solid ${getBorderColor(color)}`,
+  },
+});

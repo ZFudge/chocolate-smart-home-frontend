@@ -3,8 +3,8 @@ import { FaEdit, FaPlusCircle } from 'react-icons/fa';
 import { Button, CloseButton, Container, Divider, Flex, Space, Stack } from '@mantine/core';
 import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
+import CreateTagForm from './CreateTagForm';
 import EditTagsForm from './EditTagsForm';
-import NewTagForm from './NewTagForm';
 
 const TagButton = ({
   name,
@@ -58,7 +58,7 @@ const TagsForm = ({ close }: { close: () => void }) => {
         {activeForm && (
           <>
             <Divider my="xs" color={getDividerColor(color)} />
-            {activeForm === 'new' && <NewTagForm close={() => setActiveForm(null)} />}
+            {activeForm === 'new' && <CreateTagForm close={() => setActiveForm(null)} />}
             {activeForm === 'edit' && <EditTagsForm close={() => setActiveForm(null)} />}
           </>
         )}

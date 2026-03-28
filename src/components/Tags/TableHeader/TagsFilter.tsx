@@ -3,7 +3,7 @@ import { HiTag } from 'react-icons/hi';
 import { Checkbox, CloseButton, Container, Divider, Flex, Text } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
 import { Tag } from '@/interfaces';
-import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { getDividerColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 interface TagsFilterProps {
@@ -35,11 +35,7 @@ const TagsFilter = ({ close }: TagsFilterProps) => {
               checked={filteredTagIds.length === 0}
               onChange={clearAllTags}
               color={color}
-              styles={{
-                input: {
-                  border: `0.5px solid ${getBorderColor(color)}`,
-                },
-              }}
+              styles={getTextInputStyles(color)}
             />
             <Checkbox.Group
               value={filteredTagIds.map(String)}
@@ -54,11 +50,7 @@ const TagsFilter = ({ close }: TagsFilterProps) => {
                     label={tag.name}
                     value={tag.id.toString()}
                     color={color}
-                    styles={{
-                      input: {
-                        border: `0.5px solid ${getBorderColor(color)}`,
-                      },
-                    }}
+                    styles={getTextInputStyles(color)}
                   />
                 ))}
               </Flex>

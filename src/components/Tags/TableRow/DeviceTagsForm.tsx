@@ -3,7 +3,7 @@ import { Button, Container, Divider, Flex, MultiSelect, Text } from '@mantine/co
 import { useForm } from '@mantine/form';
 import { DeviceObject } from '@/interfaces';
 import { notifyTagsSaved, notifyTagsSaveFailed } from '@/lib/notifications';
-import { getBorderColor, getDividerColor } from '@/lib/utils';
+import { getDividerColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
@@ -65,11 +65,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
               key={form.key('tags')}
               {...form.getInputProps('tags')}
               comboboxProps={{ withinPortal: false }}
-              styles={{
-                input: {
-                  border: `0.5px solid ${getBorderColor(color)}`,
-                },
-              }}
+              styles={getTextInputStyles(color)}
             />
             <Flex gap="md" justify="space-between">
               <Button type="submit" color={color}>

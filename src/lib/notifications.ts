@@ -56,15 +56,16 @@ export const notifyTagCreated = (tagName: string) =>
     message: `Tag "${tagName}" was created successfully`,
   });
 
-  export const notifyTagUpdated = (tagName: string) => notifications.show({
+export const notifyTagUpdated = (tagName: string) =>
+  notifications.show({
     color: 'green',
     title: 'Tag updated',
     message: `Tag "${tagName}" was updated successfully`,
   });
-  
-  export const notifyTagUpdateFailed = (tagName: string) => notifications.show({
+
+export const notifyTagUpdateFailed = (tagName: string) =>
+  notifications.show({
     color: 'red',
     title: 'Tag update failed',
     message: `Tag "${tagName}" was not updated`,
   });
-  

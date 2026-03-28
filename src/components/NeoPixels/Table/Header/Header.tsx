@@ -5,7 +5,7 @@ import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { SyncDeviceDataButton, TagsHeader, ValueFilterButton } from '@/components';
-import { getBorderColor } from '@/lib/utils';
+import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 import Palette from '../Palette';
 import PopoverPIRConfig from '../PopoverPIRConfig';
@@ -38,11 +38,7 @@ const Header = ({ selection, toggleAll, openPaletteModal }: HeaderProps) => {
           indeterminate={selection.length > 0 && selection.length !== neoPixelDevicesArray.length}
           data-testid="toggle-all-checkbox"
           color={color}
-          styles={{
-            input: {
-              border: `0.5px solid ${getBorderColor(color)}`,
-            },
-          }}
+          styles={getTextInputStyles(color)}
         />
       </Table.Th>
       <Table.Th ta="center">

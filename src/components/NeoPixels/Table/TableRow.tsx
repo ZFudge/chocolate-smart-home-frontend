@@ -13,7 +13,7 @@ import {
   ToggleButton,
 } from '@/components';
 import { DeviceObject } from '@/interfaces';
-import { boolToOnOff, getBorderColor } from '@/lib/utils';
+import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
 import Palette from './Palette';
@@ -43,11 +43,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
           color={color}
-          styles={{
-            input: {
-              border: `0.5px solid ${getBorderColor(color)}`,
-            },
-          }}
+          styles={getTextInputStyles(color)}
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>

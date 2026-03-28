@@ -1,9 +1,9 @@
 import { Button, Flex, Select, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '@/constants';
 import { Tag } from '@/interfaces';
 import { notifyTagUpdated, notifyTagUpdateFailed } from '@/lib/notifications';
-import { getBorderColor } from '@/lib/utils';
-import { MIN_TAG_LENGTH, MAX_TAG_LENGTH } from '@/constants';
+import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 const EditTagsForm = ({ close }: { close: () => void }) => {
@@ -74,7 +74,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
           data={Object.values(tags).map((tag) => ({ value: tag.id.toString(), label: tag.name }))}
           data-testid="edit-tag-select"
           comboboxProps={{ withinPortal: false }}
-          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
+          styles={getTextInputStyles(color)}
           {...form.getInputProps('id')}
         />
         <TextInput
@@ -82,7 +82,7 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
           placeholder="Edit Tag Name"
           label="Edit Tag Name"
           data-testid="edit-tag-input"
-          styles={{ input: { border: `0.5px solid ${getBorderColor(color)}` } }}
+          styles={getTextInputStyles(color)}
           {...form.getInputProps('name')}
         />
         <Flex gap="md" justify="space-between">

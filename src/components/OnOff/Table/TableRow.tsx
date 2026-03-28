@@ -2,7 +2,7 @@ import { FaPowerOff } from 'react-icons/fa';
 import { Checkbox, Table } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, TagsCell, ToggleButton } from '@/components';
 import { DeviceObject } from '@/interfaces';
-import { boolToOnOff, getBorderColor } from '@/lib/utils';
+import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
 import classes from '../OnOff.module.css';
@@ -30,11 +30,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
           onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
           color={color}
-          styles={{
-            input: {
-              border: `0.5px solid ${getBorderColor(color)}`,
-            },
-          }}
+          styles={getTextInputStyles(color)}
         />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
