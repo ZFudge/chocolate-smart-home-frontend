@@ -13,3 +13,8 @@ export const APP_COLOR_OPTIONS = [
 ];
 
 export const ICON_SIZE = 24;
+
+export const MAX_DEVICE_NAME_LENGTH = 30;
+export const MIN_DEVICE_NAME_LENGTH = 3;
+export const MAX_TAG_LENGTH = 30;
+export const MIN_TAG_LENGTH = 3;

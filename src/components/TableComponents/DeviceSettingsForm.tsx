@@ -1,8 +1,8 @@
 import { IoSettingsSharp } from 'react-icons/io5';
 import { Button, Container, Divider, Flex, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
+import { notifyDeviceNameChanged, notifyDeviceNameChangeFailed } from '@/lib/notifications';
 import { getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 
@@ -43,19 +43,12 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
     });
     if (!response.ok) {
       console.error(response.statusText);
-      notifications.show({
-        color: 'red',
-        title: 'Failed to change device name',
-        message: `Failed to change device name from "${device.name}" to "${values.name}"`,
-      });
+      notifyDeviceNameChangeFailed(device, values.name);
       return;
     }
     const data = await response.json();
     console.log(data);
-    notifications.show({
-      title: 'Device name changed',
-      message: `Device name was changed from "${device.name}" to "${values.name}"`,
-    });
+    notifyDeviceNameChanged(device, values.name);
     close();
   };
 

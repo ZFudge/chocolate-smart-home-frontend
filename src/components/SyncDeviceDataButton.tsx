@@ -1,9 +1,8 @@
 import { FaSyncAlt } from 'react-icons/fa';
-import { Button } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
+import { Button, Tooltip } from '@mantine/core';
 import classes from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
-import TooltipWrapper from './TooltipWrapper';
+import { notifySyncRequestFailed, notifySyncRequestStarted } from '@/lib/notifications';
 
 const SyncDeviceDataButton = () => {
   const onClick = async () => {
@@ -12,22 +11,14 @@ const SyncDeviceDataButton = () => {
     });
     if (!response.ok) {
       console.error(response.statusText);
-      notifications.show({
-        color: 'red',
-        title: 'Failed to synchronize device data',
-        message: 'An error occurred while broadcasting the synchronization request.',
-      });
+      notifySyncRequestFailed();
       return;
     }
-    notifications.show({
-      color: 'green',
-      title: 'Device data synchronization started',
-      message: 'Request for synchronization was successfully broadcasted to client devices.',
-    });
+    notifySyncRequestStarted();
   };
 
   return (
-    <TooltipWrapper label="Synchronize device data">
+    <Tooltip label="Synchronize device data">
       <Button
         m="auto"
         variant="transparent"
@@ -39,7 +30,7 @@ const SyncDeviceDataButton = () => {
       >
         <FaSyncAlt size={ICON_SIZE} />
       </Button>
-    </TooltipWrapper>
+    </Tooltip>
   );
 };
 

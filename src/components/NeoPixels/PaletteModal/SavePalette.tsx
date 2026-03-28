@@ -2,17 +2,18 @@ import { FaRegSave } from 'react-icons/fa';
 import { Button, Flex, Group, Popover, TextInput, Title, Tooltip } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import { ICON_SIZE } from '@/constants';
 import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
+import { PalettePresetData } from '../interfaces';
+import { notifyPalettePresetSaved, notifyPalettePresetSaveFailed } from '../notifications';
 import Palette3x3 from '../Palette3x3';
 import { usePaletteFormContext } from './PaletteForm';
 
 const SavePalette = () => {
   const { color } = useAppStore();
-  const [opened, { open, close }] = useDisclosure(false);
-  const ref = useClickOutside(() => close());
+  const [opened, { open, close: closePopover }] = useDisclosure(false);
+  const ref = useClickOutside(() => closePopover());
   const form = usePaletteFormContext();
   const nameField = useField({
     initialValue: '',
@@ -21,6 +22,7 @@ const SavePalette = () => {
   });
 
   const handleSavePalettePreset = async () => {
+    const palette = Object.values(form.getValues()) as string[];
     await fetch('/api/neo_pixel/palettes/', {
       method: 'POST',
       headers: {
@@ -28,25 +30,19 @@ const SavePalette = () => {
       },
       body: JSON.stringify({
         name: nameField.getValue(),
-        palette: Object.values(form.getValues()),
+        palette,
       }),
     }).then(async (resp) => {
       if (!resp.ok) {
         const data = await resp.json();
         console.error(resp.statusText, data);
-        notifications.show({
-          title: 'Failed to save palette preset',
-          message: data.detail,
-          color: 'red',
-        });
-        return [];
+        notifyPalettePresetSaveFailed(data.detail);
+        return;
       }
-      notifications.show({
-        title: 'Palette preset saved',
-        message: 'Palette preset was saved successfully',
-        color: 'green',
-      });
-      close();
+      const data = (await resp.json()) as PalettePresetData;
+      const detail = <Palette3x3 palette={data.palette} mqttIdLabel="selected" />;
+      notifyPalettePresetSaved(data.name, detail);
+      closePopover();
     });
   };
 

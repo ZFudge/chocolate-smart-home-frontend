@@ -1,8 +1,8 @@
 import { HiTag } from 'react-icons/hi';
 import { Button, Container, Divider, Flex, MultiSelect, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
 import { DeviceObject } from '@/interfaces';
+import { notifyTagsSaved, notifyTagsSaveFailed } from '@/lib/notifications';
 import { getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
@@ -36,17 +36,10 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
     if (!response.ok) {
       console.error(response.statusText);
       form.setFieldError('tags', 'Failed to save tags');
-      notifications.show({
-        color: 'red',
-        title: 'Failed to save tags',
-        message: `Failed to save tags for ${device.name}`,
-      });
+      notifyTagsSaveFailed(device);
       return;
     }
-    notifications.show({
-      title: 'Tags saved',
-      message: `Tags for ${device.name} were saved successfully`,
-    });
+    notifyTagsSaved(device);
     close();
   };
 
