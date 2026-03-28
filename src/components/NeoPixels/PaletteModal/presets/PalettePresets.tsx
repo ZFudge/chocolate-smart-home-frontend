@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import cx from 'clsx';
 import { Select } from '@mantine/core';
 import { PaletteFormValuesType, PalettePresetData } from '../../interfaces';
 import { usePaletteFormContext } from '../PaletteForm';
 import PalettePresetOption from './PalettePresetOption';
 import { getPresets } from './utils';
-import classes from '../PaletteModal.module.css';
 
 export default function PalettePresets() {
   const [presets, setPresets] = useState<PalettePresetData[]>([]);
@@ -44,6 +42,7 @@ export default function PalettePresets() {
 
   return (
     <Select
+      w="100%"
       label="Palette Presets"
       placeholder="Select Palette Preset"
       defaultValue={defaultValue}
@@ -52,8 +51,8 @@ export default function PalettePresets() {
         label: preset.name,
       }))}
       renderOption={PalettePresetOption}
+      searchable
       onChange={handleSelect}
-      className={cx(classes['palette-preset-select'])}
       data-testid="palette-preset-select"
     />
   );

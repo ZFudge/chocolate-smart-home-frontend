@@ -1,35 +1,11 @@
 import { useContext } from 'react';
-import { Badge, Button, Flex, FocusTrap, Group, Modal, Text } from '@mantine/core';
+import { Button, Flex, FocusTrap, Modal } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { PostData, postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
 import { WebSocketContext } from '@/ws';
-import { LeonardoCommand } from './types';
-import { getColor } from './utils';
-
-const Title = ({
-  command,
-  device,
-}: {
-  command: LeonardoCommand | undefined;
-  device: DeviceObject | undefined;
-}) => {
-  if (!command || !device) {
-    return null;
-  }
-  return (
-    <Flex direction="column" gap="md" align="center" w="auto">
-      <Text ta="center">Confirm</Text>
-      <Badge color={getColor(command)} size="xl" variant="filled">
-        {command}
-      </Badge>
-      <Text ta="center">for</Text>
-      <Text ta="center" fw={700}>
-        {device?.name}
-      </Text>
-    </Flex>
-  );
-};
+import { LeonardoCommand } from '../types';
+import Message from './Message';
 
 interface ConfirmationModalProps {
   opened: boolean;
@@ -65,11 +41,10 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
     <Modal
       opened={opened}
       onClose={onClose}
-      title={<Title command={command} device={device} />}
       withCloseButton={false}
       centered
       data-testid="confirmation-modal"
-      size="xs"
+      size="md"
       styles={{
         header: {
           display: 'flex',
@@ -84,14 +59,17 @@ const ConfirmationModal = ({ opened, onClose, command, device }: ConfirmationMod
       }}
     >
       <FocusTrap.InitialFocus />
-      <Group justify="space-between">
-        <Button onClick={handleSubmit} color={color} data-testid="submit">
-          Submit
-        </Button>
-        <Button variant="default" onClick={onClose} data-testid="close">
-          Cancel
-        </Button>
-      </Group>
+      <Flex direction="column" gap="xl">
+        <Message command={command} device={device} />
+        <Flex justify="space-between" gap="md">
+          <Button onClick={handleSubmit} color={color} data-testid="submit">
+            Send
+          </Button>
+          <Button variant="default" onClick={onClose} data-testid="close">
+            Cancel
+          </Button>
+        </Flex>
+      </Flex>
     </Modal>
   );
 };

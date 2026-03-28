@@ -16,7 +16,6 @@ interface PaletteModalProps {
 }
 
 const PaletteModal = ({ devices, close }: PaletteModalProps) => {
-  const multiple = devices && devices.length > 1;
   const websocket = useContext(WebSocketContext);
   const { color } = useAppStore();
   const form = usePaletteForm({
@@ -51,7 +50,7 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
       <Modal
         opened
         onClose={close}
-        title={<Header title={multiple ? 'multiple' : devices[0]?.name} />}
+        title={<Header devices={devices} />}
         withCloseButton={false}
         centered
         data-testid="palette-modal"
@@ -71,10 +70,13 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <FocusTrap.InitialFocus />
           <Flex direction="column" gap="md">
+            <Flex align="flex-end" justify="space-between" gap="md">
+              <PalettePresets />
+              <SavePalette />
+            </Flex>
             <Flex direction="column">
               <PaletteDisplay />
             </Flex>
-            <PalettePresets />
             <Flex justify="space-between">
               <Button type="submit" color={color} data-testid="submit">
                 Submit
@@ -85,7 +87,6 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
               <Button variant="default" onClick={close} data-testid="close">
                 Cancel
               </Button>
-              <SavePalette />
             </Flex>
           </Flex>
         </form>

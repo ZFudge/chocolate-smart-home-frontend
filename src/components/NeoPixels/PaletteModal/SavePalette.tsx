@@ -1,8 +1,9 @@
 import { FaRegSave } from 'react-icons/fa';
-import { Button, Flex, Group, Popover, Space, TextInput, Title } from '@mantine/core';
+import { Button, Flex, Group, Popover, TextInput, Title, Tooltip } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { ICON_SIZE } from '@/constants';
 import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import Palette3x3 from '../Palette3x3';
@@ -52,34 +53,40 @@ const SavePalette = () => {
   return (
     <Popover opened={opened} position="top">
       <Popover.Target>
-        <Button data-testid="save" onClick={open} color={color}>
-          <FaRegSave />
-        </Button>
+        <Tooltip label="Save Palette">
+          <Button data-testid="save-palette-button" onClick={open} color={color}>
+            <FaRegSave size={ICON_SIZE} />
+          </Button>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref}>
-        <Flex gap="lg" align="center">
-          <Title order={5}>Save New Palette</Title>
-          <Palette3x3
-            palette={Object.values(form.getValues()) as string[]}
-            mqttIdLabel="selected"
+        <Flex gap="md" direction="column" p="xs">
+          <Flex gap="lg" align="center">
+            <Title order={5}>Save New Palette</Title>
+            <Palette3x3
+              palette={Object.values(form.getValues()) as string[]}
+              mqttIdLabel="selected"
+            />
+          </Flex>
+          <TextInput
+            autoFocus
+            label="Palette Name"
+            {...nameField.getInputProps()}
+            styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
           />
+          <Group justify="space-between">
+            <Button
+              onClick={handleSavePalettePreset}
+              color={color}
+              data-testid="save-palette-button"
+            >
+              Save
+            </Button>
+            <Button variant="default" onClick={close}>
+              Cancel
+            </Button>
+          </Group>
         </Flex>
-        <Space h="md" />
-        <TextInput
-          autoFocus
-          label="Palette Name"
-          {...nameField.getInputProps()}
-          styles={{ input: { border: `1px solid ${getBorderColor(color)}` } }}
-        />
-        <Space h="md" />
-        <Group justify="space-between">
-          <Button onClick={handleSavePalettePreset} color={color}>
-            Save
-          </Button>
-          <Button variant="default" onClick={close}>
-            Cancel
-          </Button>
-        </Group>
       </Popover.Dropdown>
     </Popover>
   );

@@ -82,7 +82,7 @@ const NewTagForm = ({ close }: { close: () => void }) => {
         />
         <Space h="md" />
         <Flex gap="md" justify="space-between">
-          <Button disabled={!form.isValid() || loading} type="submit">
+          <Button color={color} disabled={!form.isValid() || loading} type="submit">
             Create
             {loading && <Loader size="0.75rem" />}
           </Button>

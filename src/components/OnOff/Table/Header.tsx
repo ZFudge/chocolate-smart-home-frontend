@@ -38,7 +38,6 @@ const Header = ({ selection, toggleAll }: HeaderProps) => {
       <Table.Th>
         <ValueFilterButton />
       </Table.Th>
-      <Table.Th key="device-names-header">On / Off Devices</Table.Th>
     </Table.Tr>
   );
 };
