@@ -1,8 +1,6 @@
 import { FaLightbulb, FaMicrochip, FaPowerOff } from 'react-icons/fa';
 import { Tabs, Text } from '@mantine/core';
-import { LEONARDO } from '@/components/Leonardo/constants';
-import { NEO_PIXEL } from '@/components/NeoPixels/constants';
-import { ON_OFF } from '@/components/OnOff/constants';
+import { LEONARDO, NEO_PIXEL, ON_OFF } from '@/components/devices';
 import { useAppStore } from '@/stores';
 import { LeonardoPage, NeoPixelsPage, OnOffPage } from './index';
 

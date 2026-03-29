@@ -1,4 +1,4 @@
-import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
 
 const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
   '1': {

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { LEONARDO } from '@/components/Leonardo';
-import { NEO_PIXEL } from '@/components/NeoPixels';
-import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import { ON_OFF } from '@/components/OnOff';
-import { OnOffObject } from '@/components/OnOff/interfaces';
+import { LEONARDO } from '@/components/devices/Leonardo';
+import { NEO_PIXEL } from '@/components/devices/NeoPixels';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
+import { ON_OFF } from '@/components/devices/OnOff';
+import { OnOffObject } from '@/components/devices/OnOff/interfaces';
 import { DeviceMapping, DeviceObject, DeviceObjectType, Tag } from '@/interfaces';
 
 interface DevicesStore {

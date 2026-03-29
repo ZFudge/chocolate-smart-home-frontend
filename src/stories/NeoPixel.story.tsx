@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import NPTable from '@/components/NeoPixels/Table/NPTable';
+import NPTable from '@/components/devices/NeoPixels/Table/NeoPixelsTable';
 import { neoPixelsMockData } from '@/tests/placeholder-data/';
 
 const meta: Meta<typeof NPTable> = {

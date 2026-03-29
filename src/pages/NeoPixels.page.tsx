@@ -1,13 +1,7 @@
-import { NoNeoPixels, NPTable } from '@/components/NeoPixels';
-import { useDevicesStore } from '@/stores';
+import { NeoPixelsTable } from '@/components/devices';
 
 const NeoPixelsPage = () => {
-  const { neoPixelDevices } = useDevicesStore();
-
-  if (Object.keys(neoPixelDevices).length === 0) {
-    return <NoNeoPixels />;
-  }
-  return <NPTable />;
+  return <NeoPixelsTable />;
 };
 
 export default NeoPixelsPage;

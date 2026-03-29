@@ -69,3 +69,10 @@ export const notifyTagUpdateFailed = (tagName: string) =>
     title: 'Tag update failed',
     message: `Tag "${tagName}" was not updated`,
   });
+
+export const notifyDeviceTypeNameMissing = () =>
+  notifications.show({
+    color: 'red',
+    title: 'Device type name missing',
+    message: 'Device type name is missing',
+  });

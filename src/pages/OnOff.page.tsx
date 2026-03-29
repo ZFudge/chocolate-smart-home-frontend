@@ -1,4 +1,4 @@
-import { NoOnOff, OnOffTable } from '@/components/OnOff';
+import { NoOnOff, OnOffTable } from '@/components/devices';
 import { useDevicesStore } from '@/stores';
 
 const OnOffPage = () => {

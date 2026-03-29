@@ -1,5 +1,5 @@
-import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import { OnOffObject } from '@/components/OnOff/interfaces';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
+import { OnOffObject } from '@/components/devices/OnOff/interfaces';
 
 export interface Tag {
   id: number;

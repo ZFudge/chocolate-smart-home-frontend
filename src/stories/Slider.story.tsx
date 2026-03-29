@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { FaPowerOff } from 'react-icons/fa';
-import SliderForm from '@/components/NeoPixels/SliderForm';
+import SliderForm from '@/components/devices/NeoPixels/SliderForm';
 import { neoPixelsMockData } from '@/tests/placeholder-data/';
 
 const meta: Meta<typeof SliderForm> = {

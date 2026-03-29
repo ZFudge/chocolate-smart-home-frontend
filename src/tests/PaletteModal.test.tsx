@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from '@test-utils';
 import { vi } from 'vitest';
-import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import PaletteModal from '@/components/NeoPixels/PaletteModal';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
+import PaletteModal from '@/components/devices/NeoPixels/PaletteModal';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });

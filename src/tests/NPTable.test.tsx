@@ -1,7 +1,7 @@
 import { act, fireEvent, render, userEvent } from '@test-utils';
 import cx from 'clsx';
+import NPTable from '@/components/devices/NeoPixels/Table/NeoPixelsTable';
 import classes from '@/components/NeoPixels/NeoPixel.module.css';
-import NPTable from '@/components/NeoPixels/Table/NPTable';
 import { useDevicesStore } from '@/stores';
 import { neoPixelsMockData } from './placeholder-data';
 

@@ -1,4 +1,4 @@
-import { LeonardoTable, NoLeonardo } from '@/components/Leonardo';
+import { LeonardoTable, NoLeonardo } from '@/components/devices';
 import { useDevicesStore } from '@/stores';
 
 const LeonardoPage = () => {

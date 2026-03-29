@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { NeoPixelObject } from '@/components/NeoPixels/interfaces';
-import PaletteModal from '@/components/NeoPixels/PaletteModal';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
+import PaletteModal from '@/components/devices/NeoPixels/PaletteModal';
 
 const device: NeoPixelObject = {
   id: 1,

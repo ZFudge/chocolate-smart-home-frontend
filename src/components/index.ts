@@ -1,31 +1,21 @@
-import ColorSchemeToggle from './ColorSchemeToggle';
-import ColorThemePickerIcon from './ColorTheme';
-import DeviceName from './DeviceName';
-import IndeterminateButton from './IndeterminateButton';
-import SplitTableCell from './SplitTableCell';
-import SyncDeviceDataButton from './SyncDeviceDataButton';
-import { CellContainer, DeviceSettings, LastSeen, ValueFilterButton } from './TableComponents';
-import { TagsButton, TagsCell, TagsFilter, TagsHeader } from './Tags';
-import ThemeToggler from './ThemeToggler';
-import ToggleButton from './ToggleButton';
-import TooltipWrapper from './TooltipWrapper';
+import { ColorSchemeToggle, ColorThemePickerIcon, TagsButton, ThemeToggler } from './appheader';
+import { SplitTableCell, SyncDeviceDataButton, ToggleButton } from './common';
+import DeviceName from './common/DeviceName';
+import IndeterminateButton from './common/IndeterminateButton';
+import { DeviceSettings, DeviceTags, LastSeen, ValueFilter } from './common/Tables';
 
 export {
-  CellContainer,
   ColorSchemeToggle,
   ColorThemePickerIcon,
   DeviceName,
   DeviceSettings,
+  DeviceTags,
   IndeterminateButton,
   LastSeen,
   SplitTableCell,
   SyncDeviceDataButton,
-  TagsCell,
-  ToggleButton,
-  ThemeToggler,
-  TooltipWrapper,
-  ValueFilterButton,
   TagsButton,
-  TagsFilter,
-  TagsHeader,
+  ThemeToggler,
+  ToggleButton,
+  ValueFilter,
 };
