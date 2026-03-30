@@ -11,8 +11,6 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
   const { color } = useAppStore();
 
   const form = useForm({
-    name: 'device-settings-form',
-    mode: 'uncontrolled',
     initialValues: {
       name: device.name,
     },

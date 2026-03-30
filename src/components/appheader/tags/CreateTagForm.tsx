@@ -3,7 +3,7 @@ import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '@/constants';
 import { Tag } from '@/interfaces';
-import { notifyTagCreated, notifyTagCreationFailed } from '@/lib/notifications';
+import { notifyTagCreated, notifyTagCreateFailed } from '@/lib/notifications';
 import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
@@ -13,8 +13,6 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
   const { color } = useAppStore();
 
   const form = useForm({
-    name: 'new-tag-form',
-    mode: 'uncontrolled',
     initialValues: {
       name: '',
     },
@@ -47,7 +45,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
     });
     if (!response.ok) {
       console.error(response.statusText);
-      notifyTagCreationFailed(name);
+      notifyTagCreateFailed(name);
       return;
     }
     const data = await response.json();

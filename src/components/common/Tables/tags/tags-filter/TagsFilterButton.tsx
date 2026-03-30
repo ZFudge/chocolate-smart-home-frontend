@@ -36,7 +36,6 @@ const TagsFilterButton = () => {
       trapFocus
       position="bottom"
       shadow="md"
-      width={300}
       opened={opened}
       closeOnClickOutside={false}
     >

@@ -56,6 +56,8 @@ const useDevicesStore = create<DevicesStore>((set, get) => ({
   addDeviceData: (newDevice: DeviceObjectType | DeviceObjectType[]) => {
     const devices = get().devices;
     const handleDevice = (device: DeviceObjectType) => {
+      device.tags =
+        device.tags?.map((tag: Tag | number) => (typeof tag === 'number' ? tag : tag.id)) || [];
       devices[device.mqtt_id] = device;
       get().triageDevice(device);
     };
@@ -71,7 +73,7 @@ const useDevicesStore = create<DevicesStore>((set, get) => ({
   filteredValue: '' as string,
   setFilteredTagIds: (filteredTagIds: number[]) => set({ filteredTagIds }),
   setFilteredValue: (filteredValue: string) => set({ filteredValue }),
-  addTagsData: (newTags: Tag[]) => set({ tags: newTags }),
+  addTagsData: (newTags: Tag[]) => set({ tags: [...get().tags, ...newTags] }),
 }));
 
 export default useDevicesStore;

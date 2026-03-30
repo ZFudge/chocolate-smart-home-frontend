@@ -17,7 +17,6 @@ const SavePalette = () => {
   const form = usePaletteFormContext();
   const nameField = useField({
     initialValue: '',
-    mode: 'uncontrolled',
     validate: (value) => (value.trim().length < 2 ? 'Value is too short' : null),
   });
 

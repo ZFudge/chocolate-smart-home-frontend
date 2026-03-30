@@ -19,8 +19,6 @@ const PaletteModal = ({ devices, close }: PaletteModalProps) => {
   const websocket = useContext(WebSocketContext);
   const { color } = useAppStore();
   const form = usePaletteForm({
-    mode: 'uncontrolled',
-    name: 'edit-palette-form',
     initialValues: devices[0].palette.reduce(
       (acc, color, i) => ({
         ...acc,

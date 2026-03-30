@@ -40,7 +40,6 @@ const SliderForm = ({
   const multiple = devices.length > 1;
   const { color } = useAppStore();
   const field = useField({
-    mode: 'uncontrolled',
     initialValue,
     onValueChange: setValue,
   });

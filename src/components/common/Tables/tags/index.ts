@@ -1,4 +1,4 @@
 import DeviceTags from './device-tags';
-import TagsFilterButton from './filter';
+import TagsFilterButton from './tags-filter';
 
 export { DeviceTags, TagsFilterButton };

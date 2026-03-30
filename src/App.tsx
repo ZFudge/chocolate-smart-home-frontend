@@ -17,25 +17,14 @@ const theme = createTheme({
 
 const App = () => {
   const { connect, websocket } = useWebsocket();
-  const { addDeviceData, addTagsData } = useDevicesStore();
-
-  const handleMessage = (msgEvent: MessageEvent) => {
-    const data = JSON.parse(msgEvent.data);
-    addDeviceData(data);
-  };
+  const { addDeviceData } = useDevicesStore();
 
   useEffect(() => {
-    connect(handleMessage);
-    const getTags = async () => {
-      const response = await fetch('/api/tags/');
-      if (!response.ok) {
-        console.error(response.statusText);
-        return;
-      }
-      const data = await response.json();
-      addTagsData(data);
+    const handleMessage = (msgEvent: MessageEvent) => {
+      const data = JSON.parse(msgEvent.data);
+      addDeviceData(data);
     };
-    getTags();
+    connect(handleMessage);
     return () => {
       websocket?.close();
     };

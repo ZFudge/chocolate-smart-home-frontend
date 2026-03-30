@@ -42,7 +42,7 @@ export const notifyDeviceNameChangeFailed = (device: DeviceObject, value: string
     message: `Failed to change device name from "${device.name}" to "${value}"`,
   });
 
-export const notifyTagCreationFailed = (tagName: string) =>
+export const notifyTagCreateFailed = (tagName: string) =>
   notifications.show({
     color: 'red',
     title: 'Tag creation failed',

@@ -1,13 +1,15 @@
-import { type KeyboardEventHandler } from 'react';
+import { useEffect, type KeyboardEventHandler } from 'react';
 import { ImPriceTags } from 'react-icons/im';
 import { ActionIcon, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
-import { useAppStore } from '@/stores';
+import { Tag } from '@/interfaces';
+import { useAppStore, useDevicesStore } from '@/stores';
 import TagsForm from './TagsForm';
 
 const TagsButton = () => {
   const { color } = useAppStore();
+  const { addTagsData } = useDevicesStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
@@ -21,6 +23,19 @@ const TagsButton = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    const getTags = async () => {
+      const response = await fetch('/api/tags/');
+      if (!response.ok) {
+        console.error(response.statusText);
+        return;
+      }
+      const data = await response.json();
+      addTagsData(data as Tag[]);
+    };
+    getTags();
+  }, [addTagsData]);
 
   return (
     <Popover withArrow trapFocus position="bottom" shadow="md" opened={opened}>
