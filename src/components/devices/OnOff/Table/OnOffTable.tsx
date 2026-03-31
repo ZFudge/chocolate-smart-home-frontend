@@ -3,12 +3,10 @@ import { Flex, ScrollArea, Table } from '@mantine/core';
 import { filterDevicesByTags } from '@/lib/utils';
 import { useDevicesStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
+import { filterByValue } from '../utils';
+import classes from '../OnOff.module.css';
 import Header from './Header';
 import TableRow from './TableRow';
-import classes from '../OnOff.module.css';
-
-const filterByValue = (filteredValue: string, device: OnOffObject) =>
-  device.name.includes(filteredValue) || Number(device.on).toString().includes(filteredValue);
 
 const OnOffTable = () => {
   const [selection, setSelection] = useState<number[]>([]);

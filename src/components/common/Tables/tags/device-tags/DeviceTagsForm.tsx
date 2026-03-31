@@ -20,7 +20,7 @@ import { ColoredPill } from '@/components/common';
 import { ICON_SIZE, MIN_TAG_LENGTH } from '@/constants';
 import { DeviceObject } from '@/interfaces';
 import { notifyTagsSaved, notifyTagsSaveFailed } from '@/lib/notifications';
-import { createNewTag, getBorderColor, getDividerColor, getTextInputStyles } from '@/lib/utils';
+import { createNewTag, getBorderColor, getDividerColor } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
@@ -28,11 +28,8 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
   const { color } = useAppStore();
   const [search, setSearch] = useState('');
 
-  // const initialValue = (device.tags || []).map((id: number) => id.toString());
   const initialValue =
-    device.tags?.map(
-      (id) => (tags ?? []).find((t) => id.toString() === t.id.toString())?.name || ''
-    ) || [];
+    device.tags?.map((tagId) => tags.find((tag) => tag.id === tagId)?.name ?? '') || [];
   const field = useField({
     initialValue,
   });
@@ -106,7 +103,9 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
       handleValueRemove(selected[selected.length - 1]);
     } else if (event.key === 'Enter') {
       if (search) {
-        if (search.length < MIN_TAG_LENGTH) return;
+        if (search.length < MIN_TAG_LENGTH) {
+          return;
+        }
         for (let i = 0; i < tags.length; i++) {
           const tag = tags[i];
           if (tag.name === search) {

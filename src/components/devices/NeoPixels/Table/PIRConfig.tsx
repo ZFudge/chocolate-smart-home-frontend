@@ -1,6 +1,6 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { ActionIcon, Container, Flex, Loader, Popover, Text } from '@mantine/core';
+import { ActionIcon, Container, Flex, Loader, Popover, Text, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { IndeterminateButton, SplitTableCell, ToggleButton } from '@/components';
 import { ICON_SIZE } from '@/constants';
@@ -71,21 +71,23 @@ const PIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
   return (
     <Popover trapFocus position="bottom" withArrow shadow="md" opened={opened}>
       <Popover.Target>
-        <ActionIcon
-          w="100%"
-          size="xl"
-          onClick={open}
-          disabled={opened}
-          variant="transparent"
-          className={classes['theme-match']}
-          data-testid={`${multiple ? 'selected-devices' : mqttId}-pir-config-button`}
-        >
-          {isLoading ? (
-            <Loader color={color} size={ICON_SIZE} />
-          ) : (
-            <SplitTableCell value={value} Icon={FaPersonBurst} explicitColor={explicitColor} />
-          )}
-        </ActionIcon>
+        <Tooltip label="Passive IR Sensor Configuration">
+          <ActionIcon
+            w="100%"
+            size="xl"
+            onClick={open}
+            disabled={opened}
+            variant="transparent"
+            className={classes['theme-match']}
+            data-testid={`${multiple ? 'selected-devices' : mqttId}-pir-config-button`}
+          >
+            {isLoading ? (
+              <Loader color={color} size={ICON_SIZE} />
+            ) : (
+              <SplitTableCell value={value} Icon={FaPersonBurst} explicitColor={explicitColor} />
+            )}
+          </ActionIcon>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <Flex direction="column" gap="md">

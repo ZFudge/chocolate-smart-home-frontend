@@ -1,4 +1,4 @@
-import { DeviceObject, Tag } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import { notifyTagCreated, notifyTagCreateFailed } from './notifications';
 
 export const boolToOnOff = (b: boolean) => (b ? 'ON' : 'OFF');
@@ -9,9 +9,7 @@ export const filterDevicesByTags = (devices: DeviceObject[], filteredTagIds: num
   }
 
   return devices.filter((device: DeviceObject) =>
-    device.tags?.some((tag: Tag | number) =>
-      typeof tag === 'number' ? filteredTagIds.includes(tag) : filteredTagIds.includes(tag.id)
-    )
+    device.tags?.some((tagId) => filteredTagIds.includes(tagId))
   );
 };
 
@@ -24,7 +22,7 @@ export const getTextInputStyles = (color: string) => ({
 });
 
 export const createNewTag = async (tagName: string) => {
-  const response = await fetch('/api/tag/', {
+  const response = await fetch('/api/tags/', {
     method: 'POST',
     body: JSON.stringify({ name: tagName }),
     headers: {

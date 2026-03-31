@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LeonardoPage, NeoPixelsPage, NotFoundPage, OnOffPage, TabsPage } from './pages';
+import { LeonardoPage, NeoPixelsPage, NotFoundPage, OnOffPage, TabsPage } from '../pages';
 
 const router = createBrowserRouter([
   {

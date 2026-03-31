@@ -6,12 +6,7 @@ const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
     mqtt_id: 1,
     name: 'NeoPixel 1',
     device_type_name: 'neo_pixel',
-    tags: [
-      {
-        id: 1,
-        name: 'bedroom',
-      },
-    ],
+    tags: [1],
     online: true,
     last_seen: null,
     on: true,
@@ -39,12 +34,7 @@ const neoPixelsMockData: { [key: string]: NeoPixelObject } = {
     mqtt_id: 2,
     name: 'NeoPixel 2',
     device_type_name: 'neo_pixel',
-    tags: [
-      {
-        id: 1,
-        name: 'bedroom',
-      },
-    ],
+    tags: [1],
     online: false,
     last_seen: null,
     on: false,

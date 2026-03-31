@@ -1,8 +1,6 @@
 import { create } from 'zustand';
-import { LEONARDO } from '@/components/devices/Leonardo';
-import { NEO_PIXEL } from '@/components/devices/NeoPixels';
+import { LEONARDO, NEO_PIXEL, ON_OFF } from '@/components/devices';
 import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
-import { ON_OFF } from '@/components/devices/OnOff';
 import { OnOffObject } from '@/components/devices/OnOff/interfaces';
 import { DeviceMapping, DeviceObject, DeviceObjectType, Tag } from '@/interfaces';
 
@@ -56,8 +54,7 @@ const useDevicesStore = create<DevicesStore>((set, get) => ({
   addDeviceData: (newDevice: DeviceObjectType | DeviceObjectType[]) => {
     const devices = get().devices;
     const handleDevice = (device: DeviceObjectType) => {
-      device.tags =
-        device.tags?.map((tag: Tag | number) => (typeof tag === 'number' ? tag : tag.id)) || [];
+      device.tags = device.tags ?? [];
       devices[device.mqtt_id] = device;
       get().triageDevice(device);
     };

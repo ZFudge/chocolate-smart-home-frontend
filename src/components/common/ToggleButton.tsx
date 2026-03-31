@@ -14,7 +14,7 @@ interface ToggleButtonProps {
   devices: IndexableObj[];
   settingName: string;
   children?: React.ReactNode;
-  label?: string;
+  label: React.ReactNode;
   Icon?: React.ElementType;
   deviceTypeName?: string;
 }

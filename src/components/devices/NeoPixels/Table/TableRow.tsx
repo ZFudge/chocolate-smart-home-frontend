@@ -3,7 +3,7 @@ import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
-import { Checkbox, Table } from '@mantine/core';
+import { Checkbox, Table, Text } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, ToggleButton } from '@/components';
 import { DeviceTags } from '@/components/common/Tables';
 import { DeviceObject } from '@/interfaces';
@@ -57,7 +57,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="on"
-          label={`power is ${boolToOnOff(device.on)}`}
+          label={<Text>Power is {boolToOnOff(device.on)}</Text>}
           Icon={FaPowerOff}
         />
       </Table.Td>
@@ -69,7 +69,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="scheduled_palette_rotation"
-          label={`palette rotation ${device.scheduled ? '' : 'not'} scheduled`}
+          label={<Text>Palette Rotation {device.scheduled ? '' : 'not'} scheduled</Text>}
           Icon={BsFillPaletteFill}
         />
       </Table.Td>
@@ -78,7 +78,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="twinkle"
-          label={`twinkle is ${boolToOnOff(device.twinkle)}`}
+          label={<Text>Twinkle is {boolToOnOff(device.twinkle)}</Text>}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
         />
       </Table.Td>
@@ -87,7 +87,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
           devices={[device]}
           deviceTypeName="neo_pixel"
           settingName="transform"
-          label={`transform is ${boolToOnOff(device.transform)}`}
+          label={<Text>Transform is {boolToOnOff(device.transform)}</Text>}
           Icon={GiTransform}
         />
       </Table.Td>
@@ -95,7 +95,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         <PopoverSlider
           devices={[device]}
           deviceTypeName="neo_pixel"
-          label="adjust brightness"
+          label={<Text>Adjust Brightness</Text>}
           name="brightness"
           Icon={BsBrightnessHigh}
         />
@@ -104,7 +104,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
         <PopoverSlider
           devices={[device]}
           deviceTypeName="neo_pixel"
-          label="adjust speed"
+          label={<Text>Adjust Speed</Text>}
           name="ms"
           Icon={IoSpeedometerOutline}
         />

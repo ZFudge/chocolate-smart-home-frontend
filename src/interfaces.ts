@@ -15,7 +15,7 @@ export interface DeviceObject {
   online: boolean;
   reboots?: number;
   remote_name?: string;
-  tags?: Tag[] | number[] | null;
+  tags?: number[];
 }
 
 export type DeviceObjectType = DeviceObject | NeoPixelObject | OnOffObject;

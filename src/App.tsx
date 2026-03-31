@@ -6,7 +6,7 @@ import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
 import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
-import Router from './Router';
+import Router from './components/Router';
 import { useDevicesStore } from './stores';
 import { useWebsocket, WebSocketContext } from './ws';
 

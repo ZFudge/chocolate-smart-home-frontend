@@ -1,7 +1,7 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { IconType } from 'react-icons';
 import { useLocation } from 'react-router-dom';
-import { ActionIcon, Container, Loader, Popover } from '@mantine/core';
+import { ActionIcon, Container, Loader, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { SplitTableCell } from '@/components';
 import { ICON_SIZE } from '@/constants';
@@ -12,14 +12,12 @@ import classes from '../NeoPixel.module.css';
 
 const PopoverSlider = ({
   label,
-  children,
   Icon,
   devices,
   name,
   deviceTypeName,
 }: {
-  label: string;
-  children?: React.ReactNode;
+  label: React.ReactNode;
   Icon: IconType;
   devices: IndexableObj[];
   name: string;
@@ -75,20 +73,22 @@ const PopoverSlider = ({
   return (
     <Popover trapFocus position="bottom" withArrow shadow="md" opened={opened}>
       <Popover.Target>
-        <ActionIcon
-          onClick={open}
-          size="xl"
-          variant="transparent"
-          w="100%"
-          ta="left"
-          className={classes['theme-match']}
-        >
-          {isLoading ? (
-            <Loader color={color} size={ICON_SIZE} />
-          ) : (
-            <SplitTableCell value={value} Icon={Icon} />
-          )}
-        </ActionIcon>
+        <Tooltip label={label} withArrow>
+          <ActionIcon
+            onClick={open}
+            size="xl"
+            variant="transparent"
+            w="100%"
+            ta="left"
+            className={classes['theme-match']}
+          >
+            {isLoading ? (
+              <Loader color={color} size={ICON_SIZE} />
+            ) : (
+              <SplitTableCell value={value} Icon={Icon} />
+            )}
+          </ActionIcon>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <Container p="xs">

@@ -10,12 +10,7 @@ const device: NeoPixelObject = {
   device_type_name: 'neo_pixel',
   online: true,
   last_seen: null,
-  tags: [
-    {
-      id: 1,
-      name: 'bedroom',
-    },
-  ],
+  tags: [1],
   on: true,
   twinkle: true,
   transform: true,

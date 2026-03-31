@@ -12,6 +12,11 @@ export type PresetFormValuesType = [
   string,
 ];
 
+export interface PIRConfig {
+  armed?: boolean;
+  timeout: number;
+}
+
 export interface NeoPixelObject extends DeviceObject {
   palette: PresetFormValuesType;
   ms: number;
@@ -22,10 +27,7 @@ export interface NeoPixelObject extends DeviceObject {
   white?: boolean;
   scheduled?: boolean | undefined;
   timeout?: number;
-}
-
-export interface IndexableObj {
-  [key: string]: any;
+  pir?: PIRConfig;
 }
 
 export interface PalettePreset {
