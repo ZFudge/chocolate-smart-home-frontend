@@ -4,7 +4,7 @@ import { ActionIcon, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
-import { DeviceObject, TagMapping } from '@/interfaces';
+import { DeviceObject } from '@/interfaces';
 import { useAppStore, useDevicesStore } from '@/stores';
 import DeviceTagsForm from './DeviceTagsForm';
 
@@ -13,12 +13,10 @@ const DeviceTags = ({ device }: { device: DeviceObject }) => {
   const ref = useClickOutside(() => close());
   const { tags } = useDevicesStore();
   const { color } = useAppStore();
-  const tagsById: TagMapping = tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag.name }), {});
+
   if (!device) {
     return null;
   }
-
-  const label = device.tags?.map((tagId) => tagsById[tagId]).join(', ') || 'no tags';
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {

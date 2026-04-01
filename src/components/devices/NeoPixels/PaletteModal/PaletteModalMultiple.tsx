@@ -11,14 +11,16 @@ import { PaletteFormProvider, usePaletteForm } from './PaletteForm';
 import PalettePresets from './presets/PalettePresets';
 import SavePalette from './SavePalette';
 
-const PaletteModal = () => {
-  const { selectedPaletteDevices, neoPixelDevices, setSelectedPaletteDevices } = useNeoPixelStore();
+const PaletteModalMultiple = () => {
   const websocket = useContext(WebSocketContext);
   const { color } = useAppStore();
+  const { selectedPaletteDevices, neoPixelDevices, setSelectedPaletteDevices } = useNeoPixelStore();
+  const devices = (selectedPaletteDevices as number[]).map(
+    (mqtt_id) => neoPixelDevices[mqtt_id] as NeoPixelObject
+  );
 
-  const device = neoPixelDevices[selectedPaletteDevices as number] as NeoPixelObject;
   const form = usePaletteForm({
-    initialValues: device.palette.reduce(
+    initialValues: devices[0].palette.reduce(
       (acc, color, i) => ({
         ...acc,
         [`${i}-color`]: color,
@@ -29,7 +31,7 @@ const PaletteModal = () => {
 
   const handleSubmit = (values: typeof form.values) => {
     const data = {
-      mqtt_id: [device.mqtt_id],
+      mqtt_id: devices.map(({ mqtt_id }) => mqtt_id),
       name: 'palette',
       device_type_name: 'neo_pixel',
       value: Object.values(values),
@@ -49,7 +51,7 @@ const PaletteModal = () => {
       <Modal
         opened
         onClose={close}
-        title={<Header devices={[device]} />}
+        title={<Header devices={devices} />}
         withCloseButton={false}
         centered
         data-testid="palette-modal"
@@ -94,4 +96,4 @@ const PaletteModal = () => {
   );
 };
 
-export default PaletteModal;
+export default PaletteModalMultiple;

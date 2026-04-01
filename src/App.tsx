@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { AppShell, createTheme, Flex, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 
@@ -32,29 +33,31 @@ const App = () => {
 
   return (
     <MantineProvider theme={theme}>
-      <Notifications />
-      <WebSocketContext.Provider value={websocket}>
-        <AppShell header={{ height: 60 }} padding="md">
-          <AppShell.Header
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '1em',
-            }}
-          >
-            <Flex gap="md" align="center">
-              <ColorThemePickerIcon />
-              <SyncDeviceDataButton />
-              <TagsButton />
-            </Flex>
-            <ThemeToggler />
-          </AppShell.Header>
+      <BrowserRouter>
+        <Notifications />
+        <WebSocketContext.Provider value={websocket}>
+          <AppShell header={{ height: 60 }} padding="md">
+            <AppShell.Header
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '1em',
+              }}
+            >
+              <Flex gap="md" align="center">
+                <ColorThemePickerIcon />
+                <SyncDeviceDataButton />
+                <TagsButton />
+              </Flex>
+              <ThemeToggler />
+            </AppShell.Header>
 
-          <AppShell.Main>
-            <Router />
-          </AppShell.Main>
-        </AppShell>
-      </WebSocketContext.Provider>
+            <AppShell.Main>
+              <Router />
+            </AppShell.Main>
+          </AppShell>
+        </WebSocketContext.Provider>
+      </BrowserRouter>
     </MantineProvider>
   );
 };

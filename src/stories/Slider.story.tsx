@@ -15,7 +15,7 @@ export const SliderStory: Story = {
   args: {
     name: 'ms',
     Icon: FaPowerOff,
-    devices: [neoPixelsMockData['1']],
+    device: neoPixelsMockData['1'],
     close: fn(),
   },
 };

@@ -32,7 +32,6 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    console.log(values);
     const response = await fetch(`/api/device/${device.mqtt_id}/name`, {
       method: 'POST',
       body: JSON.stringify({ name: values.name }),

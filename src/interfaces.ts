@@ -1,6 +1,10 @@
 import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
 import { OnOffObject } from '@/components/devices/OnOff/interfaces';
 
+export interface IndexableObj {
+  [key: string]: any;
+}
+
 export interface Tag {
   id: number;
   name: string;

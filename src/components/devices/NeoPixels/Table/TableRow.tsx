@@ -10,6 +10,7 @@ import { DeviceObject } from '@/interfaces';
 import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
+import useNeoPixelStore from '../useNeoPixelStore';
 import Palette from './Palette';
 import PIRConfig from './PIRConfig';
 import PopoverSlider from './PopoverSlider';
@@ -17,13 +18,12 @@ import classes from '../NeoPixel.module.css';
 
 interface TableRowProps {
   device: NeoPixelObject;
-  selected: boolean;
-  toggleRow: (mqtt_id: number) => void;
-  openPaletteModal: () => void;
 }
 
-const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowProps) => {
+const TableRow = ({ device }: TableRowProps) => {
   const { color } = useAppStore();
+  const { selectedDevices, toggleDevice } = useNeoPixelStore();
+  const selected = selectedDevices.includes(device.mqtt_id);
 
   return (
     <Table.Tr
@@ -34,7 +34,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       <Table.Td>
         <Checkbox
           checked={selected}
-          onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
+          onChange={() => device.mqtt_id !== undefined && toggleDevice(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
           color={color}
           styles={getTextInputStyles(color)}
@@ -54,20 +54,18 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td>
         <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           settingName="on"
           label={<Text>Power is {boolToOnOff(device.on)}</Text>}
           Icon={FaPowerOff}
         />
       </Table.Td>
       <Table.Td>
-        <Palette devices={[device]} openPaletteModal={openPaletteModal} label="Update Palette" />
+        <Palette device={device} />
       </Table.Td>
       <Table.Td>
         <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           settingName="scheduled_palette_rotation"
           label={<Text>Palette Rotation {device.scheduled ? '' : 'not'} scheduled</Text>}
           Icon={BsFillPaletteFill}
@@ -75,8 +73,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td>
         <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           settingName="twinkle"
           label={<Text>Twinkle is {boolToOnOff(device.twinkle)}</Text>}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
@@ -84,8 +81,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td>
         <ToggleButton
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           settingName="transform"
           label={<Text>Transform is {boolToOnOff(device.transform)}</Text>}
           Icon={GiTransform}
@@ -93,8 +89,7 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td ta="left">
         <PopoverSlider
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           label={<Text>Adjust Brightness</Text>}
           name="brightness"
           Icon={BsBrightnessHigh}
@@ -102,15 +97,14 @@ const TableRow = ({ device, selected, toggleRow, openPaletteModal }: TableRowPro
       </Table.Td>
       <Table.Td>
         <PopoverSlider
-          devices={[device]}
-          deviceTypeName="neo_pixel"
+          device={device}
           label={<Text>Adjust Speed</Text>}
           name="ms"
           Icon={IoSpeedometerOutline}
         />
       </Table.Td>
       <Table.Td>
-        <PIRConfig devices={[device]} />
+        <PIRConfig device={device as NeoPixelObject} />
       </Table.Td>
     </Table.Tr>
   );

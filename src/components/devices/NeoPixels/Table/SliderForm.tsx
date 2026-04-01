@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
@@ -8,25 +8,23 @@ import { postUpdate } from '@/lib/api';
 import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { WebSocketContext } from '@/ws';
-import { NEO_PIXEL } from './constants';
+import { NEO_PIXEL } from '../constants';
 
 interface SliderFormProps {
   device: IndexableObj;
   name: string;
   Icon: IconType;
   close: () => void;
-  initialValue: number;
+  initialValue?: number;
   setIsLoading: (isLoading: boolean) => void;
 }
 
 const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: SliderFormProps) => {
   const { color } = useAppStore();
   const websocket = useContext(WebSocketContext);
-  const [value, setValue] = useState(initialValue);
 
   const field = useField({
-    initialValue,
-    onValueChange: setValue,
+    initialValue: initialValue || device[name],
   });
 
   const handleSubmit = () => {
@@ -53,7 +51,7 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
           {name}:
         </Text>{' '}
         <Text span fw={500}>
-          {value}
+          {field.getValue()}
         </Text>
       </Flex>
       <Slider

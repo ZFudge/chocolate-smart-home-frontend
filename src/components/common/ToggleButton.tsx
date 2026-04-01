@@ -1,119 +1,52 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ActionIcon, Loader, Tooltip } from '@mantine/core';
+import { ActionIcon, Tooltip } from '@mantine/core';
 import classes from '@/App.module.css';
-import { ICON_SIZE } from '@/constants';
-import { postUpdate } from '@/lib/api';
+import { ICON_SIZE, OFF_COLOR, ON_COLOR } from '@/constants';
+import { IndexableObj } from '@/interfaces';
+import { PostData, postUpdate } from '@/lib/api';
 import { WebSocketContext } from '@/ws';
-import { IndexableObj } from '../devices/NeoPixels/interfaces';
-
-const OFF_COLOR = 'red';
-const ON_COLOR = 'teal';
 
 interface ToggleButtonProps {
-  devices: IndexableObj[];
-  settingName: string;
-  children?: React.ReactNode;
+  device: IndexableObj;
+  Icon: React.ElementType;
   label: React.ReactNode;
-  Icon?: React.ElementType;
-  deviceTypeName?: string;
+  settingName: string;
 }
 
-const ToggleButton = ({
-  devices,
-  settingName,
-  children,
-  label,
-  Icon,
-  deviceTypeName,
-}: ToggleButtonProps) => {
-  if (!devices || !devices.length) {
-    return null;
-  }
-
+const ToggleButton = ({ device, Icon, label, settingName }: ToggleButtonProps) => {
   const websocket = useContext(WebSocketContext);
-  const multiple: boolean = devices.length > 1;
+  const [loading, setLoading] = useState(false);
 
-  let dynamicDeviceTypeName: string | undefined = deviceTypeName;
-  if (!deviceTypeName) {
-    const location = useLocation();
-    dynamicDeviceTypeName = location.pathname.split('/').pop() || '';
-  }
-  let initialValue: boolean | undefined;
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => setIsLoading(false), [devices]);
-
-  let color: string = ON_COLOR;
-  let dataTestId: string;
-  if (multiple) {
-    initialValue = devices.every((d: IndexableObj) => d[settingName]);
-    if (initialValue) {
-      color = OFF_COLOR;
-    } else {
-      color = ON_COLOR;
-    }
-    dataTestId = `all-${settingName}-toggle`;
-  } else {
-    color = (devices[0] as IndexableObj)[settingName] ? ON_COLOR : OFF_COLOR;
-    dataTestId = `${(devices[0] as IndexableObj).mqtt_id}-${settingName}-toggle`;
-    initialValue = (devices[0] as IndexableObj)[settingName];
-  }
+  useEffect(() => setLoading(false), [device[settingName]]);
 
   const handleToggle = () => {
-    if (!dynamicDeviceTypeName) {
-      alert('No device type name'); // eslint-disable-line no-alert
-      return;
-    }
-    let mqttIds: number | number[];
-    let newValue: boolean;
-
-    if (multiple) {
-      mqttIds = devices.map((d: IndexableObj) => d.mqtt_id);
-      const uniqueValues = Array.from(new Set(devices.map((d: IndexableObj) => d[settingName])));
-      const singleValue = uniqueValues.length === 1;
-      if (singleValue) {
-        newValue = !uniqueValues[0];
-      } else {
-        newValue = true;
-        if (uniqueValues.includes(true)) {
-          newValue = false;
-        }
-      }
-    } else {
-      mqttIds = devices[0].mqtt_id;
-      newValue = !devices[0][settingName];
-    }
-
+    setLoading(true);
     const data = {
-      mqtt_id: mqttIds,
+      device_type_name: device.device_type_name,
+      mqtt_id: device.mqtt_id,
       name: settingName,
-      device_type_name: dynamicDeviceTypeName,
-      value: newValue,
-    };
-
+      value: !device[settingName],
+    } as PostData;
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }
-    setIsLoading(true);
   };
 
   return (
     <Tooltip label={label}>
       <ActionIcon
-        size="xl"
-        onClick={handleToggle}
-        color={color}
         variant="outline"
-        radius="md"
-        data-testid={dataTestId}
+        radius="xl"
+        size="xl"
+        color={device[settingName] ? ON_COLOR : OFF_COLOR}
+        loading={loading}
+        onClick={handleToggle}
+        data-testid={`${device.mqtt_id}-${settingName}-toggle-button`}
         className={`${classes['fade-in']} ${classes['color-transition']} ${classes['theme-match']}`}
       >
-        {isLoading ? <Loader color={color} size={ICON_SIZE} /> : Icon && <Icon size={ICON_SIZE} />}
-        {children}
+        <Icon size={ICON_SIZE} />
       </ActionIcon>
     </Tooltip>
   );

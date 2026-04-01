@@ -1,61 +1,25 @@
-import { useEffect, useState, type KeyboardEventHandler } from 'react';
+import { useState, type KeyboardEventHandler } from 'react';
 import { FaClock, FaPersonBurst } from 'react-icons/fa6';
-import { ActionIcon, Container, Flex, Loader, Popover, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Container, Flex, Popover, Text, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
-import { IndeterminateButton, SplitTableCell, ToggleButton } from '@/components';
+import classes from '@/App.module.css';
+import { SplitTableCell, ToggleButton } from '@/components';
 import { ICON_SIZE } from '@/constants';
+import { IndexableObj } from '@/interfaces';
 import { getBorderColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
-import { NEO_PIXEL } from '../constants';
-import { IndexableObj } from '../interfaces';
-import SliderForm from '../SliderForm';
-import classes from '../NeoPixel.module.css';
+import { NeoPixelObject } from '../interfaces';
+import SliderForm from './SliderForm';
 
-const PIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
+const PIRConfig = ({ device }: { device: NeoPixelObject }) => {
   const { color } = useAppStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
-  const multiple = devices.length > 1;
-  let mqttId: number[] | number;
-  let value: number;
-  let explicitColor = 'red';
-
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => setIsLoading(false), [devices]);
 
-  if (!devices || !devices.length) {
-    return null;
-  }
-
-  if (multiple) {
-    mqttId = [];
-    value = 0;
-    devices.forEach((cur) => {
-      (mqttId as number[]).push(cur.mqtt_id);
-      value += cur.timeout;
-    });
-    if (value) {
-      value = Math.round(value / devices.length);
-    }
-    if (devices.every((cur) => cur.armed)) {
-      explicitColor = 'green';
-    } else if (devices.every((cur) => !cur.armed)) {
-      explicitColor = 'red';
-    } else {
-      explicitColor = 'inherit';
-    }
-  } else {
-    mqttId = devices[0].mqtt_id;
-    value = devices[0].timeout;
-    if (devices[0].armed) {
-      explicitColor = 'green';
-    } else {
-      explicitColor = 'red';
-    }
-  }
-
-  const indeterminate = multiple && new Set(devices.map((np) => np.armed)).size > 1;
+  const disabled = !device.pir;
+  const explicitColor = disabled ? 'gray' : device.pir?.armed ? 'green' : 'red';
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -71,20 +35,23 @@ const PIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
   return (
     <Popover trapFocus position="bottom" withArrow shadow="md" opened={opened}>
       <Popover.Target>
-        <Tooltip label="Passive IR Sensor Configuration">
+        <Tooltip label={disabled ? 'No PIR Sensor' : 'PIR Sensor Configuration'}>
           <ActionIcon
             w="100%"
             size="xl"
             onClick={open}
-            disabled={opened}
-            variant="transparent"
+            disabled={disabled}
+            variant={disabled ? 'transparent' : 'outline'}
+            loading={isLoading}
+            loaderProps={{ color }}
             className={classes['theme-match']}
-            data-testid={`${multiple ? 'selected-devices' : mqttId}-pir-config-button`}
+            color={explicitColor}
+            data-testid={`${device.mqtt_id}-pir-config-button`}
           >
-            {isLoading ? (
-              <Loader color={color} size={ICON_SIZE} />
+            {disabled ? (
+              <FaPersonBurst size={ICON_SIZE} />
             ) : (
-              <SplitTableCell value={value} Icon={FaPersonBurst} explicitColor={explicitColor} />
+              <SplitTableCell value={device.pir?.timeout || 0} Icon={FaPersonBurst} />
             )}
           </ActionIcon>
         </Tooltip>
@@ -102,22 +69,12 @@ const PIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
             }}
           >
             <Text fw={500}>Armed:</Text>
-            {indeterminate ? (
-              <IndeterminateButton
-                selection={devices.map((d) => d.mqtt_id)}
-                settingName="armed"
-                label="armed"
-                Icon={FaPersonBurst}
-                deviceTypeName={NEO_PIXEL}
-              />
-            ) : (
-              <ToggleButton
-                devices={devices}
-                settingName="armed"
-                Icon={FaPersonBurst}
-                deviceTypeName={NEO_PIXEL}
-              />
-            )}
+            <ToggleButton
+              device={device}
+              settingName="armed"
+              Icon={FaPersonBurst}
+              label={<Text>Armed</Text>}
+            />
           </Flex>
           <Container
             style={{
@@ -127,14 +84,12 @@ const PIRConfig = ({ devices }: { devices: IndexableObj[] }) => {
             }}
           >
             <SliderForm
-              devices={devices}
+              device={device as unknown as IndexableObj}
+              initialValue={device.pir?.timeout || 0}
               name="timeout"
-              initialValue={value}
               Icon={FaClock}
               close={close}
               setIsLoading={setIsLoading}
-              deviceTypeName={NEO_PIXEL}
-              mqttId={mqttId}
             />
           </Container>
         </Flex>

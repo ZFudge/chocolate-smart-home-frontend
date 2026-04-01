@@ -13,7 +13,7 @@ vi.mock('@/components/NeoPixels/PaletteModal/presets/utils', () => ({
 describe('NPTable component', () => {
   beforeEach(() => {
     useDevicesStore.setState({
-      neoPixelDevices: neoPixelsMockData,
+      devices: neoPixelsMockData,
     });
   });
   afterEach(vi.clearAllMocks);

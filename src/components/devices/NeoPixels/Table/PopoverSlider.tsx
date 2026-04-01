@@ -1,63 +1,30 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { IconType } from 'react-icons';
-import { useLocation } from 'react-router-dom';
-import { ActionIcon, Container, Loader, Popover, Tooltip } from '@mantine/core';
+import { ActionIcon, Container, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
+import classes from '@/App.module.css';
 import { SplitTableCell } from '@/components';
-import { ICON_SIZE } from '@/constants';
+import { IndexableObj } from '@/interfaces';
 import { useAppStore } from '@/stores';
-import { IndexableObj } from '../interfaces';
-import SliderForm from '../SliderForm';
-import classes from '../NeoPixel.module.css';
+import SliderForm from './SliderForm';
 
 const PopoverSlider = ({
   label,
   Icon,
-  devices,
+  device,
   name,
-  deviceTypeName,
 }: {
   label: React.ReactNode;
   Icon: IconType;
-  devices: IndexableObj[];
+  device: IndexableObj;
   name: string;
-  deviceTypeName?: string;
 }) => {
   const { color } = useAppStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
 
-  let dynamicDeviceTypeName: string | undefined = deviceTypeName;
-  if (!deviceTypeName) {
-    const location = useLocation();
-    dynamicDeviceTypeName = location.pathname.split('/').pop() || '';
-  }
-
-  const multiple = devices.length > 1;
-  let mqttId: number[] | number;
-  let value: number;
-
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => setIsLoading(false), [devices]);
-
-  if (!devices || !devices.length) {
-    return null;
-  }
-
-  if (multiple) {
-    mqttId = [];
-    value = 0;
-    devices.forEach((cur) => {
-      (mqttId as number[]).push(cur.mqtt_id);
-      value += cur[name];
-    });
-    if (value) {
-      value = Math.round(value / devices.length);
-    }
-  } else {
-    mqttId = devices[0].mqtt_id;
-    value = devices[0][name];
-  }
+  useEffect(() => setIsLoading(false), [device]);
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -77,30 +44,25 @@ const PopoverSlider = ({
           <ActionIcon
             onClick={open}
             size="xl"
-            variant="transparent"
+            variant="outline"
             w="100%"
             ta="left"
+            loading={isLoading}
             className={classes['theme-match']}
+            loaderProps={{ color }}
           >
-            {isLoading ? (
-              <Loader color={color} size={ICON_SIZE} />
-            ) : (
-              <SplitTableCell value={value} Icon={Icon} />
-            )}
+            <SplitTableCell value={device[name]} Icon={Icon} />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown}>
         <Container p="xs">
           <SliderForm
-            devices={devices}
+            device={device}
             name={name}
-            initialValue={value}
             Icon={Icon}
             close={close}
             setIsLoading={setIsLoading}
-            deviceTypeName={dynamicDeviceTypeName || ''}
-            mqttId={mqttId}
           />
         </Container>
       </Popover.Dropdown>

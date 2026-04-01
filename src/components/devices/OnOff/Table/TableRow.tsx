@@ -1,21 +1,19 @@
+import React from 'react';
 import { FaPowerOff } from 'react-icons/fa';
-import { Checkbox, Table } from '@mantine/core';
+import { Checkbox, Table, Text } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, ToggleButton } from '@/components';
 import { DeviceTags } from '@/components/common/Tables';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { OnOffObject } from '../interfaces';
+import useOnOffStore from '../useOnOffStore';
 import classes from '../OnOff.module.css';
 
-interface TableRowProps {
-  device: OnOffObject;
-  selected: boolean;
-  toggleRow: (mqtt_id: number) => void;
-}
-
-const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
+const TableRow = React.memo(({ device }: { device: OnOffObject }) => {
   const { color } = useAppStore();
+  const { selectedDevices, toggleDevice } = useOnOffStore();
+  const selected = selectedDevices.includes(device.mqtt_id);
 
   return (
     <Table.Tr
@@ -28,7 +26,7 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
       <Table.Td className={classes.tableCell}>
         <Checkbox
           checked={selected}
-          onChange={() => device.mqtt_id !== undefined && toggleRow(device.mqtt_id)}
+          onChange={() => toggleDevice(device.mqtt_id)}
           data-testid={`${device.mqtt_id}-checkbox`}
           color={color}
           styles={getTextInputStyles(color)}
@@ -44,19 +42,18 @@ const TableRow = ({ device, selected, toggleRow }: TableRowProps) => {
         <LastSeen device={device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
-        <DeviceName device={device as unknown as DeviceObject} />
+        <DeviceName device={device} />
       </Table.Td>
       <Table.Td className={classes.tableCell}>
         <ToggleButton
-          devices={[device]}
-          deviceTypeName="on_off"
-          settingName="on"
-          label={`power is ${boolToOnOff(device.on)}`}
+          device={device}
           Icon={FaPowerOff}
+          label={<Text>Power is {boolToOnOff(device.on)}</Text>}
+          settingName="on"
         />
       </Table.Td>
     </Table.Tr>
   );
-};
+});
 
 export default TableRow;

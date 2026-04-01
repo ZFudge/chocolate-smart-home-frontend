@@ -3,40 +3,30 @@ import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
 import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
 import { Checkbox, Table } from '@mantine/core';
-import appClasses from '@/App.module.css';
 import { SyncDeviceDataButton, ValueFilter } from '@/components';
 import { TagsFilterButton } from '@/components/common/Tables';
 import { getTextInputStyles } from '@/lib/utils';
-import { useAppStore, useDevicesStore } from '@/stores';
-import Palette from '../Palette';
-import PopoverPIRConfig from '../PIRConfig';
-import PopoverSlider from '../PopoverSlider';
+import { useAppStore } from '@/stores';
+import useNeoPixelStore from '../../useNeoPixelStore';
 import HeaderColumnToggler from './HeaderColumnToggler';
-import classes from '../../NeoPixel.module.css';
+import Palettes from './Palettes';
+import PIRConfigs from './PIRConfigs';
+import PopoverSliderMulti from './PopoverSliderMulti';
 
-interface HeaderProps {
-  toggleAll: () => void;
-  openPaletteModal: () => void;
-  selection: number[];
-}
-
-const Header = ({ selection, toggleAll, openPaletteModal }: HeaderProps) => {
+const Header = () => {
   const { color } = useAppStore();
-  const { neoPixelDevices } = useDevicesStore();
+  const { neoPixelDevices, selectedDevices, toggleAll } = useNeoPixelStore();
   const neoPixelDevicesArray = Object.values(neoPixelDevices);
-
-  const trSettingsClass = `${selection.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
-  const selectedDevices = neoPixelDevicesArray.filter((device) =>
-    selection.includes(device.mqtt_id)
-  );
 
   return (
     <Table.Tr style={{ height: '5rem' }}>
       <Table.Th w={40} ta="center">
         <Checkbox
           onChange={toggleAll}
-          checked={selection.length === neoPixelDevicesArray.length}
-          indeterminate={selection.length > 0 && selection.length !== neoPixelDevicesArray.length}
+          checked={selectedDevices.length === neoPixelDevicesArray.length}
+          indeterminate={
+            selectedDevices.length > 0 && selectedDevices.length !== neoPixelDevicesArray.length
+          }
           data-testid="toggle-all-checkbox"
           color={color}
           styles={getTextInputStyles(color)}
@@ -45,64 +35,28 @@ const Header = ({ selection, toggleAll, openPaletteModal }: HeaderProps) => {
       <Table.Th ta="center">
         <SyncDeviceDataButton />
       </Table.Th>
-      <Table.Th key="tags" ta="center">
+      <Table.Th ta="center">
         <TagsFilterButton />
       </Table.Th>
-      <Table.Th key="last-seen" ta="center">
+      <Table.Th ta="center">
         <ValueFilter />
       </Table.Th>
       <Table.Th />
-      <HeaderColumnToggler
-        settingName="on"
-        Icon={FaPowerOff}
-        selection={selection}
-        devices={selectedDevices}
-        trSettingsClass={trSettingsClass}
-      />
-      <Table.Th key="palette-header" ta="center">
-        <Palette devices={selectedDevices} openPaletteModal={openPaletteModal} label="palette" />
+      <HeaderColumnToggler Icon={FaPowerOff} settingName="on" />
+      <Table.Th ta="center">
+        <Palettes />
       </Table.Th>
-      <HeaderColumnToggler
-        settingName="scheduled_palette_rotation"
-        Icon={BsFillPaletteFill}
-        selection={selection}
-        devices={selectedDevices}
-        trSettingsClass={trSettingsClass}
-      />
-      <HeaderColumnToggler
-        settingName="twinkle"
-        Icon={IoSparklesSharp}
-        selection={selection}
-        devices={selectedDevices}
-        trSettingsClass={trSettingsClass}
-      />
-      <HeaderColumnToggler
-        settingName="transform"
-        Icon={GiTransform}
-        selection={selection}
-        devices={selectedDevices}
-        trSettingsClass={trSettingsClass}
-      />
-      <Table.Th key="brightness" className={trSettingsClass} w={75}>
-        <PopoverSlider
-          devices={selectedDevices}
-          deviceTypeName="neo_pixel"
-          label="adjust brightness"
-          name="brightness"
-          Icon={BsBrightnessHigh}
-        />
+      <HeaderColumnToggler Icon={BsFillPaletteFill} settingName="scheduled_palette_rotation" />
+      <HeaderColumnToggler Icon={IoSparklesSharp} settingName="twinkle" />
+      <HeaderColumnToggler Icon={GiTransform} settingName="transform" />
+      <Table.Th w={75} ta="center">
+        <PopoverSliderMulti name="brightness" Icon={BsBrightnessHigh} />
       </Table.Th>
-      <Table.Th key="ms" w={75} ta="center">
-        <PopoverSlider
-          devices={selectedDevices}
-          deviceTypeName="neo_pixel"
-          label="adjust speed"
-          name="ms"
-          Icon={IoSpeedometerOutline}
-        />
+      <Table.Th w={75} ta="center">
+        <PopoverSliderMulti name="ms" Icon={IoSpeedometerOutline} />
       </Table.Th>
-      <Table.Th>
-        <PopoverPIRConfig devices={selectedDevices} />
+      <Table.Th ta="center">
+        <PIRConfigs />
       </Table.Th>
     </Table.Tr>
   );

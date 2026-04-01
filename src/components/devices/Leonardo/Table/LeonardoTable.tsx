@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Flex, ScrollArea, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
 import { DeviceObject } from '@/interfaces';
 import { filterDevicesByTags } from '@/lib/utils';
 import { useDevicesStore } from '@/stores';
 import ConfirmationModal from '../ConfirmationModal';
+import { LEONARDO } from '../constants';
 import { LeonardoCommandObject } from '../interfaces';
 import { filterByValue } from '../utils';
 import Header from './Header';
@@ -11,13 +12,13 @@ import TableRow from './TableRow';
 import classes from '../Leonardo.module.css';
 
 const LeonardoTable = () => {
-  const { filteredTagIds, filteredValue, leonardoDevices } = useDevicesStore();
+  const { filteredTagIds, filteredValue, devices } = useDevicesStore();
   const [leonardoCommand, setLeonardoCommand] = useState<LeonardoCommandObject | null>(null);
 
   const closeConfirmationModal = () => setLeonardoCommand(null);
 
   const filteredDevicesByTags = filterDevicesByTags(
-    Object.values(leonardoDevices),
+    Object.values(devices).filter((device: DeviceObject) => device.device_type_name === LEONARDO),
     filteredTagIds
   ) as DeviceObject[];
   const filterByValueFn = (device: DeviceObject) => filterByValue(filteredValue, device);
@@ -25,24 +26,20 @@ const LeonardoTable = () => {
 
   return (
     <>
-      <ScrollArea>
-        <Flex>
-          <Table withTableBorder className={classes['mantine-Table-table']}>
-            <Table.Thead>
-              <Header />
-            </Table.Thead>
-            <Table.Tbody>
-              {filteredDevices.map((device, index) => (
-                <TableRow
-                  key={`${device.mqtt_id}-${index}-tr`}
-                  device={device}
-                  setLeonardoCommand={setLeonardoCommand}
-                />
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Flex>
-      </ScrollArea>
+      <Table withTableBorder className={classes['mantine-Table-table']}>
+        <Table.Thead>
+          <Header />
+        </Table.Thead>
+        <Table.Tbody>
+          {filteredDevices.map((device, index) => (
+            <TableRow
+              key={`${device.mqtt_id}-${index}-tr`}
+              device={device}
+              setLeonardoCommand={setLeonardoCommand}
+            />
+          ))}
+        </Table.Tbody>
+      </Table>
       <ConfirmationModal onClose={closeConfirmationModal} leoCommand={leonardoCommand} />
     </>
   );

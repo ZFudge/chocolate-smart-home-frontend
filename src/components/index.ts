@@ -1,5 +1,5 @@
 import { ColorSchemeToggle, ColorThemePickerIcon, TagsButton, ThemeToggler } from './appheader';
-import { SplitTableCell, SyncDeviceDataButton, ToggleButton } from './common';
+import { SplitTableCell, SyncDeviceDataButton, ToggleButton, ToggleButtonMultiple } from './common';
 import DeviceName from './common/DeviceName';
 import IndeterminateButton from './common/IndeterminateButton';
 import { DeviceSettings, DeviceTags, LastSeen, ValueFilter } from './common/Tables';
@@ -17,5 +17,6 @@ export {
   TagsButton,
   ThemeToggler,
   ToggleButton,
+  ToggleButtonMultiple,
   ValueFilter,
 };

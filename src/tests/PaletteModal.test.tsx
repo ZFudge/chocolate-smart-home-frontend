@@ -2,6 +2,8 @@ import { act, fireEvent, render } from '@test-utils';
 import { vi } from 'vitest';
 import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
 import PaletteModal from '@/components/devices/NeoPixels/PaletteModal';
+import useNeoPixelStore from '@/components/devices/NeoPixels/useNeoPixelStore';
+import { useDevicesStore } from '@/stores';
 import { neoPixelsMockData } from './placeholder-data';
 
 vi.mock('@/lib/api', { spy: true });
@@ -13,9 +15,18 @@ const device: NeoPixelObject = neoPixelsMockData['1'];
 
 describe('Palette Modal component', () => {
   afterEach(vi.clearAllMocks);
+  beforeEach(() => {
+    useDevicesStore.setState({
+      devices: neoPixelsMockData,
+    });
+    useNeoPixelStore.setState({
+      neoPixelDevices: neoPixelsMockData,
+      selectedPaletteDevices: 1,
+    });
+  });
 
   it('should handle submit button click', async () => {
-    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
+    const { getByTestId } = render(<PaletteModal />);
     const submitButton: HTMLElement = getByTestId('submit');
     const apiModule = await import('@/lib/api');
     act(() => {
@@ -31,7 +42,7 @@ describe('Palette Modal component', () => {
   });
 
   it('should submit the modified palette value after initial input is changed', async () => {
-    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
+    const { getByTestId } = render(<PaletteModal />);
     const firstColorInput: HTMLElement = getByTestId(0);
     const submitButton: HTMLElement = getByTestId('submit');
     const apiModule = await import('@/lib/api');
@@ -51,7 +62,7 @@ describe('Palette Modal component', () => {
   });
 
   it('should reset form fields to its initial values after reset button click', async () => {
-    const { getByTestId } = render(<PaletteModal devices={[device]} close={() => {}} />);
+    const { getByTestId } = render(<PaletteModal />);
     const firstColorInput: HTMLElement = getByTestId(0);
     const resetButton: HTMLElement = getByTestId('reset');
     const submitButton: HTMLElement = getByTestId('submit');
@@ -72,7 +83,7 @@ describe('Palette Modal component', () => {
 
   it('should call the given close function when close button is clicked', async () => {
     const close = vi.fn().mockImplementation(() => {});
-    const { getByTestId } = render(<PaletteModal devices={[device]} close={close} />);
+    const { getByTestId } = render(<PaletteModal />);
     const closeButton: HTMLElement = getByTestId('close');
     act(() => {
       fireEvent.click(closeButton);

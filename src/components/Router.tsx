@@ -1,31 +1,16 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { LeonardoPage, NeoPixelsPage, NotFoundPage, OnOffPage, TabsPage } from '../pages';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <TabsPage />,
-  },
-  {
-    path: '/neo_pixel',
-    element: <NeoPixelsPage />,
-  },
-  {
-    path: '/on_off',
-    element: <OnOffPage />,
-  },
-  {
-    path: '/leonardo',
-    element: <LeonardoPage />,
-  },
-  {
-    path: '*',
-    element: <NotFoundPage />,
-  },
-]);
-
 const Router = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Routes>
+      <Route path="/" element={<TabsPage />} />
+      <Route path="/neo_pixel" element={<NeoPixelsPage />} />
+      <Route path="/on_off" element={<OnOffPage />} />
+      <Route path="/leonardo" element={<LeonardoPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
 };
 
 export default Router;

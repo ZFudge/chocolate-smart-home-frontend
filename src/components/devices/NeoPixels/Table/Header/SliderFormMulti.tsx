@@ -1,41 +1,38 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { ICON_SIZE } from '@/constants';
-import { IndexableObj } from '@/interfaces';
-import { postUpdate } from '@/lib/api';
+import { PostData, postUpdate } from '@/lib/api';
 import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { WebSocketContext } from '@/ws';
-import { NEO_PIXEL } from './constants';
+import { NEO_PIXEL } from '../../constants';
+import { NeoPixelObject } from '../../interfaces';
 
-interface SliderFormProps {
-  device: IndexableObj;
+interface SliderFormPropsMulti {
+  devices: NeoPixelObject[];
   name: string;
   Icon: IconType;
   close: () => void;
-  initialValue: number;
   setIsLoading: (isLoading: boolean) => void;
 }
 
-const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: SliderFormProps) => {
+const SliderFormMulti = ({ devices, name, Icon, close, setIsLoading }: SliderFormPropsMulti) => {
   const { color } = useAppStore();
   const websocket = useContext(WebSocketContext);
-  const [value, setValue] = useState(initialValue);
 
   const field = useField({
-    initialValue,
-    onValueChange: setValue,
+    initialValue: devices[0][name as keyof NeoPixelObject],
   });
 
   const handleSubmit = () => {
     const data = {
       name,
       value: field.getValue(),
-      mqtt_id: device.mqtt_id,
+      mqtt_id: devices.map((device) => device.mqtt_id),
       device_type_name: NEO_PIXEL,
-    };
+    } as PostData;
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
@@ -53,7 +50,7 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
           {name}:
         </Text>{' '}
         <Text span fw={500}>
-          {value}
+          {field.getValue() as number}
         </Text>
       </Flex>
       <Slider
@@ -64,19 +61,20 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
         color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
         label={null}
-        {...field.getInputProps()}
+        value={field.getValue() as number}
+        onChange={(value) => field.setValue(value)}
       />
       <Divider my="xs" color={getDividerColor(color)} />
       <Flex justify="space-between" gap="lg">
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid="neo-pixel-slider-form-submit-button"
+          data-testid="header-popover-slider-submit-button"
           color={color}
         >
           Submit
         </Button>
-        <Button variant="default" onClick={close} data-testid="neo-pixel-slider-form-close-button">
+        <Button variant="default" onClick={close} data-testid="close">
           Cancel
         </Button>
       </Flex>
@@ -84,4 +82,4 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
   );
 };
 
-export default SliderForm;
+export default SliderFormMulti;

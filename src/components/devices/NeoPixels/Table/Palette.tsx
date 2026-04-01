@@ -2,31 +2,22 @@ import cx from 'clsx';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { NeoPixelObject } from '../interfaces';
 import Palette3x3 from '../Palette3x3';
+import useNeoPixelStore from '../useNeoPixelStore';
 import classes from '../NeoPixel.module.css';
 
-interface PaletteProps {
-  devices: NeoPixelObject[];
-  openPaletteModal: () => void;
-  label: string;
-}
-
-const Palette = ({ devices, openPaletteModal, label }: PaletteProps) => {
-  if (!devices || !devices.length) {
-    return null;
-  }
-  const multiple = devices.length > 1;
-  const mqttIdLabel = multiple ? 'selected' : devices[0].mqtt_id.toString();
+const Palette = ({ device }: { device: NeoPixelObject }) => {
+  const { setSelectedPaletteDevices } = useNeoPixelStore();
 
   return (
-    <Tooltip label={label}>
+    <Tooltip label="Update Palette">
       <ActionIcon
         variant="transparent"
         size="xl"
-        data-testid={`${mqttIdLabel}-palette-button`}
+        data-testid={`${device.mqtt_id}-palette-button`}
         className={cx(classes['neo-pixel-table-palette-status'])}
-        onClick={openPaletteModal}
+        onClick={() => setSelectedPaletteDevices(device.mqtt_id)}
       >
-        <Palette3x3 palette={devices[0].palette} mqttIdLabel={mqttIdLabel} />
+        <Palette3x3 palette={device.palette} mqttIdLabel={device.mqtt_id.toString()} />
       </ActionIcon>
     </Tooltip>
   );

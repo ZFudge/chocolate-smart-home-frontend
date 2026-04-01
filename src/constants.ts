@@ -18,3 +18,6 @@ export const MAX_DEVICE_NAME_LENGTH = 30;
 export const MIN_DEVICE_NAME_LENGTH = 3;
 export const MAX_TAG_LENGTH = 30;
 export const MIN_TAG_LENGTH = 3;
+
+export const OFF_COLOR = 'red';
+export const ON_COLOR = 'teal';
