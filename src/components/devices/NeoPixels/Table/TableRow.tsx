@@ -1,33 +1,30 @@
-import cx from 'clsx';
-import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
+import { BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { IoSparklesOutline, IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
-import { Checkbox, Table, Text } from '@mantine/core';
+import { IoIosTime } from 'react-icons/io';
+import { IoSparklesOutline, IoSparklesSharp } from 'react-icons/io5';
+import { MdSunny } from 'react-icons/md';
+import { Checkbox, Flex, Table, Text } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, ToggleButton } from '@/components';
 import { DeviceTags } from '@/components/common/Tables';
+import { ICON_SIZE } from '@/constants';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { NeoPixelObject } from '../interfaces';
 import useNeoPixelStore from '../useNeoPixelStore';
 import Palette from './Palette';
-import PIRConfig from './PIRConfig';
+import PIRConfig from './pir/PIRConfig';
 import PopoverSlider from './PopoverSlider';
 import classes from '../NeoPixel.module.css';
 
-interface TableRowProps {
-  device: NeoPixelObject;
-}
-
-const TableRow = ({ device }: TableRowProps) => {
+const TableRow = ({ device }: { device: NeoPixelObject }) => {
   const { color } = useAppStore();
   const { selectedDevices, toggleDevice } = useNeoPixelStore();
   const selected = selectedDevices.includes(device.mqtt_id);
 
   return (
     <Table.Tr
-      className={cx({ [classes.rowSelected]: selected })}
       data-testid={`${device.mqtt_id}-tr`}
       style={{ backgroundColor: selected ? getBorderColor(color) : 'transparent', height: '5rem' }}
     >
@@ -55,7 +52,7 @@ const TableRow = ({ device }: TableRowProps) => {
       <Table.Td>
         <ToggleButton
           device={device}
-          settingName="on"
+          settingName="On"
           label={<Text>Power is {boolToOnOff(device.on)}</Text>}
           Icon={FaPowerOff}
         />
@@ -74,7 +71,7 @@ const TableRow = ({ device }: TableRowProps) => {
       <Table.Td>
         <ToggleButton
           device={device}
-          settingName="twinkle"
+          settingName="Twinkle"
           label={<Text>Twinkle is {boolToOnOff(device.twinkle)}</Text>}
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
         />
@@ -82,26 +79,16 @@ const TableRow = ({ device }: TableRowProps) => {
       <Table.Td>
         <ToggleButton
           device={device}
-          settingName="transform"
+          settingName="Transform"
           label={<Text>Transform is {boolToOnOff(device.transform)}</Text>}
           Icon={GiTransform}
         />
       </Table.Td>
-      <Table.Td ta="left">
-        <PopoverSlider
-          device={device}
-          label={<Text>Adjust Brightness</Text>}
-          name="brightness"
-          Icon={BsBrightnessHigh}
-        />
+      <Table.Td ta="center">
+        <PopoverSlider device={device} name="Brightness" Icon={MdSunny} />
       </Table.Td>
-      <Table.Td>
-        <PopoverSlider
-          device={device}
-          label={<Text>Adjust Speed</Text>}
-          name="ms"
-          Icon={IoSpeedometerOutline}
-        />
+      <Table.Td ta="center">
+        <PopoverSlider device={device} name="MS" Icon={IoIosTime} />
       </Table.Td>
       <Table.Td>
         <PIRConfig device={device as NeoPixelObject} />

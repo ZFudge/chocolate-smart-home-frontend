@@ -8,8 +8,7 @@ const Header = ({ devices }: { devices: NeoPixelObject[] }) => {
       Palette Settings for{' '}
       <Text fw={700} span>
         {multiple ? 'multiple devices' : devices[0]?.name}
-      </Text>{' '}
-      device
+      </Text>
     </Text>
   );
 };

@@ -26,7 +26,7 @@ const useNeoPixelStore = create<NeoPixelStore>((set, get) => ({
     set({
       selectedDevices:
         get().selectedDevices.length < Object.keys(get().neoPixelDevices).length
-          ? Object.keys(get().neoPixelDevices).map(parseInt)
+          ? Object.keys(get().neoPixelDevices).map(Number)
           : [],
     }),
   toggleDevice: (mqtt_id: number) =>

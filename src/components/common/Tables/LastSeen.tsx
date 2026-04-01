@@ -3,18 +3,17 @@ import { ActionIcon, Tooltip } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
 import { DeviceObject } from '@/interfaces';
+import { getLastSeenDate } from '@/lib/utils';
 import classes from './Table.module.css';
 
-interface LastSeenProps {
-  device: DeviceObject;
-}
-
-const LastSeen = ({ device }: LastSeenProps) => {
+const LastSeen = ({ device }: { device: DeviceObject }) => {
   const Icon = device.online ? HiStatusOnline : HiStatusOffline;
   const colorClass = device.online ? 'online' : 'offline';
 
+  const lastSeen = getLastSeenDate(device.last_seen);
+
   return (
-    <Tooltip label={`last seen ${device.last_seen}`}>
+    <Tooltip label={lastSeen}>
       <ActionIcon
         variant="transparent"
         className={appClasses['theme-match']}

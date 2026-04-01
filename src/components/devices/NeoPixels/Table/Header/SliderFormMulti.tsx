@@ -3,6 +3,7 @@ import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
 import { useField } from '@mantine/form';
 import { ICON_SIZE } from '@/constants';
+import { IndexableObj } from '@/interfaces';
 import { PostData, postUpdate } from '@/lib/api';
 import { getDividerColor } from '@/lib/utils';
 import { useAppStore } from '@/stores';
@@ -12,23 +13,33 @@ import { NeoPixelObject } from '../../interfaces';
 
 interface SliderFormPropsMulti {
   devices: NeoPixelObject[];
+  indexableObject?: IndexableObj;
   name: string;
   Icon: IconType;
   close: () => void;
   setIsLoading: (isLoading: boolean) => void;
 }
 
-const SliderFormMulti = ({ devices, name, Icon, close, setIsLoading }: SliderFormPropsMulti) => {
+const SliderFormMulti = ({
+  devices,
+  indexableObject,
+  name,
+  Icon,
+  close,
+  setIsLoading,
+}: SliderFormPropsMulti) => {
   const { color } = useAppStore();
   const websocket = useContext(WebSocketContext);
 
   const field = useField({
-    initialValue: devices[0][name as keyof NeoPixelObject],
+    initialValue: indexableObject
+      ? indexableObject[name.toLowerCase() as keyof IndexableObj]
+      : devices[0][name.toLowerCase() as keyof NeoPixelObject],
   });
 
   const handleSubmit = () => {
     const data = {
-      name,
+      name: name.toLowerCase(),
       value: field.getValue(),
       mqtt_id: devices.map((device) => device.mqtt_id),
       device_type_name: NEO_PIXEL,
@@ -69,6 +80,7 @@ const SliderFormMulti = ({ devices, name, Icon, close, setIsLoading }: SliderFor
         <Button
           type="submit"
           onClick={handleSubmit}
+          disabled={!field.isDirty()}
           data-testid="header-popover-slider-submit-button"
           color={color}
         >

@@ -17,7 +17,7 @@ const SyncDeviceDataButton = () => {
   };
 
   return (
-    <Tooltip label="Synchronize device data">
+    <Tooltip label="Sync Device Data">
       <ActionIcon
         variant="transparent"
         data-testid="devices-sync-data-button"

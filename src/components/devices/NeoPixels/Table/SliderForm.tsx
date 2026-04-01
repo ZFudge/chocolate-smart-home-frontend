@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { IconType } from 'react-icons';
 import { Button, Divider, Flex, rem, Slider, Text } from '@mantine/core';
-import { useField } from '@mantine/form';
+import { useForm } from '@mantine/form';
 import { ICON_SIZE } from '@/constants';
 import { IndexableObj } from '@/interfaces';
 import { postUpdate } from '@/lib/api';
@@ -23,14 +23,16 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
   const { color } = useAppStore();
   const websocket = useContext(WebSocketContext);
 
-  const field = useField({
-    initialValue: initialValue || device[name],
+  const field = useForm({
+    initialValues: {
+      [name.toLowerCase()]: initialValue || device[name.toLowerCase()],
+    },
   });
 
   const handleSubmit = () => {
     const data = {
-      name,
-      value: field.getValue(),
+      name: name.toLowerCase(),
+      value: field.getValues()[name.toLowerCase()],
       mqtt_id: device.mqtt_id,
       device_type_name: NEO_PIXEL,
     };
@@ -51,7 +53,7 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
           {name}:
         </Text>{' '}
         <Text span fw={500}>
-          {field.getValue()}
+          {field.getValues()[name.toLowerCase()]}
         </Text>
       </Flex>
       <Slider
@@ -62,13 +64,14 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
         color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
         label={null}
-        {...field.getInputProps()}
+        {...field.getInputProps(name.toLowerCase())}
       />
       <Divider my="xs" color={getDividerColor(color)} />
       <Flex justify="space-between" gap="lg">
         <Button
           type="submit"
           onClick={handleSubmit}
+          disabled={!field.isDirty(name.toLowerCase())}
           data-testid="neo-pixel-slider-form-submit-button"
           color={color}
         >

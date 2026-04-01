@@ -1,7 +1,9 @@
-import { BsBrightnessHigh, BsFillPaletteFill } from 'react-icons/bs';
+import { BsFillPaletteFill } from 'react-icons/bs';
 import { FaPowerOff } from 'react-icons/fa';
 import { GiTransform } from 'react-icons/gi';
-import { IoSparklesSharp, IoSpeedometerOutline } from 'react-icons/io5';
+import { IoIosTime } from 'react-icons/io';
+import { IoSparklesSharp } from 'react-icons/io5';
+import { MdSunny } from 'react-icons/md';
 import { Checkbox, Table } from '@mantine/core';
 import { SyncDeviceDataButton, ValueFilter } from '@/components';
 import { TagsFilterButton } from '@/components/common/Tables';
@@ -42,18 +44,26 @@ const Header = () => {
         <ValueFilter />
       </Table.Th>
       <Table.Th />
-      <HeaderColumnToggler Icon={FaPowerOff} settingName="on" />
+      <Table.Th>
+        <HeaderColumnToggler Icon={FaPowerOff} settingName="on" />
+      </Table.Th>
       <Table.Th ta="center">
         <Palettes />
       </Table.Th>
-      <HeaderColumnToggler Icon={BsFillPaletteFill} settingName="scheduled_palette_rotation" />
-      <HeaderColumnToggler Icon={IoSparklesSharp} settingName="twinkle" />
-      <HeaderColumnToggler Icon={GiTransform} settingName="transform" />
-      <Table.Th w={75} ta="center">
-        <PopoverSliderMulti name="brightness" Icon={BsBrightnessHigh} />
+      <Table.Th>
+        <HeaderColumnToggler Icon={BsFillPaletteFill} settingName="scheduled_palette_rotation" />
+      </Table.Th>
+      <Table.Th>
+        <HeaderColumnToggler Icon={IoSparklesSharp} settingName="twinkle" />
+      </Table.Th>
+      <Table.Th>
+        <HeaderColumnToggler Icon={GiTransform} settingName="transform" />
       </Table.Th>
       <Table.Th w={75} ta="center">
-        <PopoverSliderMulti name="ms" Icon={IoSpeedometerOutline} />
+        <PopoverSliderMulti name="Brightness" Icon={MdSunny} />
+      </Table.Th>
+      <Table.Th w={75} ta="center">
+        <PopoverSliderMulti name="MS" Icon={IoIosTime} />
       </Table.Th>
       <Table.Th ta="center">
         <PIRConfigs />

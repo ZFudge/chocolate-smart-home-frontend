@@ -1,6 +1,6 @@
 import type { KeyboardEventHandler } from 'react';
 import { FaPalette } from 'react-icons/fa';
-import { ActionIcon, Popover } from '@mantine/core';
+import { ActionIcon, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
@@ -25,15 +25,17 @@ const ColorThemePickerIcon = () => {
   return (
     <Popover position="right" withArrow shadow="md" opened={opened} trapFocus>
       <Popover.Target>
-        <ActionIcon
-          variant="transparent"
-          color={color}
-          onClick={open}
-          size="xl"
-          data-testid="app-color-theme-picker-button"
-        >
-          <FaPalette size={ICON_SIZE} />
-        </ActionIcon>
+        <Tooltip label="Change Color Theme">
+          <ActionIcon
+            variant="transparent"
+            color={color}
+            onClick={open}
+            size="xl"
+            data-testid="app-color-theme-picker-button"
+          >
+            <FaPalette size={ICON_SIZE} />
+          </ActionIcon>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown onKeyDown={onKeyDown} ref={ref}>
         <ColorThemePicker />

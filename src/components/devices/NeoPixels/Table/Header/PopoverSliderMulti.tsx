@@ -1,6 +1,6 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { IconType } from 'react-icons';
-import { ActionIcon, Container, Loader, Popover, Tooltip } from '@mantine/core';
+import { ActionIcon, Container, Flex, Popover, Text, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
 import { useAppStore, useDevicesStore } from '@/stores';
@@ -15,21 +15,13 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
   const { devices } = useDevicesStore();
   const { selectedDevices } = useNeoPixelStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  useEffect(() => setIsLoading(false), [Object.values(devices)]);
+
   const selected = selectedDevices.map((mqtt_id) => devices[mqtt_id] as NeoPixelObject);
+  const values = selected.map((device) => device[name.toLowerCase() as keyof NeoPixelObject]);
+  useEffect(() => setIsLoading(false), [new Set(values).size === 1]);
 
   if (selectedDevices.length < 2) {
-    return null;
-  }
-
-  const mqttId: number[] = [];
-  let value = 0;
-  selected.forEach((cur) => {
-    (mqttId as number[]).push(cur.mqtt_id);
-    value += (cur[name as keyof NeoPixelObject] as number) || 0;
-  });
-  if (value) {
-    value = Math.round(value / selected.length);
+    return <Icon color={color} size={ICON_SIZE} />;
   }
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -43,12 +35,19 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
     }
   };
 
+  const labelElement = (
+    <Flex align="center" gap="xs">
+      <Icon color={color} size={ICON_SIZE} />
+      <Text>Adjust {name} for all selected devices</Text>
+    </Flex>
+  );
+
   return (
-    <Popover trapFocus position="bottom" withArrow shadow="md" opened={opened}>
+    <Popover trapFocus position="left" withArrow shadow="md" opened={opened}>
       <Popover.Target>
-        <Tooltip label={name} withArrow>
-          <ActionIcon onClick={open} size="xl" color={color}>
-            {isLoading ? <Loader color="white" size={ICON_SIZE} /> : <Icon size={ICON_SIZE} />}
+        <Tooltip label={labelElement} withArrow>
+          <ActionIcon onClick={open} size="xl" color={color} loading={isLoading}>
+            <Icon size={ICON_SIZE} />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>

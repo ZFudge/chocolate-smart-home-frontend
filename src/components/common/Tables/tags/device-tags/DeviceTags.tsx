@@ -44,7 +44,7 @@ const DeviceTags = ({ device }: { device: DeviceObject }) => {
             {device.tags?.length ? (
               <HiTag color={color} size={ICON_SIZE} />
             ) : (
-              <HiOutlineTag color="gray" size={ICON_SIZE} />
+              <HiOutlineTag color={color} size={ICON_SIZE} />
             )}
           </ActionIcon>
         </Tooltip>

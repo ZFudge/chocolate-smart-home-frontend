@@ -1,20 +1,18 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { IconType } from 'react-icons';
-import { ActionIcon, Container, Popover, Tooltip } from '@mantine/core';
+import { ActionIcon, Container, Flex, Popover, Text, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import classes from '@/App.module.css';
-import { SplitTableCell } from '@/components';
+import { ICON_SIZE } from '@/constants';
 import { IndexableObj } from '@/interfaces';
 import { useAppStore } from '@/stores';
 import SliderForm from './SliderForm';
 
 const PopoverSlider = ({
-  label,
   Icon,
   device,
   name,
 }: {
-  label: React.ReactNode;
   Icon: IconType;
   device: IndexableObj;
   name: string;
@@ -37,21 +35,29 @@ const PopoverSlider = ({
     }
   };
 
+  const labelElement = (
+    <Flex align="center" gap="xs">
+      <Icon color={color} size={ICON_SIZE} />
+      <Text>Adjust {name}</Text>
+    </Flex>
+  );
+
   return (
     <Popover trapFocus position="bottom" withArrow shadow="md" opened={opened}>
       <Popover.Target>
-        <Tooltip label={label} withArrow>
+        <Tooltip label={labelElement} withArrow>
           <ActionIcon
             onClick={open}
             size="xl"
             variant="outline"
-            w="100%"
-            ta="left"
+            color={color}
             loading={isLoading}
             className={classes['theme-match']}
             loaderProps={{ color }}
           >
-            <SplitTableCell value={device[name]} Icon={Icon} />
+            <Text fz="xl" fw={700}>
+              {device[name.toLowerCase()]}
+            </Text>
           </ActionIcon>
         </Tooltip>
       </Popover.Target>

@@ -1,9 +1,7 @@
-import { Table } from '@mantine/core';
-import appClasses from '@/App.module.css';
 import { IndeterminateButton, ToggleButtonMultiple } from '@/components';
+import { NEO_PIXEL } from '../../constants';
 import { NeoPixelObject } from '../../interfaces';
 import useNeoPixelStore from '../../useNeoPixelStore';
-import classes from '../../NeoPixel.module.css';
 
 interface HeaderColumnTogglerProps {
   settingName: string;
@@ -12,36 +10,31 @@ interface HeaderColumnTogglerProps {
 
 const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) => {
   const { neoPixelDevices, selectedDevices } = useNeoPixelStore();
-  const devices = selectedDevices.map((mqtt_id) => neoPixelDevices[mqtt_id]);
 
-  if (devices.length < 2) {
-    const trSettingsClass = `${selectedDevices.length < 2 ? appClasses.hidden : appClasses.visible} ${classes['visibility-transition']}`;
-    return <Table.Th key={`${settingName}-header`} className={trSettingsClass} />;
+  if (selectedDevices.length < 2) {
+    return null;
   }
 
-  const allValuesMatch =
-    new Set(devices.map((device) => device[settingName as keyof NeoPixelObject])).size === 1;
+  const devices = selectedDevices.map((mqtt_id) => neoPixelDevices[mqtt_id]);
+  const values = devices.map((device) => device[settingName as keyof NeoPixelObject]);
+  const allValuesMatch = new Set(values).size === 1;
 
-  return (
-    <Table.Th>
-      {allValuesMatch ? (
-        <ToggleButtonMultiple
-          devices={devices}
-          deviceTypeName="neo_pixel"
-          settingName={settingName}
-          label={`set ALL ${settingName} ${devices[0][settingName as keyof NeoPixelObject] ? 'OFF' : 'ON'}`}
-          Icon={Icon}
-        />
-      ) : (
-        <IndeterminateButton
-          deviceTypeName="neo_pixel"
-          settingName={settingName}
-          Icon={Icon}
-          selection={selectedDevices}
-          label={settingName}
-        />
-      )}
-    </Table.Th>
+  return allValuesMatch ? (
+    <ToggleButtonMultiple
+      devices={devices}
+      deviceTypeName={NEO_PIXEL}
+      settingName={settingName}
+      label={`set ALL ${settingName} ${devices[0][settingName as keyof NeoPixelObject] ? 'OFF' : 'ON'}`}
+      Icon={Icon}
+    />
+  ) : (
+    <IndeterminateButton
+      deviceTypeName={NEO_PIXEL}
+      settingName={settingName}
+      Icon={Icon}
+      selection={selectedDevices}
+      label={settingName}
+    />
   );
 };
 

@@ -55,7 +55,7 @@ const IndeterminateButton = ({
 
   const marks = [{ value: 0 }, { value: 0.5 }, { value: 1 }];
 
-  const dynamicLabel = `set ALL ${label === 'on' ? 'power' : label}`;
+  const dynamicLabel = `Set ALL ${label === 'on' ? 'power' : label}`;
 
   return isLoading ? (
     <div
