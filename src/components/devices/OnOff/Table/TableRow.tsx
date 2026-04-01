@@ -1,37 +1,21 @@
 import React from 'react';
 import { FaPowerOff } from 'react-icons/fa';
-import { Checkbox, Table, Text } from '@mantine/core';
+import { Table, Text } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, ToggleButton } from '@/components';
 import { DeviceTags } from '@/components/common/Tables';
 import { DeviceObject } from '@/interfaces';
-import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
-import { useAppStore } from '@/stores';
+import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
-import useOnOffStore from '../useOnOffStore';
 import classes from '../OnOff.module.css';
 
 const TableRow = React.memo(({ device }: { device: OnOffObject }) => {
-  const { color } = useAppStore();
-  const { selectedDevices, toggleDevice } = useOnOffStore();
-  const selected = selectedDevices.includes(device.mqtt_id);
-
   return (
     <Table.Tr
       data-testid={`${device.mqtt_id}-tr`}
       style={{
-        backgroundColor: selected ? getBorderColor(color) : 'transparent',
         height: '4.5rem',
       }}
     >
-      <Table.Td className={classes.tableCell}>
-        <Checkbox
-          checked={selected}
-          onChange={() => toggleDevice(device.mqtt_id)}
-          data-testid={`${device.mqtt_id}-checkbox`}
-          color={color}
-          styles={getTextInputStyles(color)}
-        />
-      </Table.Td>
       <Table.Td className={classes.tableCell}>
         <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
