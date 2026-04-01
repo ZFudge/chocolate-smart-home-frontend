@@ -20,10 +20,6 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
   const values = selected.map((device) => device[name.toLowerCase() as keyof NeoPixelObject]);
   useEffect(() => setIsLoading(false), [new Set(values).size === 1]);
 
-  if (selectedDevices.length < 2) {
-    return <Icon color={color} size={ICON_SIZE} />;
-  }
-
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'Escape':
@@ -35,7 +31,10 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
     }
   };
 
-  const labelElement = (
+  const disabled = selectedDevices.length < 2;
+  const labelElement = disabled ? (
+    <Text>{name}</Text>
+  ) : (
     <Flex align="center" gap="xs">
       <Icon color={color} size={ICON_SIZE} />
       <Text>Adjust {name} for all selected devices</Text>
@@ -46,7 +45,14 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
     <Popover trapFocus position="left" withArrow shadow="md" opened={opened}>
       <Popover.Target>
         <Tooltip label={labelElement} withArrow>
-          <ActionIcon onClick={open} size="xl" color={color} loading={isLoading}>
+          <ActionIcon
+            onClick={disabled ? undefined : open}
+            size="xl"
+            color={color}
+            loading={isLoading}
+            variant={disabled ? 'transparent' : 'filled'}
+            style={{ cursor: disabled ? 'default' : 'pointer' }}
+          >
             <Icon size={ICON_SIZE} />
           </ActionIcon>
         </Tooltip>

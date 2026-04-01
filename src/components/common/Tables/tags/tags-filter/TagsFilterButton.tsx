@@ -40,7 +40,7 @@ const TagsFilterButton = () => {
       closeOnClickOutside={false}
     >
       <Popover.Target>
-        <Tooltip label="Edit Tags">
+        <Tooltip label="Filter by Tag">
           <ActionIcon
             variant="transparent"
             color={color}

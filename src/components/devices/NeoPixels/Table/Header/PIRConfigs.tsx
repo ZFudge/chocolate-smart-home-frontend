@@ -29,21 +29,6 @@ const PIRConfigs = () => {
 
   useEffect(() => setIsLoading(false), [new Set(timeoutValues).size === 1]);
 
-  if (selected.length < 2) {
-    return <FaPersonBurst color={color} size={ICON_SIZE} />;
-  }
-
-  let value = 0;
-
-  const mqttId: number[] = [];
-  selected.forEach((cur) => {
-    (mqttId as number[]).push(cur.mqtt_id);
-    value += cur.pir?.timeout || 0;
-  });
-  if (value) {
-    value = Math.round(value / selected.length);
-  }
-
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
       case 'Escape':
@@ -55,12 +40,16 @@ const PIRConfigs = () => {
     }
   };
 
-  const labelElement = (
+  const disabled = selected.length < 2;
+  const labelElement = disabled ? (
+    <Text>PIR Sensor Configs</Text>
+  ) : (
     <Flex align="center" gap="xs">
       <FaPersonBurst color={color} size={ICON_SIZE} />
       <Text>Adjust PIR Sensor Configs for all selected devices</Text>
     </Flex>
   );
+  const indexableObject = disabled ? undefined : selected[0]?.pir;
 
   return (
     <Popover trapFocus position="left" withArrow shadow="md" opened={opened}>
@@ -68,9 +57,11 @@ const PIRConfigs = () => {
         <Tooltip label={labelElement}>
           <ActionIcon
             size="xl"
-            onClick={open}
+            onClick={disabled ? undefined : open}
             loading={isLoading}
             color={color}
+            variant={disabled ? 'transparent' : 'filled'}
+            style={{ cursor: disabled ? 'default' : 'pointer' }}
             data-testid="selected-devices-pir-config-button"
           >
             <FaPersonBurst size={ICON_SIZE} />
@@ -107,7 +98,7 @@ const PIRConfigs = () => {
                 Icon={FaPersonBurst}
                 label={<Text>Armed</Text>}
                 deviceTypeName={NEO_PIXEL}
-                indexableObject={selected[0].pir}
+                indexableObject={indexableObject}
               />
             )}
           </Flex>
@@ -120,7 +111,7 @@ const PIRConfigs = () => {
           >
             <SliderFormMulti
               devices={selected}
-              indexableObject={selected[0].pir}
+              indexableObject={indexableObject}
               name="Timeout"
               Icon={FaClock}
               close={close}
