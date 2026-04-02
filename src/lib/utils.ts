@@ -66,7 +66,6 @@ export const getLastSeenDate = (last_seen: string | null) => {
     return `Today at ${lastSeenTime}`;
   } else if (daysAgo === 1) {
     return `Yesterday at ${lastSeenTime}`;
-  } else {
-    return `${daysAgo} days ago at ${lastSeenTime}`;
   }
+  return `${daysAgo} days ago at ${lastSeenTime}`;
 };

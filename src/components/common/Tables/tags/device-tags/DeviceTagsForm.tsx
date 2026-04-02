@@ -152,7 +152,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
                   <Combobox.EventsTarget>
                     <PillsInput.Field
                       autoFocus
-                      data-testid="track-tags-form-input-field"
+                      data-testid="device-tags-form-input-field"
                       value={search}
                       onFocus={() => combobox.openDropdown()}
                       onBlur={() => combobox.closeDropdown()}
@@ -174,7 +174,7 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
                 ) : search.length >= MIN_TAG_LENGTH ? (
                   <Combobox.Empty>
                     <Button
-                      data-testid="track-tags-create-tag-button"
+                      data-testid="device-tags-form-create-tag-button"
                       onClick={handleCreateTag}
                       color={color}
                     >

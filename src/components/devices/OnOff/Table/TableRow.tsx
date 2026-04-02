@@ -16,19 +16,19 @@ const TableRow = React.memo(({ device }: { device: OnOffObject }) => {
         height: '4.5rem',
       }}
     >
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <DeviceTags device={device as unknown as DeviceObject} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <LastSeen device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <DeviceName device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td w={75} miw={75} ta="left">
         <ToggleButton
           device={device}
           Icon={FaPowerOff}

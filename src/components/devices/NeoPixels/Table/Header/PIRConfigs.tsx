@@ -62,7 +62,7 @@ const PIRConfigs = () => {
             color={color}
             variant={disabled ? 'transparent' : 'filled'}
             style={{ cursor: disabled ? 'default' : 'pointer' }}
-            data-testid="selected-devices-pir-config-button"
+            data-testid="header-pir-configs-button"
           >
             <FaPersonBurst size={ICON_SIZE} />
           </ActionIcon>

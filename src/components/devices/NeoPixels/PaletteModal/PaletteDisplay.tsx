@@ -9,7 +9,7 @@ const PaletteDisplay = () => {
       {Object.values(form.values).map((_: unknown, i: number) => (
         <ColorInput
           data-index={i}
-          data-testid={i}
+          data-testid={`palette-display-color-input-${i}`}
           key={form.key(`${i.toString()}-color`)}
           {...form.getInputProps(`${i.toString()}-color`)}
           swatches={SWATCHES}

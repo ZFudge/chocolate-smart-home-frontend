@@ -36,22 +36,22 @@ const App = () => {
       <BrowserRouter>
         <Notifications />
         <WebSocketContext.Provider value={websocket}>
-          <AppShell header={{ height: 60 }} padding="md">
+          <AppShell header={{ height: '5em' }} padding="md">
             <AppShell.Header
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
+                alignItems: 'center',
                 padding: '1em',
               }}
             >
-              <Flex gap="md" align="center">
+              <Flex gap="lg">
                 <ColorThemePickerIcon />
                 <SyncDeviceDataButton />
                 <TagsButton />
               </Flex>
               <ThemeToggler />
             </AppShell.Header>
-
             <AppShell.Main>
               <Router />
             </AppShell.Main>

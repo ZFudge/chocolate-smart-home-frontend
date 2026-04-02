@@ -80,13 +80,12 @@ const SliderFormMulti = ({
         <Button
           type="submit"
           onClick={handleSubmit}
-          disabled={!field.isDirty()}
-          data-testid="header-popover-slider-submit-button"
+          data-testid="header-slider-submit-button"
           color={color}
         >
           Submit
         </Button>
-        <Button variant="default" onClick={close} data-testid="close">
+        <Button variant="default" onClick={close} data-testid="header-slider-close-button">
           Cancel
         </Button>
       </Flex>

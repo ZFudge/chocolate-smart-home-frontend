@@ -61,7 +61,7 @@ const ConfirmationModal = ({ onClose, leoCommand }: ConfirmationModalProps) => {
       onClose={onClose}
       withCloseButton={false}
       centered
-      data-testid="confirmation-modal"
+      data-testid="leonardo-command-confirmation-modal"
       size="md"
       styles={{
         header: {
@@ -81,10 +81,18 @@ const ConfirmationModal = ({ onClose, leoCommand }: ConfirmationModalProps) => {
       <Flex direction="column" gap="xl">
         <Message command={command} device={device} />
         <Flex justify="space-between" gap="md">
-          <Button onClick={handleSubmit} color={color} data-testid="submit">
+          <Button
+            onClick={handleSubmit}
+            color={color}
+            data-testid="command-confirmation-modal-submit-button"
+          >
             Send
           </Button>
-          <Button variant="default" onClick={onClose} data-testid="close">
+          <Button
+            variant="default"
+            onClick={onClose}
+            data-testid="command-confirmation-modal-cancel-button"
+          >
             Cancel
           </Button>
         </Flex>

@@ -20,7 +20,7 @@ const SyncDeviceDataButton = () => {
     <Tooltip label="Sync Device Data">
       <ActionIcon
         variant="transparent"
-        data-testid="devices-sync-data-button"
+        data-testid="sync-data-button"
         color="gray"
         size="xl"
         onClick={onClick}

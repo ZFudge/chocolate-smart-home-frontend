@@ -39,7 +39,7 @@ const ValueFilter = () => {
             color={color}
             onClick={open}
             size="xl"
-            data-testid="devices-value-header-button"
+            data-testid="value-filter-button"
           >
             {filteredValue.length > 0 ? (
               <MdFilterListAlt color={color} size={ICON_SIZE} />

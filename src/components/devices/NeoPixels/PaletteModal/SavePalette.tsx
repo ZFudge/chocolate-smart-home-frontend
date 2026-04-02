@@ -49,7 +49,7 @@ const SavePalette = () => {
     <Popover opened={opened} position="top">
       <Popover.Target>
         <Tooltip label="Save Palette">
-          <Button data-testid="save-palette-button" onClick={open} color={color}>
+          <Button data-testid="open-save-palette-form-button" onClick={open} color={color}>
             <FaRegSave size={ICON_SIZE} />
           </Button>
         </Tooltip>
@@ -73,11 +73,11 @@ const SavePalette = () => {
             <Button
               onClick={handleSavePalettePreset}
               color={color}
-              data-testid="save-palette-button"
+              data-testid="palette-preset-save-button"
             >
               Save
             </Button>
-            <Button variant="default" onClick={close}>
+            <Button variant="default" onClick={close} data-testid="palette-preset-cancel-button">
               Cancel
             </Button>
           </Group>

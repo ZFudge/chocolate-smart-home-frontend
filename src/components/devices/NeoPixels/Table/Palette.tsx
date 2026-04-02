@@ -14,7 +14,7 @@ const Palette = ({ device }: { device: NeoPixelObject }) => {
       <ActionIcon
         variant="transparent"
         size="xl"
-        data-testid={`${device.mqtt_id}-palette-button`}
+        data-testid={`${device.mqtt_id}-tr-palette-button`}
         className={`${cx(classes['neo-pixel-table-palette-status'])} ${appClasses['theme-match']}`}
         onClick={() => setSelectedPaletteDevices(device.mqtt_id)}
       >

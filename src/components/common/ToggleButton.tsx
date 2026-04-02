@@ -47,7 +47,7 @@ const ToggleButton = ({ device, indexableObject, Icon, label, settingName }: Tog
         size="xl"
         onClick={handleToggle}
         color={getValue() ? ON_COLOR : OFF_COLOR}
-        data-testid={`${device.mqtt_id}-${settingName}-toggle-button`}
+        data-testid={`${device.mqtt_id}-${settingName.toLowerCase()}-toggle-button`}
         loading={loading}
         className={`${classes['fade-in']} ${classes['color-transition']} ${classes['theme-match']}`}
       >

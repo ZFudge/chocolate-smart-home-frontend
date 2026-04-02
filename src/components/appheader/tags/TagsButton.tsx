@@ -46,7 +46,7 @@ const TagsButton = () => {
             color={color}
             onClick={open}
             size="xl"
-            data-testid="devices-tags-button"
+            data-testid="tags-button"
           >
             <ImPriceTags color={color} size={ICON_SIZE} />
           </ActionIcon>

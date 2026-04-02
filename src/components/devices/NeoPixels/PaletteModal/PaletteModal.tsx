@@ -77,13 +77,17 @@ const PaletteModal = () => {
               <PaletteDisplay />
             </Flex>
             <Flex justify="space-between">
-              <Button type="submit" color={color} data-testid="submit">
+              <Button type="submit" color={color} data-testid="palette-modal-submit-button">
                 Submit
               </Button>
-              <Button onClick={form.reset} variant="default" data-testid="reset">
+              <Button
+                onClick={form.reset}
+                variant="default"
+                data-testid="palette-modal-reset-button"
+              >
                 Reset
               </Button>
-              <Button variant="default" onClick={close} data-testid="close">
+              <Button variant="default" onClick={close} data-testid="palette-modal-cancel-button">
                 Cancel
               </Button>
             </Flex>

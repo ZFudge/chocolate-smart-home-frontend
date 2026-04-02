@@ -29,7 +29,7 @@ const Header = () => {
           indeterminate={
             selectedDevices.length > 0 && selectedDevices.length !== neoPixelDevicesArray.length
           }
-          data-testid="toggle-all-checkbox"
+          data-testid="neo-pixel-header-toggle-all-checkbox"
           color={color}
           styles={getTextInputStyles(color)}
         />

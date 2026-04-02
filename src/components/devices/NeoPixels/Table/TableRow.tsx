@@ -32,7 +32,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
         <Checkbox
           checked={selected}
           onChange={() => device.mqtt_id !== undefined && toggleDevice(device.mqtt_id)}
-          data-testid={`${device.mqtt_id}-checkbox`}
+          data-testid={`${device.mqtt_id}-tr-checkbox`}
           color={color}
           styles={getTextInputStyles(color)}
         />

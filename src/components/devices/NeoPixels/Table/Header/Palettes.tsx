@@ -16,7 +16,7 @@ const Palettes = () => {
       <ActionIcon
         variant="transparent"
         size="xl"
-        data-testid="header-palette-button"
+        data-testid="header-palettes-button"
         className={cx(classes['neo-pixel-table-palette-status'])}
         onClick={() => setSelectedPaletteDevices(selectedDevices)}
       >

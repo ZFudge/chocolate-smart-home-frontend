@@ -71,12 +71,12 @@ const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: S
         <Button
           type="submit"
           onClick={handleSubmit}
-          data-testid="neo-pixel-slider-form-submit-button"
+          data-testid="slider-form-submit-button"
           color={color}
         >
           Submit
         </Button>
-        <Button variant="default" onClick={close} data-testid="neo-pixel-slider-form-close-button">
+        <Button variant="default" onClick={close} data-testid="slider-form-close-button">
           Cancel
         </Button>
       </Flex>

@@ -33,7 +33,7 @@ const DeviceSettings = ({ device }: { device: DeviceObject }) => {
             color={color}
             onClick={open}
             size="xl"
-            data-testid={`${device.mqtt_id}-settings-button`}
+            data-testid={`${device.mqtt_id}-device-settings-button`}
             className={classes['theme-match']}
           >
             <IoSettingsSharp color={color} size={ICON_SIZE} />

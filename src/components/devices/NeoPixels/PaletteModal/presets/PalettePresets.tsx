@@ -53,7 +53,7 @@ export default function PalettePresets() {
       renderOption={PalettePresetOption}
       searchable
       onChange={handleSelect}
-      data-testid="palette-preset-select"
+      data-testid="palette-presets-select"
     />
   );
 }

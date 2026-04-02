@@ -51,7 +51,6 @@ const PIRConfig = ({ device }: { device: NeoPixelObject }) => {
       <Popover.Target>
         <Tooltip label={labelElement}>
           <ActionIcon
-            w="100%"
             size="xl"
             onClick={open}
             disabled={disabled}

@@ -29,7 +29,7 @@ const ColorThemePicker = () => {
       swatches={OPTIONS}
       value={color}
       onChange={(value) => setColor(value)}
-      data-testid="app-color-theme-picker-input"
+      data-testid="app-color-theme-picker"
       onKeyDown={onKeyDown}
     />
   );

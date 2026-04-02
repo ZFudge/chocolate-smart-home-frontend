@@ -46,7 +46,7 @@ const TagsFilterButton = () => {
             color={color}
             onClick={open}
             size="xl"
-            data-testid="devices-tags-header-button"
+            data-testid="tags-filter-button"
           >
             {filteredTagIds.length > 0 ? (
               <BsTagsFill color={color} size={ICON_SIZE} />

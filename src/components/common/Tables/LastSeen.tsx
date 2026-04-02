@@ -19,7 +19,7 @@ const LastSeen = ({ device }: { device: DeviceObject }) => {
         className={appClasses['theme-match']}
         style={{ cursor: 'default' }}
         size="xl"
-        data-testid={`${device.mqtt_id}-last-seen-button`}
+        data-testid={`${device.mqtt_id}-last-seen`}
       >
         <Icon
           className={classes[colorClass]}
