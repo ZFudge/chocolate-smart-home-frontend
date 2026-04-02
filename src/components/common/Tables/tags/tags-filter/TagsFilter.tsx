@@ -6,11 +6,13 @@ import { Tag } from '@/interfaces';
 import { getDividerColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
-const TagsFilter = ({ close }: { close: () => void }) => {
+const TagsFilter = ({ close, usedTagIds }: { close: () => void; usedTagIds: number[] }) => {
   const { tags, filteredTagIds, setFilteredTagIds } = useDevicesStore();
   const { color } = useAppStore();
 
   const clearAllTags = () => setFilteredTagIds([]);
+
+  tags.sort((a, _) => (usedTagIds.includes(a.id) ? -1 : 1));
 
   return (
     <Container p="xs">
@@ -40,7 +42,6 @@ const TagsFilter = ({ close }: { close: () => void }) => {
             <Checkbox.Group
               value={filteredTagIds.map(String)}
               onChange={(values) => setFilteredTagIds(values.map(Number))}
-              key={`tags-checkbox-group-${tags.length}`}
               color={color}
             >
               <Flex direction="column" gap="md">
@@ -51,6 +52,7 @@ const TagsFilter = ({ close }: { close: () => void }) => {
                     value={tag.id.toString()}
                     color={color}
                     styles={getTextInputStyles(color)}
+                    disabled={!usedTagIds.includes(tag.id)}
                   />
                 ))}
               </Flex>

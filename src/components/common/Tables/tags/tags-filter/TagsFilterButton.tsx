@@ -1,16 +1,22 @@
 import { type KeyboardEventHandler } from 'react';
 import { BsTags, BsTagsFill } from 'react-icons/bs';
+import { TbTagsOff } from 'react-icons/tb';
 import { ActionIcon, Popover, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
+import { DeviceObject } from '@/interfaces';
 import { useAppStore, useDevicesStore } from '@/stores';
 import TagsFilter from './TagsFilter';
 
-const TagsFilterButton = () => {
+const TagsFilterButton = ({ devices }: { devices: DeviceObject[] }) => {
   const { color } = useAppStore();
-  const { filteredTagIds, setFilteredTagIds } = useDevicesStore();
+  const { filteredTagIds, setFilteredTagIds, tags } = useDevicesStore();
   const [opened, { close, open }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
+
+  const usedTagIds = tags
+    .filter((tag) => devices.some((device) => device.tags?.includes(tag.id)))
+    .map((tag) => tag.id);
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -30,6 +36,10 @@ const TagsFilterButton = () => {
     }
   };
 
+  const label = usedTagIds.length === 0 ? 'No tags used' : 'Filter by tag';
+  const IconComponent =
+    usedTagIds.length === 0 ? TbTagsOff : filteredTagIds.length > 0 ? BsTagsFill : BsTags;
+
   return (
     <Popover
       withArrow
@@ -40,24 +50,20 @@ const TagsFilterButton = () => {
       closeOnClickOutside={false}
     >
       <Popover.Target>
-        <Tooltip label="Filter by Tag">
+        <Tooltip label={label}>
           <ActionIcon
             variant="transparent"
             color={color}
-            onClick={open}
+            onClick={usedTagIds.length > 0 ? open : undefined}
             size="xl"
             data-testid="tags-filter-button"
           >
-            {filteredTagIds.length > 0 ? (
-              <BsTagsFill color={color} size={ICON_SIZE} />
-            ) : (
-              <BsTags color={color} size={ICON_SIZE} />
-            )}
+            <IconComponent color={color} size={ICON_SIZE} />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown ref={ref} onKeyDown={onKeyDown} autoFocus>
-        <TagsFilter close={close} />
+        <TagsFilter close={close} usedTagIds={usedTagIds} />
       </Popover.Dropdown>
     </Popover>
   );

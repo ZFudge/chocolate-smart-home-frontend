@@ -17,8 +17,11 @@ const LeonardoTable = () => {
 
   const closeConfirmationModal = () => setLeonardoCommand(null);
 
+  const leonardoDevices = Object.values(devices).filter(
+    (device: DeviceObject) => device.device_type_name === LEONARDO
+  );
   const filteredDevicesByTags = filterDevicesByTags(
-    Object.values(devices).filter((device: DeviceObject) => device.device_type_name === LEONARDO),
+    leonardoDevices,
     filteredTagIds
   ) as DeviceObject[];
   const filterByValueFn = (device: DeviceObject) => filterByValue(filteredValue, device);
@@ -28,7 +31,7 @@ const LeonardoTable = () => {
     <>
       <Table withTableBorder className={classes['mantine-Table-table']}>
         <Table.Thead>
-          <Header />
+          <Header leonardoDevices={leonardoDevices} />
         </Table.Thead>
         <Table.Tbody>
           {filteredDevices.map((device, index) => (

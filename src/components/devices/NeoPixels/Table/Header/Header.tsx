@@ -38,7 +38,7 @@ const Header = () => {
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th ta="center">
-        <TagsFilterButton />
+        <TagsFilterButton devices={neoPixelDevicesArray} />
       </Table.Th>
       <Table.Th ta="center">
         <ValueFilter />
