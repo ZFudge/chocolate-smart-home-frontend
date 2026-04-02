@@ -18,31 +18,22 @@ const IndeterminateButton = ({
   label: string;
   selection: number[];
   settingName: string;
-  deviceTypeName?: string;
+  deviceTypeName: string;
 }) => {
   const websocket = useContext(WebSocketContext);
   const { color } = useAppStore();
 
-  let dynamicDeviceTypeName: string | undefined = deviceTypeName;
-  if (!deviceTypeName) {
-    const location = useLocation();
-    dynamicDeviceTypeName = location.pathname.split('/').pop() || '';
-  }
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => setIsLoading(false), []);
 
   const handleChange = (value: number) => {
-    if (!dynamicDeviceTypeName) {
-      alert('No device type name'); // eslint-disable-line no-alert
-      return;
-    }
     if (value === 0.5 || isLoading) {
       return;
     }
     const sendData: PostData = {
-      device_type_name: dynamicDeviceTypeName || '',
+      device_type_name: deviceTypeName,
       mqtt_id: selection,
-      name: settingName,
+      name: settingName.toLowerCase(),
       value,
     };
     if (websocket) {

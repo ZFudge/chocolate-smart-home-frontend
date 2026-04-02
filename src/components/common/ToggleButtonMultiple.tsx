@@ -3,7 +3,7 @@ import { ActionIcon, Tooltip } from '@mantine/core';
 import classes from '@/App.module.css';
 import { ICON_SIZE, OFF_COLOR, ON_COLOR } from '@/constants';
 import { IndexableObj } from '@/interfaces';
-import { postUpdate } from '@/lib/api';
+import { PostData, postUpdate } from '@/lib/api';
 import { WebSocketContext } from '@/ws';
 
 interface ToggleButtonMultipleProps {
@@ -41,11 +41,11 @@ const ToggleButtonMultiple = ({
 
   const handleToggle = () => {
     const data = {
-      mqtt_id: devices.map((d: IndexableObj) => d.mqtt_id),
-      name: settingName,
       device_type_name: deviceTypeName,
+      mqtt_id: devices.map((d: IndexableObj) => d.mqtt_id),
+      name: settingName.toLowerCase(),
       value: !getValue(),
-    };
+    } as PostData;
     if (websocket) {
       websocket.send(JSON.stringify(data));
     } else {
