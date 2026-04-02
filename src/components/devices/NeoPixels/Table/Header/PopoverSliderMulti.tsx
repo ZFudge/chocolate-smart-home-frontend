@@ -1,6 +1,6 @@
 import { useEffect, useState, type KeyboardEventHandler } from 'react';
 import { IconType } from 'react-icons';
-import { ActionIcon, Container, Flex, Popover, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Container, Flex, Popover, Text, Tooltip } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { ICON_SIZE } from '@/constants';
 import { useAppStore, useDevicesStore } from '@/stores';
@@ -33,11 +33,16 @@ const PopoverSliderMulti = ({ Icon, name }: { Icon: IconType; name: string }) =>
 
   const disabled = selectedDevices.length < 2;
   const labelElement = disabled ? (
-    <Text>{name}</Text>
+    <Badge size="lg" color={color} rightSection={<Icon size={ICON_SIZE} />}>
+      {name}
+    </Badge>
   ) : (
-    <Flex align="center" gap="xs">
-      <Icon color={color} size={ICON_SIZE} />
-      <Text>Adjust {name} for all selected devices</Text>
+    <Flex direction="column" justify="center" align="center">
+      <Text>Adjust</Text>
+      <Badge size="lg" color={color} rightSection={<Icon size={ICON_SIZE} />}>
+        {name}
+      </Badge>
+      <Text>for all selected devices</Text>
     </Flex>
   );
 

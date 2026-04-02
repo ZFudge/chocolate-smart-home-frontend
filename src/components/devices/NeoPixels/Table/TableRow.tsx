@@ -4,10 +4,9 @@ import { GiTransform } from 'react-icons/gi';
 import { IoIosTime } from 'react-icons/io';
 import { IoSparklesOutline, IoSparklesSharp } from 'react-icons/io5';
 import { MdSunny } from 'react-icons/md';
-import { Checkbox, Flex, Table, Text } from '@mantine/core';
+import { Checkbox, Table, Text } from '@mantine/core';
 import { DeviceName, DeviceSettings, LastSeen, ToggleButton } from '@/components';
 import { DeviceTags } from '@/components/common/Tables';
-import { ICON_SIZE } from '@/constants';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff, getBorderColor, getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
@@ -16,7 +15,6 @@ import useNeoPixelStore from '../useNeoPixelStore';
 import Palette from './Palette';
 import PIRConfig from './pir/PIRConfig';
 import PopoverSlider from './PopoverSlider';
-import classes from '../NeoPixel.module.css';
 
 const TableRow = ({ device }: { device: NeoPixelObject }) => {
   const { color } = useAppStore();
@@ -49,7 +47,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
       <Table.Td>
         <DeviceName device={device as unknown as DeviceObject} />
       </Table.Td>
-      <Table.Td>
+      <Table.Td ta="center">
         <ToggleButton
           device={device}
           settingName="On"
@@ -60,7 +58,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
       <Table.Td>
         <Palette device={device} />
       </Table.Td>
-      <Table.Td>
+      <Table.Td ta="center">
         <ToggleButton
           device={device}
           settingName="scheduled_palette_rotation"
@@ -68,7 +66,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
           Icon={BsFillPaletteFill}
         />
       </Table.Td>
-      <Table.Td>
+      <Table.Td ta="center">
         <ToggleButton
           device={device}
           settingName="Twinkle"
@@ -76,7 +74,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
           Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
         />
       </Table.Td>
-      <Table.Td>
+      <Table.Td ta="center">
         <ToggleButton
           device={device}
           settingName="Transform"
@@ -90,7 +88,7 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
       <Table.Td ta="center">
         <PopoverSlider device={device} name="MS" Icon={IoIosTime} />
       </Table.Td>
-      <Table.Td>
+      <Table.Td w={75} miw={75} ta="center">
         <PIRConfig device={device as NeoPixelObject} />
       </Table.Td>
     </Table.Tr>

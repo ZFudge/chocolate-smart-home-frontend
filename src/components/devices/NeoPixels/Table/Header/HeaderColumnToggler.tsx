@@ -1,4 +1,7 @@
+import { Flex, Text } from '@mantine/core';
 import { IndeterminateButton, ToggleButtonMultiple } from '@/components';
+import { ICON_SIZE } from '@/constants';
+import { useAppStore } from '@/stores';
 import { NEO_PIXEL } from '../../constants';
 import { NeoPixelObject } from '../../interfaces';
 import useNeoPixelStore from '../../useNeoPixelStore';
@@ -9,6 +12,7 @@ interface HeaderColumnTogglerProps {
 }
 
 const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) => {
+  const { color } = useAppStore();
   const { neoPixelDevices, selectedDevices } = useNeoPixelStore();
 
   if (selectedDevices.length < 2) {
@@ -16,7 +20,7 @@ const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) =>
   }
 
   const devices = selectedDevices.map((mqtt_id) => neoPixelDevices[mqtt_id]);
-  const values = devices.map((device) => device[settingName as keyof NeoPixelObject]);
+  const values = devices.map((device) => device[settingName.toLowerCase() as keyof NeoPixelObject]);
   const allValuesMatch = new Set(values).size === 1;
 
   return allValuesMatch ? (
@@ -24,7 +28,18 @@ const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) =>
       devices={devices}
       deviceTypeName={NEO_PIXEL}
       settingName={settingName}
-      label={`set ALL ${settingName} ${devices[0][settingName as keyof NeoPixelObject] ? 'OFF' : 'ON'}`}
+      label={
+        <Flex align="center" gap="xs">
+          <Icon color={color} size={ICON_SIZE} />
+          <Flex direction="column" align="center">
+            <Text>
+              Turn {settingName} setting to{' '}
+              {devices[0][settingName.toLowerCase() as keyof NeoPixelObject] ? 'OFF' : 'ON'}
+            </Text>
+            <Text>for all selected devices</Text>
+          </Flex>
+        </Flex>
+      }
       Icon={Icon}
     />
   ) : (

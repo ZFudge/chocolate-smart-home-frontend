@@ -15,6 +15,8 @@ import Palettes from './Palettes';
 import PIRConfigs from './PIRConfigs';
 import PopoverSliderMulti from './PopoverSliderMulti';
 
+const WIDTH = 75;
+
 const Header = () => {
   const { color } = useAppStore();
   const { neoPixelDevices, selectedDevices, toggleAll } = useNeoPixelStore();
@@ -44,28 +46,28 @@ const Header = () => {
         <ValueFilter />
       </Table.Th>
       <Table.Th />
-      <Table.Th>
-        <HeaderColumnToggler Icon={FaPowerOff} settingName="on" />
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
+        <HeaderColumnToggler Icon={FaPowerOff} settingName="On" />
       </Table.Th>
       <Table.Th ta="center">
         <Palettes />
       </Table.Th>
-      <Table.Th>
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
         <HeaderColumnToggler Icon={BsFillPaletteFill} settingName="scheduled_palette_rotation" />
       </Table.Th>
-      <Table.Th>
-        <HeaderColumnToggler Icon={IoSparklesSharp} settingName="twinkle" />
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
+        <HeaderColumnToggler Icon={IoSparklesSharp} settingName="Twinkle" />
       </Table.Th>
-      <Table.Th>
-        <HeaderColumnToggler Icon={GiTransform} settingName="transform" />
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
+        <HeaderColumnToggler Icon={GiTransform} settingName="Transform" />
       </Table.Th>
-      <Table.Th w={75} ta="center">
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
         <PopoverSliderMulti name="Brightness" Icon={MdSunny} />
       </Table.Th>
-      <Table.Th w={75} ta="center">
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
         <PopoverSliderMulti name="MS" Icon={IoIosTime} />
       </Table.Th>
-      <Table.Th ta="center">
+      <Table.Th w={WIDTH} miw={WIDTH} ta="center">
         <PIRConfigs />
       </Table.Th>
     </Table.Tr>

@@ -46,7 +46,10 @@ const PIRConfigs = () => {
   ) : (
     <Flex align="center" gap="xs">
       <FaPersonBurst color={color} size={ICON_SIZE} />
-      <Text>Adjust PIR Sensor Configs for all selected devices</Text>
+      <Flex direction="column" justify="center" align="center">
+        <Text>Adjust PIR Sensor Configs</Text>
+        <Text>for all selected devices</Text>
+      </Flex>
     </Flex>
   );
   const indexableObject = disabled ? undefined : selected[0]?.pir;

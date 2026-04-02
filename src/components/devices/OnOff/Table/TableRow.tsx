@@ -6,7 +6,6 @@ import { DeviceTags } from '@/components/common/Tables';
 import { DeviceObject } from '@/interfaces';
 import { boolToOnOff } from '@/lib/utils';
 import { OnOffObject } from '../interfaces';
-import classes from '../OnOff.module.css';
 
 const TableRow = React.memo(({ device }: { device: OnOffObject }) => {
   return (

@@ -6,7 +6,6 @@ import { LOCK, MOVE, TALON, UNLOCK } from '../constants';
 import { LeonardoCommandObject } from '../interfaces';
 import { LeonardoCommand } from '../types';
 import CommandButton from './CommandButton';
-import classes from '../Leonardo.module.css';
 
 interface TableRowProps {
   device: DeviceObject;
@@ -21,20 +20,20 @@ const TableRow = ({ device, setLeonardoCommand }: TableRowProps) => {
         height: '5rem',
       }}
     >
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <DeviceSettings device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <DeviceTags device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell}>
+      <Table.Td>
         <LastSeen device={device} />
       </Table.Td>
-      <Table.Td className={classes.tableCell} style={{ maxWidth: '10em' }}>
+      <Table.Td style={{ maxWidth: '10em' }}>
         <DeviceName device={device} />
       </Table.Td>
       {[MOVE, LOCK, UNLOCK, TALON].map((command) => (
-        <Table.Td key={`command-${device.mqtt_id}-${command}`} className={classes.tableButtonCell}>
+        <Table.Td key={`command-${device.mqtt_id}-${command}`}>
           <CommandButton
             command={command as LeonardoCommand}
             device={device}
