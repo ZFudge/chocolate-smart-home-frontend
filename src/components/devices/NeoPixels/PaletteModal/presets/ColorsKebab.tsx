@@ -1,10 +1,10 @@
 import cx from 'clsx';
 import classes from '../PaletteModal.module.css';
 
-const ColorsKebab = ({ label, palette }: { label: string; palette: string[] }) => {
+const ColorsKebab = ({ label, colors }: { label: string; colors: string[] }) => {
   return (
     <span className={cx(classes['palette-kebab'])}>
-      {palette.map((c, i) => (
+      {colors.map((c, i) => (
         <span style={{ backgroundColor: c }} key={`${label}-${i}-${c}`} />
       ))}
     </span>

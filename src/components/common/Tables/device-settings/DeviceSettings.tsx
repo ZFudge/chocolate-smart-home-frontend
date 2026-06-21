@@ -9,9 +9,9 @@ import { useAppStore } from '@/stores';
 import DeviceSettingsForm from './DeviceSettingsForm';
 
 const DeviceSettings = ({ device }: { device: DeviceObject }) => {
+  const { color } = useAppStore();
   const [opened, { open, close }] = useDisclosure(false);
   const ref = useClickOutside(() => close());
-  const { color } = useAppStore();
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {

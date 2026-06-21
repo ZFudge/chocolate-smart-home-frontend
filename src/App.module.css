@@ -73,6 +73,10 @@
   background-color: var(--mantine-color-body);
 }
 
+.theme-match:hover {
+  background-color: var(--mantine-color-body);
+}
+
 .table-cell {
   justify-content: center;
   text-align: center;

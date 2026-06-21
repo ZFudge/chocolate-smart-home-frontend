@@ -8,14 +8,13 @@ const useWebsocket = () => {
   const [websocket, setWebsocket] = useState<WebSocket | null>(null);
 
   const connect = (onmessage: (msgEvent: MessageEvent) => void, retries = RETRY_COUNT) => {
-    console.log(
-      `attempting websocket connection on ${WEBSOCKET_URL}. ${retries} retries remaining...`
-    );
+    const connectMessage = `attempting websocket connection on ${WEBSOCKET_URL}. ${retries} retries remaining...`;
+    console.log(connectMessage); // eslint-disable-line no-console
 
     const ws = new WebSocket(WEBSOCKET_URL);
 
     ws.onmessage = onmessage;
-    ws.onerror = console.error;
+    ws.onerror = console.error; // eslint-disable-line no-console
 
     /**
      * This is a workaround that allows retries to be reset if a connection is successful,
@@ -25,13 +24,13 @@ const useWebsocket = () => {
     let retriesReset = 0;
 
     ws.onopen = () => {
-      console.log(`opened websocket connection on ${WEBSOCKET_URL}`);
+      console.log(`opened websocket connection on ${WEBSOCKET_URL}`); // eslint-disable-line no-console
       setWebsocket(ws);
       retriesReset = RETRY_COUNT;
     };
 
     ws.onclose = (ev: CloseEvent) => {
-      console.log('websocket closed', ev);
+      console.log('websocket closed', ev); // eslint-disable-line no-console
       if (retries) {
         // Retry connection.
         window.setTimeout(

@@ -50,8 +50,9 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
       <Table.Td ta="center">
         <ToggleButton
           device={device}
+          indexableObject={device.plugin}
           settingName="On"
-          label={<Text>Power is {boolToOnOff(device.on)}</Text>}
+          label={<Text>Power is {boolToOnOff(device.plugin?.on)}</Text>}
           Icon={FaPowerOff}
         />
       </Table.Td>
@@ -61,24 +62,31 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
       <Table.Td ta="center">
         <ToggleButton
           device={device}
+          indexableObject={device.plugin}
           settingName="scheduled_palette_rotation"
-          label={<Text>Palette Rotation {device.scheduled ? '' : 'not'} scheduled</Text>}
+          label={
+            <Text>
+              Palette Rotation {device.plugin?.scheduled_palette_rotation ? '' : 'not'} scheduled
+            </Text>
+          }
           Icon={BsFillPaletteFill}
         />
       </Table.Td>
       <Table.Td ta="center">
         <ToggleButton
           device={device}
+          indexableObject={device.plugin}
           settingName="Twinkle"
-          label={<Text>Twinkle is {boolToOnOff(device.twinkle)}</Text>}
-          Icon={device.twinkle ? IoSparklesSharp : IoSparklesOutline}
+          label={<Text>Twinkle is {boolToOnOff(device.plugin?.twinkle)}</Text>}
+          Icon={device.plugin?.twinkle ? IoSparklesSharp : IoSparklesOutline}
         />
       </Table.Td>
       <Table.Td ta="center">
         <ToggleButton
           device={device}
+          indexableObject={device.plugin}
           settingName="Transform"
-          label={<Text>Transform is {boolToOnOff(device.transform)}</Text>}
+          label={<Text>Transform is {boolToOnOff(device.plugin?.transform)}</Text>}
           Icon={GiTransform}
         />
       </Table.Td>

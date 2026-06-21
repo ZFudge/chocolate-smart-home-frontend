@@ -5,11 +5,11 @@ import { notifySyncRequestFailed, notifySyncRequestStarted } from '@/lib/notific
 
 const SyncDeviceDataButton = () => {
   const onClick = async () => {
-    const response = await fetch('/api/device/broadcast_request_devices_state/', {
+    const response = await fetch('/api/broadcast_request_devices_state/', {
       method: 'HEAD',
     });
     if (!response.ok) {
-      console.error(response.statusText);
+      console.error(response.statusText); // eslint-disable-line no-console
       notifySyncRequestFailed();
       return;
     }

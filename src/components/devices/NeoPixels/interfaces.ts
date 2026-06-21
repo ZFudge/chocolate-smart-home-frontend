@@ -17,7 +17,7 @@ export interface PIRConfig {
   timeout: number;
 }
 
-export interface NeoPixelObject extends DeviceObject {
+export interface NeoPixelPlugin {
   palette: PresetFormValuesType;
   ms: number;
   brightness: number;
@@ -25,9 +25,16 @@ export interface NeoPixelObject extends DeviceObject {
   twinkle: boolean;
   transform: boolean;
   white?: boolean;
-  scheduled?: boolean | undefined;
+  scheduled_palette_rotation?: boolean | undefined;
+  all_twinkle_colors_are_current: boolean | undefined;
   timeout?: number;
-  pir?: PIRConfig;
+  pir_timeout?: number;
+  pir_armed?: boolean;
+  pir_enabled?: boolean;
+}
+
+export interface NeoPixelObject extends DeviceObject {
+  plugin: NeoPixelPlugin;
 }
 
 export interface PalettePreset {
@@ -37,7 +44,7 @@ export interface PalettePreset {
 
 export interface PalettePresetData {
   id: number;
-  palette: string[];
+  colors: string[];
   name: string;
 }
 

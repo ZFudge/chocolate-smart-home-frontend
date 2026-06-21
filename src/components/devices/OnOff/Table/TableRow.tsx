@@ -30,8 +30,9 @@ const TableRow = React.memo(({ device }: { device: OnOffObject }) => {
       <Table.Td w={75} miw={75} ta="left">
         <ToggleButton
           device={device}
+          indexableObject={device.plugin}
           Icon={FaPowerOff}
-          label={<Text>Power is {boolToOnOff(device.on)}</Text>}
+          label={<Text>Turn power {boolToOnOff(!device.plugin?.on)}</Text>}
           settingName="on"
         />
       </Table.Td>

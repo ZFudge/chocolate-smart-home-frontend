@@ -22,10 +22,10 @@ const PIRConfigs = () => {
   const selected =
     selectedDevices
       .map((mqtt_id) => devices[mqtt_id] as NeoPixelObject)
-      .filter((device) => device.pir !== null) || [];
-  const armedValues = selected.map((device) => device.pir?.armed);
+      .filter((device) => device.plugin?.pir_enabled !== null) || [];
+  const armedValues = selected.map((device) => device.plugin?.pir_armed);
   const indeterminateArmed = new Set(armedValues).size !== 1;
-  const timeoutValues = selected.map((device) => device.pir?.timeout);
+  const timeoutValues = selected.map((device) => device.plugin?.pir_timeout);
 
   useEffect(() => setIsLoading(false), [new Set(timeoutValues).size === 1]);
 
@@ -52,7 +52,7 @@ const PIRConfigs = () => {
       </Flex>
     </Flex>
   );
-  const indexableObject = disabled ? undefined : selected[0]?.pir;
+  const indexableObject = disabled ? undefined : selected[0]?.plugin;
 
   return (
     <Popover trapFocus position="left" withArrow shadow="md" opened={opened}>
@@ -88,7 +88,7 @@ const PIRConfigs = () => {
               <Container style={{ width: '100%' }}>
                 <IndeterminateButton
                   selection={selected.map((d) => d.mqtt_id)}
-                  settingName="armed"
+                  settingName="pir_armed"
                   label="armed"
                   Icon={FaPersonBurst}
                   deviceTypeName={NEO_PIXEL}
@@ -97,7 +97,7 @@ const PIRConfigs = () => {
             ) : (
               <ToggleButtonMultiple
                 devices={selected}
-                settingName="armed"
+                settingName="pir_armed"
                 Icon={FaPersonBurst}
                 label={<Text>Armed</Text>}
                 deviceTypeName={NEO_PIXEL}
@@ -115,7 +115,7 @@ const PIRConfigs = () => {
             <SliderFormMulti
               devices={selected}
               indexableObject={indexableObject}
-              name="Timeout"
+              name="pir_timeout"
               Icon={FaClock}
               close={close}
               setIsLoading={setIsLoading}

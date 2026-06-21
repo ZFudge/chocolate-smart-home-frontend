@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Loader, Slider } from '@mantine/core';
 import appClasses from '@/App.module.css';
 import { ICON_SIZE } from '@/constants';
@@ -34,7 +33,7 @@ const IndeterminateButton = ({
       device_type_name: deviceTypeName,
       mqtt_id: selection,
       name: settingName.toLowerCase(),
-      value,
+      value: Boolean(value),
     };
     if (websocket) {
       websocket.send(JSON.stringify(sendData));

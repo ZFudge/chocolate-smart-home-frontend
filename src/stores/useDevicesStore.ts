@@ -32,7 +32,11 @@ const useDevicesStore = create<DevicesStore>((set, get) => ({
   filteredValue: '' as string,
   setFilteredTagIds: (filteredTagIds: number[]) => set({ filteredTagIds }),
   setFilteredValue: (filteredValue: string) => set({ filteredValue }),
-  addTagsData: (newTags: Tag[]) => set({ tags: [...get().tags, ...newTags] }),
+  addTagsData: (newTags: Tag[]) => {
+    const existingTags = get().tags.reduce((arr, cur) => ({ ...arr, [cur.id]: cur }), {});
+    const currentTags = newTags.reduce((arr, cur) => ({ ...arr, [cur.id]: cur }), existingTags);
+    set({ tags: Object.values(currentTags) });
+  },
 }));
 
 export default useDevicesStore;

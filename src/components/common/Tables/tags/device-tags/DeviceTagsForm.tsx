@@ -19,12 +19,11 @@ import { useField } from '@mantine/form';
 import { ColoredPill } from '@/components/common';
 import { ICON_SIZE, MIN_TAG_LENGTH } from '@/constants';
 import { DeviceObject } from '@/interfaces';
-import { notifyTagsSaved, notifyTagsSaveFailed } from '@/lib/notifications';
-import { createNewTag, getBorderColor, getDividerColor } from '@/lib/utils';
+import { createNewTag, getBorderColor, getDividerColor, updateDeviceTags } from '@/lib/utils';
 import { useAppStore, useDevicesStore } from '@/stores';
 
 const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => void }) => {
-  const { tags, addTagsData } = useDevicesStore();
+  const { tags, addTagsData, addDeviceData } = useDevicesStore();
   const { color } = useAppStore();
   const [search, setSearch] = useState('');
 
@@ -36,23 +35,11 @@ const DeviceTagsForm = ({ device, close }: { device: DeviceObject; close: () => 
 
   const handleSubmit = async () => {
     const tagIds = field.getValue().map((item) => tags.find((tag) => tag.name === item)?.id);
-    const response = await fetch(`/api/device/${device.mqtt_id}/tags`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        ids: tagIds,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      console.error(response.statusText);
-      // field.setFieldError('tags', 'Failed to save tags');
-      notifyTagsSaveFailed(device);
-      return;
-    }
-    notifyTagsSaved(device);
+
+    const data = await updateDeviceTags(device, tagIds as number[]);
+    addDeviceData([data]);
     close();
+    return data;
   };
 
   const combobox = useCombobox({

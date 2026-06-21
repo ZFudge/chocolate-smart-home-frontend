@@ -28,7 +28,7 @@ const TagsButton = () => {
     const getTags = async () => {
       const response = await fetch('/api/tags/');
       if (!response.ok) {
-        console.error(response.statusText);
+        console.error(response.statusText); // eslint-disable-line no-console
         return;
       }
       const data = await response.json();

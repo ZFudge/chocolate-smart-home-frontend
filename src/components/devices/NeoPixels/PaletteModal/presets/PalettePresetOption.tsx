@@ -7,7 +7,7 @@ const PalettePresetOption = ({ option }: { option: { label: string; value: strin
   return (
     <div className={cx(classes['palette-preset-select-option'])}>
       <span className={cx(classes['palette-preset-label'])}>{label}</span>
-      <ColorsKebab label={label} palette={value.split(',')} />
+      <ColorsKebab label={label} colors={value.split(',')} />
     </div>
   );
 };

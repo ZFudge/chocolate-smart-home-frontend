@@ -1,5 +1,6 @@
 import cx from 'clsx';
 import { ActionIcon, Tooltip } from '@mantine/core';
+import { DEFAULT_PALETTE } from '../../constants';
 import Palette3x3 from '../../Palette3x3';
 import useNeoPixelStore from '../../useNeoPixelStore';
 import classes from '../../NeoPixel.module.css';
@@ -20,7 +21,10 @@ const Palettes = () => {
         className={cx(classes['neo-pixel-table-palette-status'])}
         onClick={() => setSelectedPaletteDevices(selectedDevices)}
       >
-        <Palette3x3 palette={devices[0].palette} mqttIdLabel="selected" />
+        <Palette3x3
+          palette={devices[0].plugin?.palette ?? DEFAULT_PALETTE}
+          mqttIdLabel="selected"
+        />
       </ActionIcon>
     </Tooltip>
   );

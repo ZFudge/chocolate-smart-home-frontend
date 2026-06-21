@@ -19,13 +19,14 @@ interface SliderFormProps {
   setIsLoading: (isLoading: boolean) => void;
 }
 
-const SliderForm = ({ device, name, Icon, close, initialValue, setIsLoading }: SliderFormProps) => {
+const SliderForm = ({ device, name, Icon, close, setIsLoading, initialValue }: SliderFormProps) => {
   const { color } = useAppStore();
   const websocket = useContext(WebSocketContext);
 
   const field = useForm({
     initialValues: {
-      [name.toLowerCase()]: initialValue || device[name.toLowerCase()],
+      [name.toLowerCase()]:
+        initialValue ?? device.plugin?.[name.toLowerCase() as keyof IndexableObj] ?? 0,
     },
   });
 

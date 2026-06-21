@@ -1,5 +1,10 @@
 import { DeviceObject } from '@/interfaces';
-import { notifyTagCreated, notifyTagCreateFailed } from './notifications';
+import {
+  notifyTagCreated,
+  notifyTagCreateFailed,
+  notifyTagsSaved,
+  notifyTagsSaveFailed,
+} from './notifications';
 
 export const boolToOnOff = (b: boolean) => (b ? 'ON' : 'OFF');
 
@@ -30,7 +35,7 @@ export const createNewTag = async (tagName: string) => {
     },
   });
   if (!response.ok) {
-    console.error(response.statusText);
+    console.error(response.statusText); // eslint-disable-line no-console
     notifyTagCreateFailed(tagName);
     throw new Error(response.statusText);
   }
@@ -68,4 +73,21 @@ export const getLastSeenDate = (last_seen: string | null) => {
     return `Yesterday at ${lastSeenTime}`;
   }
   return `${daysAgo} days ago at ${lastSeenTime}`;
+};
+
+export const updateDeviceTags = async (device: DeviceObject, tags: number[]) => {
+  const response = await fetch(`/api/devices/`, {
+    method: 'PATCH',
+    body: JSON.stringify({ mqtt_id: device.mqtt_id, tags }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) {
+    console.error(response.statusText); // eslint-disable-line no-console
+    notifyTagsSaveFailed(device);
+    throw new Error(response.statusText);
+  }
+  notifyTagsSaved(device);
+  return response.json();
 };

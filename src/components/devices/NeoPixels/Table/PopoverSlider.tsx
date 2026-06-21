@@ -52,12 +52,11 @@ const PopoverSlider = ({
             variant="outline"
             color={color}
             loading={isLoading}
+            data-testid={`${device.mqtt_id}-${name.toLowerCase()}-popover-slider-button`}
             className={classes['theme-match']}
             loaderProps={{ color }}
           >
-            <Text fz="xl" fw={700}>
-              {device[name.toLowerCase()]}
-            </Text>
+            <Icon size={ICON_SIZE} />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>

@@ -15,10 +15,10 @@ const PIRConfig = ({ device }: { device: NeoPixelObject }) => {
   const ref = useClickOutside(() => close());
 
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => setIsLoading(false), [device.pir]);
+  useEffect(() => setIsLoading(false), [device.plugin?.pir_timeout]);
 
-  const disabled = !device.pir;
-  const explicitColor = disabled ? 'gray' : device.pir?.armed ? 'green' : 'red';
+  const disabled = !device.plugin?.pir_enabled;
+  const explicitColor = disabled ? 'gray' : device.plugin?.pir_armed ? 'green' : 'red';
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     switch (event.key) {
@@ -63,8 +63,13 @@ const PIRConfig = ({ device }: { device: NeoPixelObject }) => {
             {disabled ? (
               <CiNoWaitingSign size={ICON_SIZE} />
             ) : (
-              <Text fz="xl" fw={700} ta="right" td={device.pir?.armed ? 'none' : 'line-through'}>
-                {device.pir?.timeout || 0}
+              <Text
+                fz="xl"
+                fw={700}
+                ta="right"
+                td={device.plugin?.pir_armed ? 'none' : 'line-through'}
+              >
+                {device.plugin?.pir_timeout || 0}
               </Text>
             )}
           </ActionIcon>

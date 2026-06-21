@@ -44,7 +44,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
       },
     });
     if (!response.ok) {
-      console.error(response.statusText);
+      console.error(response.statusText); // eslint-disable-line no-console
       notifyTagCreateFailed(name);
       return;
     }

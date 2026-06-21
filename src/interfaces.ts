@@ -11,15 +11,17 @@ export interface Tag {
 }
 
 export interface DeviceObject {
-  id: number;
   mqtt_id: number;
   name: string;
   device_type_name: string;
   last_seen: string | null;
-  online: boolean;
+  last_update_sent: string | null;
+  online?: boolean;
   reboots?: number;
   remote_name?: string;
   tags?: number[];
+  fetched_from_db?: boolean;
+  plugin: Record<string, any>;
 }
 
 export type DeviceObjectType = DeviceObject | NeoPixelObject | OnOffObject;

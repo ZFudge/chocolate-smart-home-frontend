@@ -1,7 +1,14 @@
 import { ColorSwatch, Flex } from '@mantine/core';
 import classes from '@/App.module.css';
+import { DEFAULT_PALETTE } from './constants';
 
-const Palette3x3 = ({ palette, mqttIdLabel }: { palette: string[]; mqttIdLabel: string }) => {
+const Palette3x3 = ({
+  mqttIdLabel,
+  palette = DEFAULT_PALETTE,
+}: {
+  palette: string[];
+  mqttIdLabel: string;
+}) => {
   return (
     <Flex wrap="wrap" direction="column" className={classes['theme-match']}>
       {palette

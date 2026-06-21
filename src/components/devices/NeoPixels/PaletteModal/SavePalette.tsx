@@ -34,12 +34,12 @@ const SavePalette = () => {
     }).then(async (resp) => {
       if (!resp.ok) {
         const data = await resp.json();
-        console.error(resp.statusText, data);
+        console.error(resp.statusText, data); // eslint-disable-line no-console
         notifyPalettePresetSaveFailed(data.detail);
         return;
       }
       const data = (await resp.json()) as PalettePresetData;
-      const detail = <Palette3x3 palette={data.palette} mqttIdLabel="selected" />;
+      const detail = <Palette3x3 palette={data.colors} mqttIdLabel="selected" />;
       notifyPalettePresetSaved(data.name, detail);
       closePopover();
     });

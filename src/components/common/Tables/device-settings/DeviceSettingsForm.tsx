@@ -40,12 +40,10 @@ const DeviceSettingsForm = ({ device, close }: { device: DeviceObject; close: ()
       },
     });
     if (!response.ok) {
-      console.error(response.statusText);
+      console.error(response.statusText); // eslint-disable-line no-console
       notifyDeviceNameChangeFailed(device, values.name);
       return;
     }
-    const data = await response.json();
-    console.log(data);
     notifyDeviceNameChanged(device, values.name);
     close();
   };

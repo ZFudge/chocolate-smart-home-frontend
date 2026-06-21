@@ -40,15 +40,15 @@ const EditTagsForm = ({ close }: { close: () => void }) => {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    const response = await fetch(`/api/tags/${values.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ name: values.name }),
+    const response = await fetch(`/api/tags/`, {
+      method: 'PATCH',
+      body: JSON.stringify({ name: values.name, id: values.id }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
     if (!response.ok) {
-      console.error(response.statusText);
+      console.error(response.statusText); // eslint-disable-line no-console
       notifyTagUpdateFailed(tags.find((tag) => tag.id === values.id)?.name || '');
       return;
     }

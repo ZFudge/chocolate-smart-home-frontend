@@ -33,8 +33,8 @@ const PIRForm = ({
         <Text fw={500}>Armed:</Text>
         <ToggleButton
           device={device}
-          indexableObject={device.pir}
-          settingName="armed"
+          indexableObject={device.plugin}
+          settingName="pir_armed"
           Icon={FaPersonBurst}
           label={<Text>Armed</Text>}
         />
@@ -48,8 +48,8 @@ const PIRForm = ({
       >
         <SliderForm
           device={device as unknown as IndexableObj}
-          initialValue={device.pir?.timeout || 0}
-          name="Timeout"
+          initialValue={device.plugin?.pir_timeout || 0}
+          name="pir_timeout"
           Icon={FaClock}
           close={close}
           setIsLoading={setIsLoading}

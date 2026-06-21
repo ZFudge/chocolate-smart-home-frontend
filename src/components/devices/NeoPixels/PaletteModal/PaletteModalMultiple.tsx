@@ -20,8 +20,8 @@ const PaletteModalMultiple = () => {
   );
 
   const form = usePaletteForm({
-    initialValues: devices[0].palette.reduce(
-      (acc, color, i) => ({
+    initialValues: devices[0].plugin?.palette.reduce(
+      (acc: PaletteFormValuesType, color: string, i: number): PaletteFormValuesType => ({
         ...acc,
         [`${i}-color`]: color,
       }),

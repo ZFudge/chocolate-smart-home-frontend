@@ -25,7 +25,7 @@ const NeoPixelsPage = () => {
         if (neoPixelDevice) {
           // ordered by likelihood to update, to minimize comparisons
           if (
-            neoPixelDevice.on !== (device as NeoPixelObject).on ||
+            neoPixelDevice.plugin?.on !== (device as NeoPixelObject).plugin?.on ||
             neoPixelDevice.last_seen !== device.last_seen ||
             neoPixelDevice.reboots !== device.reboots ||
             neoPixelDevice.online !== device.online ||

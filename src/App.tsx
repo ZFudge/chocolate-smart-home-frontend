@@ -8,6 +8,7 @@ import '@mantine/notifications/styles.css';
 
 import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
 import Router from './components/Router';
+import { DeviceObjectType } from './interfaces';
 import { useDevicesStore } from './stores';
 import { useWebsocket, WebSocketContext } from './ws';
 
@@ -21,6 +22,18 @@ const App = () => {
   const { addDeviceData } = useDevicesStore();
 
   useEffect(() => {
+    const getDevices = async () => {
+      const response = await fetch('/api/devices/');
+      if (!response.ok) {
+        console.error(response.statusText); // eslint-disable-line no-console
+        return;
+      }
+      const data = await response.json();
+      data.forEach((device: DeviceObjectType) => (device.fetched_from_db = true));
+      addDeviceData(data);
+    };
+    getDevices();
+
     const handleMessage = (msgEvent: MessageEvent) => {
       const data = JSON.parse(msgEvent.data);
       addDeviceData(data);

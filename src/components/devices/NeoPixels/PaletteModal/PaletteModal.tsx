@@ -3,6 +3,7 @@ import { Button, Flex, FocusTrap, Modal } from '@mantine/core';
 import { postUpdate } from '@/lib/api';
 import { useAppStore } from '@/stores';
 import { WebSocketContext } from '@/ws';
+import { DEFAULT_PALETTE } from '../constants';
 import { NeoPixelObject, PaletteFormValuesType } from '../interfaces';
 import useNeoPixelStore from '../useNeoPixelStore';
 import Header from './Header';
@@ -18,8 +19,8 @@ const PaletteModal = () => {
 
   const device = neoPixelDevices[selectedPaletteDevices as number] as NeoPixelObject;
   const form = usePaletteForm({
-    initialValues: device.palette.reduce(
-      (acc, color, i) => ({
+    initialValues: (device?.plugin?.palette ?? DEFAULT_PALETTE).reduce(
+      (acc: PaletteFormValuesType, color: string, i: number): PaletteFormValuesType => ({
         ...acc,
         [`${i}-color`]: color,
       }),
@@ -29,7 +30,7 @@ const PaletteModal = () => {
 
   const handleSubmit = (values: typeof form.values) => {
     const data = {
-      mqtt_id: [device.mqtt_id],
+      mqtt_id: device.mqtt_id,
       name: 'palette',
       device_type_name: 'neo_pixel',
       value: Object.values(values),

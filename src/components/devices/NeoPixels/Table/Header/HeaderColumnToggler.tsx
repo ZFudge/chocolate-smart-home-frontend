@@ -3,7 +3,7 @@ import { IndeterminateButton, ToggleButtonMultiple } from '@/components';
 import { ICON_SIZE } from '@/constants';
 import { useAppStore } from '@/stores';
 import { NEO_PIXEL } from '../../constants';
-import { NeoPixelObject } from '../../interfaces';
+import { NeoPixelPlugin } from '../../interfaces';
 import useNeoPixelStore from '../../useNeoPixelStore';
 
 interface HeaderColumnTogglerProps {
@@ -20,13 +20,16 @@ const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) =>
   }
 
   const devices = selectedDevices.map((mqtt_id) => neoPixelDevices[mqtt_id]);
-  const values = devices.map((device) => device[settingName.toLowerCase() as keyof NeoPixelObject]);
+  const values = devices.map(
+    (device) => device.plugin[settingName.toLowerCase() as keyof NeoPixelPlugin]
+  );
   const allValuesMatch = new Set(values).size === 1;
 
   return allValuesMatch ? (
     <ToggleButtonMultiple
       devices={devices}
       deviceTypeName={NEO_PIXEL}
+      indexableObject={devices[0].plugin}
       settingName={settingName}
       label={
         <Flex align="center" gap="xs">
@@ -34,7 +37,7 @@ const HeaderColumnToggler = ({ settingName, Icon }: HeaderColumnTogglerProps) =>
           <Flex direction="column" align="center">
             <Text>
               Turn {settingName} setting to{' '}
-              {devices[0][settingName.toLowerCase() as keyof NeoPixelObject] ? 'OFF' : 'ON'}
+              {devices[0].plugin[settingName.toLowerCase() as keyof NeoPixelPlugin] ? 'OFF' : 'ON'}
             </Text>
             <Text>for all selected devices</Text>
           </Flex>

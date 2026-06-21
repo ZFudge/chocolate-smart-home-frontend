@@ -18,7 +18,7 @@ const Palette = ({ device }: { device: NeoPixelObject }) => {
         className={`${cx(classes['neo-pixel-table-palette-status'])} ${appClasses['theme-match']}`}
         onClick={() => setSelectedPaletteDevices(device.mqtt_id)}
       >
-        <Palette3x3 palette={device.palette} mqttIdLabel={device.mqtt_id.toString()} />
+        <Palette3x3 palette={device.plugin?.palette} mqttIdLabel={device.mqtt_id.toString()} />
       </ActionIcon>
     </Tooltip>
   );
