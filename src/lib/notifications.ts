@@ -76,3 +76,45 @@ export const notifyDeviceTypeNameMissing = () =>
     title: 'Device type name missing',
     message: 'Device type name is missing',
   });
+
+export const notifyJobCreateFailed = (jobName: string) =>
+  notifications.show({
+    color: 'red',
+    title: 'Job creation failed',
+    message: `Job "${jobName}" was not created`,
+  });
+
+export const notifyJobCreateSuccess = (jobName: string) =>
+  notifications.show({
+    color: 'green',
+    title: 'Job created',
+    message: `Job "${jobName}" was created successfully`,
+  });
+
+export const notifyJobUpdateFailed = (jobName: string) =>
+  notifications.show({
+    color: 'red',
+    title: 'Job update failed',
+    message: `Job "${jobName}" was not updated`,
+  });
+
+export const notifyJobUpdateSuccess = (jobName: string) =>
+  notifications.show({
+    color: 'green',
+    title: 'Job updated',
+    message: `Job "${jobName}" was updated successfully`,
+  });
+
+export const notifyJobDeleteFailed = (jobName: string) =>
+  notifications.show({
+    color: 'red',
+    title: 'Job deletion failed',
+    message: `Job "${jobName}" was not deleted`,
+  });
+
+export const notifyJobDeleteSuccess = (jobName: string) =>
+  notifications.show({
+    color: 'green',
+    title: 'Job deleted',
+    message: `Job "${jobName}" was deleted successfully`,
+  });

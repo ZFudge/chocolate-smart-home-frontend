@@ -14,6 +14,10 @@ export default defineConfig({
         changeOrigin: true,
         ws: true,
       },
+      '/scheduler': {
+        target: 'http://csm-nginx-dev:80/scheduler',
+        changeOrigin: true,
+      },
     }
   },
   plugins: [react(), tsconfigPaths()],

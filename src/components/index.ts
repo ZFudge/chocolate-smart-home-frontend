@@ -8,6 +8,7 @@ import {
 import { SplitTableCell, ToggleButton, ToggleButtonMultiple } from './common';
 import DeviceName from './common/DeviceName';
 import IndeterminateButton from './common/IndeterminateButton';
+import SchedulerIcon from './common/scheduler';
 import { DeviceSettings, DeviceTags, LastSeen, ValueFilter } from './common/Tables';
 
 export {
@@ -18,6 +19,7 @@ export {
   DeviceTags,
   IndeterminateButton,
   LastSeen,
+  SchedulerIcon,
   SplitTableCell,
   SyncDeviceDataButton,
   TagsButton,

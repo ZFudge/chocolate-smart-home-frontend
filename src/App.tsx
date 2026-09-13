@@ -63,7 +63,9 @@ const App = () => {
                 <SyncDeviceDataButton />
                 <TagsButton />
               </Flex>
-              <ThemeToggler />
+              <Flex gap="lg" align="center">
+                <ThemeToggler />
+              </Flex>
             </AppShell.Header>
             <AppShell.Main>
               <Router />

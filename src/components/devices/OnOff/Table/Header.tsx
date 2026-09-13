@@ -1,6 +1,8 @@
 import { Table } from '@mantine/core';
-import { SyncDeviceDataButton, ValueFilter } from '@/components';
+import { SchedulerIcon, SyncDeviceDataButton, ValueFilter } from '@/components';
 import { TagsFilterButton } from '@/components/common/Tables';
+import { ON_OFF } from '../constants';
+import SchedulerFields from '../SchedulerFields';
 import useOnOffStore from '../useOnOffStore';
 
 const Header = () => {
@@ -17,6 +19,14 @@ const Header = () => {
       </Table.Th>
       <Table.Th>
         <ValueFilter />
+      </Table.Th>
+      <Table.Th>
+        <SchedulerIcon
+          Fields={SchedulerFields}
+          deviceTypeName={ON_OFF}
+          devices={onOffDevicesArray}
+          valueKey="on"
+        />
       </Table.Th>
     </Table.Tr>
   );

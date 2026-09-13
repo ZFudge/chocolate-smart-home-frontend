@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Flex, Loader, Space, TextInput } from '@mantine/core';
+import { Button, Flex, Loader, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { MAX_TAG_LENGTH, MIN_TAG_LENGTH } from '@/constants';
 import { Tag } from '@/interfaces';
@@ -58,7 +58,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <div className="flex gap-2">
+      <Flex direction="column" gap="md">
         <TextInput
           placeholder="New Tag Name"
           label="New Tag Name"
@@ -68,7 +68,6 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
           autoFocus
           styles={getTextInputStyles(color)}
         />
-        <Space h="md" />
         <Flex gap="md" justify="space-between">
           <Button color={color} disabled={!form.isValid() || loading} type="submit">
             Create
@@ -78,7 +77,7 @@ const CreateTagForm = ({ close }: { close: () => void }) => {
             Cancel
           </Button>
         </Flex>
-      </div>
+      </Flex>
     </form>
   );
 };

@@ -45,7 +45,9 @@ const Header = () => {
       <Table.Th ta="center">
         <ValueFilter />
       </Table.Th>
-      <Table.Th />
+      <Table.Th>
+        {/* <SchedulerIcon deviceTypeName={NEO_PIXEL} devices={neoPixelDevicesArray} /> */}
+      </Table.Th>
       <Table.Th w={WIDTH} miw={WIDTH} ta="center">
         <HeaderColumnToggler Icon={FaPowerOff} settingName="On" />
       </Table.Th>
