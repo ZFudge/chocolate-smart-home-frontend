@@ -4,7 +4,7 @@ import { isNotEmpty, useForm } from '@mantine/form';
 import { DeviceObject, SchedulerFormFields } from '@/interfaces';
 import { notifyJobCreateFailed, notifyJobCreateSuccess } from '@/lib/notifications';
 import { useAppStore } from '@/stores';
-import { Job, JobRequestData } from '../../interfaces';
+import { Job, JobFormValuesType, JobRequestData } from '../../interfaces';
 import useSchedulerStore from '../../useSchedulerStore';
 import { CRON_TYPES } from '../constants';
 import PopoverCancel from './PopoverCancel';
@@ -31,19 +31,20 @@ const CreateOrModifyJobForm = ({
     setEditJob(null);
   };
 
-  const form = useForm({
+  const form = useForm<JobFormValuesType>({
     initialValues: {
-      job_id: (editJob?.job_id || null) as string | null,
-      name: (editJob?.name || '') as string,
-      mqtt_ids: (editJob?.mqtt_ids.map((mqtt_id) => mqtt_id.toString()) || []) as string[],
+      job_id: editJob?.job_id || null,
+      name: editJob?.name || '',
+      mqtt_ids: editJob?.mqtt_ids.map((mqtt_id) => mqtt_id.toString()) || [],
       key: valueKey || '',
-      value: (editJob?.message_kvp.value || null) as any,
-      schedulerKwargs: (editJob?.scheduler_kwargs || {}) as Record<string, any>,
-      active: (editJob?.active ?? true) as boolean,
+      value: editJob?.message_kvp.value || null,
+      schedulerKwargs: editJob?.scheduler_kwargs || {},
+      active: editJob?.active ?? true,
     },
     validateInputOnChange: true,
     validate: {
       name: isNotEmpty('Name is required'),
+      value: isNotEmpty('Value is required'),
       schedulerKwargs: (kwargs) => {
         if (kwargs.trigger === 'cron') {
           for (let i = 0; i < CRON_TYPES.length; i++) {

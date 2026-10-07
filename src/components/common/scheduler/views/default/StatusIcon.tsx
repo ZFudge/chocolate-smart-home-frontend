@@ -3,13 +3,9 @@ import { TbCalendarX } from 'react-icons/tb';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
 import { Job } from '../../interfaces';
+import { ACTIVE, EXPIRED, INACTIVE, STATUS } from '../constants';
 
-type STATUS = 'active' | 'inactive' | 'expired';
-const ACTIVE = 'active';
-const INACTIVE = 'inactive';
-const EXPIRED = 'expired';
-
-const getStatus = (job: Job) => {
+const getStatus = (job: Job): STATUS => {
   // improve this logic after date is implemented
   if (job.scheduler_kwargs.trigger === 'date' && job.scheduler_kwargs.run_date < new Date()) {
     return EXPIRED;
@@ -36,7 +32,7 @@ const STATUS_MAPPING = {
 };
 
 const StatusIcon = ({ job }: { job: Job }) => {
-  const status: STATUS = getStatus(job);
+  const status = getStatus(job);
   const { Icon, color } = STATUS_MAPPING[status];
   return (
     <Tooltip label={status} position="bottom">

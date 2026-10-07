@@ -1,12 +1,14 @@
 import { Flex, Select } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { UseFormReturnType } from '@mantine/form';
 import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { JobFormValuesType } from '../../interfaces';
 import { SCHEDULE_TYPE_OPTIONS } from '../constants';
 import CronFields from './CronFields';
+import DateFields from './DateFields';
+import Time from './Time';
 
-const SchedulerFields = ({ form }: { form: ReturnType<typeof useForm<JobFormValuesType>> }) => {
+const SchedulerFields = ({ form }: { form: UseFormReturnType<JobFormValuesType> }) => {
   const { color } = useAppStore();
 
   return (
@@ -18,14 +20,12 @@ const SchedulerFields = ({ form }: { form: ReturnType<typeof useForm<JobFormValu
         data={SCHEDULE_TYPE_OPTIONS}
         comboboxProps={{ withinPortal: false }}
         styles={getTextInputStyles(color)}
-        onChange={(value) => {
-          const schedulerKwargs = form.getValues().schedulerKwargs;
-          schedulerKwargs.trigger = value;
-          form.setFieldValue('scheduler_kwargs', schedulerKwargs);
-        }}
+        onChange={(value) => form.setFieldValue('schedulerKwargs', { trigger: value })}
         value={form.values.schedulerKwargs.trigger}
       />
       {form.values.schedulerKwargs.trigger === 'cron' && <CronFields form={form} />}
+      {form.values.schedulerKwargs.trigger === 'date' && <DateFields form={form} />}
+      {form.values.schedulerKwargs.trigger === 'time' && <Time form={form} />}
     </Flex>
   );
 };

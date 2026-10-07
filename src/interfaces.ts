@@ -1,4 +1,4 @@
-import { useForm } from '@mantine/form';
+import { UseFormReturnType } from '@mantine/form';
 import { JobFormValuesType } from '@/components/common/scheduler/interfaces';
 import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
 import { OnOffObject } from '@/components/devices/OnOff/interfaces';
@@ -34,5 +34,5 @@ export type TagMapping = Record<number, Tag>;
 
 export type DeviceIdsByTagId = Record<number, number[]>;
 
-export type SchedulerForm = ReturnType<typeof useForm<JobFormValuesType>>;
+export type SchedulerForm = UseFormReturnType<JobFormValuesType>;
 export type SchedulerFormFields = React.ComponentType<{ form: SchedulerForm }>;

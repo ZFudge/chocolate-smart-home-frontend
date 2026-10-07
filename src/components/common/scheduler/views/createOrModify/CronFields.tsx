@@ -1,17 +1,17 @@
 import { Flex, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { UseFormReturnType } from '@mantine/form';
 import { getTextInputStyles } from '@/lib/utils';
 import { useAppStore } from '@/stores';
 import { JobFormValuesType } from '../../interfaces';
 import { CRON_TYPES } from '../constants';
 
-const CronFields = ({ form }: { form: ReturnType<typeof useForm<JobFormValuesType>> }) => {
+const CronFields = ({ form }: { form: UseFormReturnType<JobFormValuesType> }) => {
   const { color } = useAppStore();
 
   const handleCronUpdate = (fieldName: string, value: string) => {
     const schedulerKwargs = form.getValues().schedulerKwargs;
     schedulerKwargs[fieldName] = value;
-    form.setFieldValue('scheduler_kwargs', schedulerKwargs);
+    form.setFieldValue('schedulerKwargs', schedulerKwargs);
   };
 
   return (

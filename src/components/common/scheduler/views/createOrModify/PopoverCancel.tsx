@@ -1,5 +1,5 @@
 import { Button, Flex, Popover, Text } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { UseFormReturnType } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useAppStore } from '@/stores';
 import { JobFormValuesType } from '../../interfaces';
@@ -8,7 +8,7 @@ const PopoverCancel = ({
   form,
   close,
 }: {
-  form: ReturnType<typeof useForm<JobFormValuesType>>;
+  form: UseFormReturnType<JobFormValuesType>;
   close: () => void;
 }) => {
   const { color } = useAppStore();

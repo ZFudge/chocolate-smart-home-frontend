@@ -5,10 +5,9 @@ export const VIEWS = {
 };
 
 export const SCHEDULE_TYPES = [
-  { value: 'cron', label: 'Cron' },
-  { value: 'datetime', label: 'Datetime' },
+  { value: 'cron', label: 'Intervals' },
+  { value: 'date', label: 'Datetime' },
   { value: 'time', label: 'Time' },
-  { value: 'interval', label: 'Interval' },
 ];
 
 export const SCHEDULE_TYPE_OPTIONS = SCHEDULE_TYPES.map((type) => ({
@@ -17,3 +16,8 @@ export const SCHEDULE_TYPE_OPTIONS = SCHEDULE_TYPES.map((type) => ({
 }));
 
 export const CRON_TYPES = ['month', 'day', 'hour', 'minute', 'second'];
+
+export const ACTIVE = 'active';
+export const INACTIVE = 'inactive';
+export const EXPIRED = 'expired';
+export type STATUS = typeof ACTIVE | typeof INACTIVE | typeof EXPIRED;
