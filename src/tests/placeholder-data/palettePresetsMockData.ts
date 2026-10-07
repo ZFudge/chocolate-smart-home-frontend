@@ -1,4 +1,4 @@
-import { PalettePreset } from '@/components/NeoPixels/interfaces';
+import { PalettePreset } from '@/components/devices/NeoPixels/interfaces';
 
 const palettePresetsMockData: PalettePreset[] = [
   {

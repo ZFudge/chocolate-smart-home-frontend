@@ -1,30 +1,38 @@
-import { DeviceObjectTypes } from './types';
+import { UseFormReturnType } from '@mantine/form';
+import { JobFormValuesType } from '@/components/common/scheduler/interfaces';
+import { NeoPixelObject } from '@/components/devices/NeoPixels/interfaces';
+import { OnOffObject } from '@/components/devices/OnOff/interfaces';
+
+export interface IndexableObj {
+  [key: string]: any;
+}
 
 export interface Tag {
   id: number;
   name: string;
 }
 
-export interface TagMapping {
-  [key: string]: Tag;
-}
-
-export interface DeviceIdsByTagId {
-  [key: number]: number[];
-}
-
-export interface DeviceMapping {
-  [key: number]: DeviceObjectTypes;
-}
-
 export interface DeviceObject {
-  device_type_name: string;
-  id: number;
-  last_seen: string | null;
   mqtt_id: number;
   name: string;
-  online: boolean;
+  device_type_name: string;
+  last_seen: string | null;
+  last_update_sent: string | null;
+  online?: boolean;
   reboots?: number;
   remote_name?: string;
-  tags?: Tag[];
+  tags?: number[];
+  fetched_from_db?: boolean;
+  plugin: Record<string, any>;
 }
+
+export type DeviceObjectType = DeviceObject | NeoPixelObject | OnOffObject;
+
+export type DeviceMapping = Record<number, DeviceObjectType>;
+
+export type TagMapping = Record<number, Tag>;
+
+export type DeviceIdsByTagId = Record<number, number[]>;
+
+export type SchedulerForm = UseFormReturnType<JobFormValuesType>;
+export type SchedulerFormFields = React.ComponentType<{ form: SchedulerForm }>;

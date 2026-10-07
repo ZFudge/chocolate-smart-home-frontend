@@ -1,34 +1,42 @@
 import { create } from 'zustand';
-import { combine } from 'zustand/middleware';
-import { DeviceMapping } from '@/interfaces';
-import { DeviceObjectTypes } from '@/types';
+import { DeviceMapping, DeviceObjectType, Tag } from '@/interfaces';
 
-const useDevicesStore = create(
-  combine(
-    {
-      devices: {} as DeviceMapping,
-    },
-    (set) => {
-      return {
-        addDeviceData: (newDevice: DeviceObjectTypes) => {
-          const addedDevices: DeviceMapping = {};
-          if (Array.isArray(newDevice)) {
-            newDevice.forEach((device) => {
-              addedDevices[device.mqtt_id] = device;
-            });
-          } else {
-            addedDevices[newDevice.mqtt_id] = newDevice;
-          }
-          set((state) => ({
-            devices: {
-              ...state.devices,
-              ...addedDevices,
-            },
-          }));
-        },
-      };
+interface DevicesStore {
+  devices: DeviceMapping;
+  addDeviceData: (newDevice: DeviceObjectType | DeviceObjectType[]) => void;
+  tags: Tag[];
+  filteredTagIds: number[];
+  filteredValue: string;
+  addTagsData: (newTags: Tag[]) => void;
+  setFilteredTagIds: (filteredTagIds: number[]) => void;
+  setFilteredValue: (filteredValue: string) => void;
+}
+
+const useDevicesStore = create<DevicesStore>((set, get) => ({
+  devices: {} as DeviceMapping,
+  addDeviceData: (newDevice: DeviceObjectType | DeviceObjectType[]) => {
+    const devices = get().devices;
+    const handleDevice = (device: DeviceObjectType) => {
+      device.tags = device.tags ?? [];
+      devices[device.mqtt_id] = device;
+    };
+    if (Array.isArray(newDevice)) {
+      newDevice.forEach(handleDevice);
+    } else {
+      handleDevice(newDevice);
     }
-  )
-);
+    set({ devices });
+  },
+  tags: [] as Tag[],
+  filteredTagIds: [] as number[],
+  filteredValue: '' as string,
+  setFilteredTagIds: (filteredTagIds: number[]) => set({ filteredTagIds }),
+  setFilteredValue: (filteredValue: string) => set({ filteredValue }),
+  addTagsData: (newTags: Tag[]) => {
+    const existingTags = get().tags.reduce((arr, cur) => ({ ...arr, [cur.id]: cur }), {});
+    const currentTags = newTags.reduce((arr, cur) => ({ ...arr, [cur.id]: cur }), existingTags);
+    set({ tags: Object.values(currentTags) });
+  },
+}));
 
 export default useDevicesStore;

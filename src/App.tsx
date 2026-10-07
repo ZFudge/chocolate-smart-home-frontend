@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { AppShell, createTheme, Flex, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 
 import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
-import Router from './Router';
-import { useDevicesStore, useTagsStore } from './stores';
+import Router from './components/Router';
+import { DeviceObjectType } from './interfaces';
+import { useDevicesStore } from './stores';
 import { useWebsocket, WebSocketContext } from './ws';
 
 // allow theme toggle cursor to be a pointer
@@ -18,25 +21,25 @@ const theme = createTheme({
 const App = () => {
   const { connect, websocket } = useWebsocket();
   const { addDeviceData } = useDevicesStore();
-  const { addTagsData } = useTagsStore();
-
-  const handleMessage = (msgEvent: MessageEvent) => {
-    const data = JSON.parse(msgEvent.data);
-    addDeviceData(data);
-  };
 
   useEffect(() => {
-    connect(handleMessage);
-    const getTags = async () => {
-      const response = await fetch('/api/tags/');
+    const getDevices = async () => {
+      const response = await fetch('/api/devices/');
       if (!response.ok) {
-        console.error(response.statusText);
+        console.error(response.statusText); // eslint-disable-line no-console
         return;
       }
       const data = await response.json();
-      addTagsData(data);
+      data.forEach((device: DeviceObjectType) => (device.fetched_from_db = true));
+      addDeviceData(data);
     };
-    getTags();
+    getDevices();
+
+    const handleMessage = (msgEvent: MessageEvent) => {
+      const data = JSON.parse(msgEvent.data);
+      addDeviceData(data);
+    };
+    connect(handleMessage);
     return () => {
       websocket?.close();
     };
@@ -44,29 +47,33 @@ const App = () => {
 
   return (
     <MantineProvider theme={theme}>
-      <Notifications />
-      <WebSocketContext.Provider value={websocket}>
-        <AppShell header={{ height: 60 }} padding="md">
-          <AppShell.Header
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '1em',
-            }}
-          >
-            <Flex gap="md" align="center">
-              <ColorThemePickerIcon />
-              <SyncDeviceDataButton />
-              <TagsButton />
-            </Flex>
-            <ThemeToggler />
-          </AppShell.Header>
-
-          <AppShell.Main>
-            <Router />
-          </AppShell.Main>
-        </AppShell>
-      </WebSocketContext.Provider>
+      <BrowserRouter>
+        <Notifications />
+        <WebSocketContext.Provider value={websocket}>
+          <AppShell header={{ height: '5em' }} padding="md">
+            <AppShell.Header
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '1em',
+              }}
+            >
+              <Flex gap="lg">
+                <ColorThemePickerIcon />
+                <SyncDeviceDataButton />
+                <TagsButton />
+              </Flex>
+              <Flex gap="lg" align="center">
+                <ThemeToggler />
+              </Flex>
+            </AppShell.Header>
+            <AppShell.Main>
+              <Router />
+            </AppShell.Main>
+          </AppShell>
+        </WebSocketContext.Provider>
+      </BrowserRouter>
     </MantineProvider>
   );
 };

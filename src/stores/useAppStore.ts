@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { NEO_PIXEL } from '@/components/NeoPixels/constants';
+import { NEO_PIXEL } from '@/components/devices/NeoPixels/constants';
 
 export interface AppStore {
   color: string;

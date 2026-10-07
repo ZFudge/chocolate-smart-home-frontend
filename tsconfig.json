@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["node", "@testing-library/jest-dom", "vitest/globals"],
-    "target": "ESNext",
+    "target": "ES2023",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "node", "@testing-library/jest-dom", "vitest/globals"],
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -11,16 +11,14 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "@/*": ["./src/*"],
-      "src/*": ["./src/*"],
-      "@test-utils": ["./test-utils"]
-    }
+      "noEmit": true,
+      "jsx": "react-jsx",
+      "paths": {
+        "@/*": ["./src/*"],
+        "@test-utils": ["./test-utils"]
+      }
   },
   "include": ["src", "test-utils"]
 }
