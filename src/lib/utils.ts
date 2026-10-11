@@ -48,25 +48,11 @@ export const getLastSeenDate = (last_seen: string | null) => {
   if (last_seen === null) {
     return 'Never';
   }
-  // server timestamp is in UTC
   const lastSeenDate = new Date(last_seen);
-  lastSeenDate.setUTCFullYear(lastSeenDate.getFullYear());
-  lastSeenDate.setUTCMonth(lastSeenDate.getMonth());
-  lastSeenDate.setUTCDate(lastSeenDate.getDate());
-  lastSeenDate.setUTCHours(lastSeenDate.getHours());
   const lastSeenTime = lastSeenDate.toLocaleTimeString();
 
   const now = new Date();
-  const nowUTC = new Date(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    now.getUTCHours(),
-    now.getUTCMinutes(),
-    now.getUTCSeconds(),
-    now.getUTCMilliseconds()
-  );
-  const daysAgo = Math.floor((nowUTC.getTime() - lastSeenDate.getTime()) / 24 / 3600 / 1000);
+  const daysAgo = Math.floor((now.getTime() - lastSeenDate.getTime()) / 24 / 3600 / 1000);
   if (daysAgo === 0) {
     return `Today at ${lastSeenTime}`;
   } else if (daysAgo === 1) {

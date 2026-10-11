@@ -20,7 +20,7 @@ const theme = createTheme({
 
 const App = () => {
   const { connect, websocket } = useWebsocket();
-  const { addDeviceData } = useDevicesStore();
+  const { addDeviceData, setRequestAllDeviceDataLastSent } = useDevicesStore();
 
   useEffect(() => {
     const getDevices = async () => {
@@ -30,10 +30,20 @@ const App = () => {
         return;
       }
       const data = await response.json();
-      data.forEach((device: DeviceObjectType) => (device.fetched_from_db = true));
+      data.forEach((device: DeviceObjectType) => (device.fetchedFromDb = true));
       addDeviceData(data);
     };
     getDevices();
+    const getRequestAllDeviceDataLastSent = async () => {
+      const response = await fetch('/api/request_all_device_data_last_sent/');
+      if (!response.ok) {
+        console.error(response.statusText); // eslint-disable-line no-console
+        return;
+      }
+      const data = await response.json();
+      setRequestAllDeviceDataLastSent(data);
+    };
+    getRequestAllDeviceDataLastSent();
 
     const handleMessage = (msgEvent: MessageEvent) => {
       const data = JSON.parse(msgEvent.data);

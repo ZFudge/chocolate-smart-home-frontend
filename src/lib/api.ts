@@ -8,5 +8,5 @@ export interface PostData {
 }
 
 export const postUpdate = (data: PostData) => {
-  console.log('apiHandler', data);
+  console.log('apiHandler', data); // eslint-disable-line no-console
 };

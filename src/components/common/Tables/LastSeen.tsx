@@ -7,7 +7,7 @@ import { getLastSeenDate } from '@/lib/utils';
 import classes from './Table.module.css';
 
 const LastSeen = ({ device }: { device: DeviceObject }) => {
-  const Icon = device.online ? HiStatusOnline : HiStatusOffline;
+  const Icon = !device.online || device.fetchedFromDb ? HiStatusOffline : HiStatusOnline;
   const colorClass = device.online ? 'online' : 'offline';
 
   const lastSeen = getLastSeenDate(device.last_seen);
@@ -25,6 +25,7 @@ const LastSeen = ({ device }: { device: DeviceObject }) => {
           className={classes[colorClass]}
           style={{ borderRadius: '50%', padding: '1px' }}
           size={ICON_SIZE}
+          color={!device.online || device.fetchedFromDb ? 'gray' : ''}
         />
       </ActionIcon>
     </Tooltip>

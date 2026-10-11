@@ -24,13 +24,13 @@ const ToggleButton = ({ device, indexableObject, Icon, label, settingName }: Tog
       : device[settingName.toLowerCase()];
   useEffect(() => setLoading(false), [getValue()]);
 
-  const handleToggle = () => {
+  const handleToggle = (resendCurrentValue = false) => {
     setLoading(true);
     const data = {
       device_type_name: device.device_type_name,
       mqtt_id: device.mqtt_id,
       name: settingName.toLowerCase(),
-      value: !getValue(),
+      value: resendCurrentValue ? getValue() : !getValue(),
     } as PostData;
     if (websocket) {
       websocket.send(JSON.stringify(data));
@@ -39,13 +39,34 @@ const ToggleButton = ({ device, indexableObject, Icon, label, settingName }: Tog
     }
   };
 
+  let mouseDown: boolean = false;
+  let mouseDownHeldPastThreshold: boolean = false;
   return (
     <Tooltip label={label}>
       <ActionIcon
         variant="outline"
         radius="xl"
         size="xl"
-        onClick={handleToggle}
+        onMouseDown={() => {
+          mouseDown = true;
+          setTimeout(() => {
+            if (!mouseDown) {
+              return;
+            }
+            // Resend the current value to the controller.
+            // This is useful when a controller's current state is not being published,
+            // but the controller is still connected to the network and is receiving messages. */
+            handleToggle(true);
+            mouseDownHeldPastThreshold = true;
+          }, 2000);
+        }}
+        onMouseUp={() => {
+          if (!mouseDownHeldPastThreshold) {
+            handleToggle();
+          }
+          mouseDownHeldPastThreshold = false;
+          mouseDown = false;
+        }}
         color={getValue() ? ON_COLOR : OFF_COLOR}
         data-testid={`${device.mqtt_id}-${settingName.toLowerCase()}-toggle-button`}
         loading={loading}

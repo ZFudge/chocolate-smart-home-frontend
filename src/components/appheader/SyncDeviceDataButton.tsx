@@ -2,8 +2,10 @@ import { FaSyncAlt } from 'react-icons/fa';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { ICON_SIZE } from '@/constants';
 import { notifySyncRequestFailed, notifySyncRequestStarted } from '@/lib/notifications';
+import { useDevicesStore } from '@/stores';
 
 const SyncDeviceDataButton = () => {
+  const { setRequestAllDeviceDataLastSent } = useDevicesStore();
   const onClick = async () => {
     const response = await fetch('/api/broadcast_request_devices_state/', {
       method: 'HEAD',
@@ -14,6 +16,7 @@ const SyncDeviceDataButton = () => {
       return;
     }
     notifySyncRequestStarted();
+    setRequestAllDeviceDataLastSent(new Date().toISOString());
   };
 
   return (
