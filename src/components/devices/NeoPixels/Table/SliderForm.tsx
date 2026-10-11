@@ -65,6 +65,7 @@ const SliderForm = ({ device, name, Icon, close, setIsLoading, initialValue }: S
         color={color}
         styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
         label={null}
+        data-testid="neo-pixel-slider-form-input"
         {...field.getInputProps(name.toLowerCase())}
       />
       <Divider my="xs" color={getDividerColor(color)} />

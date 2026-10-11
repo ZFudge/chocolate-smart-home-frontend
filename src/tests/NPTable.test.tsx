@@ -63,7 +63,8 @@ describe('NPTable component', () => {
     const { getByTestId } = render(<NPTable />);
     const powerButton: HTMLElement = getByTestId('1-on-toggle-button');
     const apiModule = await import('@/lib/api');
-    act(() => fireEvent.click(powerButton));
+    act(() => fireEvent.mouseDown(powerButton));
+    act(() => fireEvent.mouseUp(powerButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,
@@ -86,7 +87,8 @@ describe('NPTable component', () => {
     const { getByTestId } = render(<NPTable />);
     const twinkleButton: HTMLElement = getByTestId('1-twinkle-toggle-button');
     const apiModule = await import('@/lib/api');
-    act(() => fireEvent.click(twinkleButton));
+    act(() => fireEvent.mouseDown(twinkleButton));
+    act(() => fireEvent.mouseUp(twinkleButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,
@@ -100,7 +102,8 @@ describe('NPTable component', () => {
     const { getByTestId } = render(<NPTable />);
     const transformButton: HTMLElement = getByTestId('1-transform-toggle-button');
     const apiModule = await import('@/lib/api');
-    act(() => fireEvent.click(transformButton));
+    act(() => fireEvent.mouseDown(transformButton));
+    act(() => fireEvent.mouseUp(transformButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,
@@ -113,12 +116,14 @@ describe('NPTable component', () => {
   it('should set ms', async () => {
     const { getByTestId, findByTestId } = render(<NPTable />);
     const msButton: HTMLElement = getByTestId('1-ms-popover-slider-button');
-    fireEvent.click(msButton);
+    act(() => fireEvent.click(msButton));
+    const msSlider = await findByTestId('neo-pixel-slider-form-input');
     const submitButton = await findByTestId('neo-pixel-slider-form-submit-button');
     const apiModule = await import('@/lib/api');
+    msSlider.focus();
     await userEvent.keyboard('[ArrowUp]');
     await userEvent.keyboard('[ArrowUp]');
-    fireEvent.click(submitButton);
+    act(() => fireEvent.click(submitButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,
@@ -132,11 +137,13 @@ describe('NPTable component', () => {
     const { getByTestId, findByTestId } = render(<NPTable />);
     const brightnessButton: HTMLElement = getByTestId('1-brightness-popover-slider-button');
     fireEvent.click(brightnessButton);
+    const brightnessSlider = await findByTestId('neo-pixel-slider-form-input');
     const submitButton = await findByTestId('neo-pixel-slider-form-submit-button');
     const apiModule = await import('@/lib/api');
+    brightnessSlider.focus();
     await userEvent.keyboard('[ArrowUp]');
     await userEvent.keyboard('[ArrowUp]');
-    fireEvent.click(submitButton);
+    act(() => fireEvent.click(submitButton));
     expect(apiModule.postUpdate).toHaveBeenCalledOnce();
     expect(apiModule.postUpdate).toHaveBeenCalledWith({
       mqtt_id: 1,

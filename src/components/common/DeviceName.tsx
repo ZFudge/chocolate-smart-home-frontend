@@ -36,6 +36,8 @@ const getTimeDifference = (epochTime: string | null) => {
   const seconds = Math.floor(difference);
   if (seconds) {
     textualDifference += `${seconds}s`;
+  } else {
+    return '0s';
   }
 
   return textualDifference;
