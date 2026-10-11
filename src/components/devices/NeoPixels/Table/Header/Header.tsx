@@ -37,13 +37,13 @@ const Header = () => {
         />
       </Table.Th>
       <Table.Th ta="center">
+        <ValueFilter />
+      </Table.Th>
+      <Table.Th ta="center">
         <SyncDeviceDataButton />
       </Table.Th>
       <Table.Th ta="center">
         <TagsFilterButton devices={neoPixelDevicesArray} />
-      </Table.Th>
-      <Table.Th ta="center">
-        <ValueFilter />
       </Table.Th>
       <Table.Th>
         {/* <SchedulerIcon deviceTypeName={NEO_PIXEL} devices={neoPixelDevicesArray} /> */}

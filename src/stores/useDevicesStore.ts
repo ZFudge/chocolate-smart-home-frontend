@@ -10,6 +10,8 @@ interface DevicesStore {
   addTagsData: (newTags: Tag[]) => void;
   setFilteredTagIds: (filteredTagIds: number[]) => void;
   setFilteredValue: (filteredValue: string) => void;
+  requestAllDeviceDataLastSent: string;
+  setRequestAllDeviceDataLastSent: (requestAllDeviceDataLastSent: string) => void;
 }
 
 const useDevicesStore = create<DevicesStore>((set, get) => ({
@@ -37,6 +39,9 @@ const useDevicesStore = create<DevicesStore>((set, get) => ({
     const currentTags = newTags.reduce((arr, cur) => ({ ...arr, [cur.id]: cur }), existingTags);
     set({ tags: Object.values(currentTags) });
   },
+  requestAllDeviceDataLastSent: '',
+  setRequestAllDeviceDataLastSent: (requestAllDeviceDataLastSent: string) =>
+    set({ requestAllDeviceDataLastSent }),
 }));
 
 export default useDevicesStore;

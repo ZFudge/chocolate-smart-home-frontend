@@ -22,7 +22,7 @@ export interface DeviceObject {
   reboots?: number;
   remote_name?: string;
   tags?: number[];
-  fetched_from_db?: boolean;
+  fetchedFromDb?: boolean;
   plugin: Record<string, any>;
 }
 

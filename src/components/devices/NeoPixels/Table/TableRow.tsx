@@ -36,13 +36,13 @@ const TableRow = ({ device }: { device: NeoPixelObject }) => {
         />
       </Table.Td>
       <Table.Td>
+        <LastSeen device={device} />
+      </Table.Td>
+      <Table.Td>
         <DeviceSettings device={device as unknown as DeviceObject} />
       </Table.Td>
       <Table.Td>
         <DeviceTags device={device as unknown as DeviceObject} />
-      </Table.Td>
-      <Table.Td>
-        <LastSeen device={device} />
       </Table.Td>
       <Table.Td>
         <DeviceName device={device as unknown as DeviceObject} />
