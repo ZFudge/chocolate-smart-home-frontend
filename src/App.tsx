@@ -7,7 +7,13 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 
-import { ColorThemePickerIcon, SyncDeviceDataButton, TagsButton, ThemeToggler } from '@/components';
+import {
+  ColorThemePickerIcon,
+  SyncDeviceDataButton,
+  TagsButton,
+  ThemeToggler,
+  WebSocketConnectionIndicator,
+} from '@/components';
 import Router from './components/Router';
 import { DeviceObjectType } from './interfaces';
 import { useDevicesStore } from './stores';
@@ -76,6 +82,7 @@ const App = () => {
               </Flex>
               <Flex gap="lg" align="center">
                 <ThemeToggler />
+                <WebSocketConnectionIndicator />
               </Flex>
             </AppShell.Header>
             <AppShell.Main>
