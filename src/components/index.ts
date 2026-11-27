@@ -4,6 +4,7 @@ import {
   SyncDeviceDataButton,
   TagsButton,
   ThemeToggler,
+  WebSocketConnectionIndicator,
 } from './appheader';
 import { SplitTableCell, ToggleButton, ToggleButtonMultiple } from './common';
 import DeviceName from './common/DeviceName';
@@ -27,4 +28,5 @@ export {
   ToggleButton,
   ToggleButtonMultiple,
   ValueFilter,
+  WebSocketConnectionIndicator,
 };
