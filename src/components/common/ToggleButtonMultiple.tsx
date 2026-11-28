@@ -23,7 +23,7 @@ const ToggleButtonMultiple = ({
   Icon,
   deviceTypeName,
 }: ToggleButtonMultipleProps) => {
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const getValue = () =>
@@ -46,8 +46,8 @@ const ToggleButtonMultiple = ({
       name: settingName.toLowerCase(),
       value: !getValue(),
     } as PostData;
-    if (websocket) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

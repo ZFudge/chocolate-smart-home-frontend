@@ -29,7 +29,7 @@ const SliderFormMulti = ({
   setIsLoading,
 }: SliderFormPropsMulti) => {
   const { color } = useAppStore();
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
 
   const field = useField({
     initialValue: indexableObject
@@ -44,8 +44,8 @@ const SliderFormMulti = ({
       mqtt_id: devices.map((device) => device.mqtt_id),
       device_type_name: NEO_PIXEL,
     } as PostData;
-    if (websocket) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

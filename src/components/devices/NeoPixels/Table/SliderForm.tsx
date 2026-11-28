@@ -21,7 +21,7 @@ interface SliderFormProps {
 
 const SliderForm = ({ device, name, Icon, close, setIsLoading, initialValue }: SliderFormProps) => {
   const { color } = useAppStore();
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
 
   const field = useForm({
     initialValues: {
@@ -37,8 +37,8 @@ const SliderForm = ({ device, name, Icon, close, setIsLoading, initialValue }: S
       mqtt_id: device.mqtt_id,
       device_type_name: NEO_PIXEL,
     };
-    if (websocket) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

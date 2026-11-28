@@ -14,7 +14,7 @@ import SavePalette from './SavePalette';
 
 const PaletteModal = () => {
   const { selectedPaletteDevices, neoPixelDevices, setSelectedPaletteDevices } = useNeoPixelStore();
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
   const { color } = useAppStore();
 
   const device = neoPixelDevices[selectedPaletteDevices as number] as NeoPixelObject;
@@ -35,8 +35,8 @@ const PaletteModal = () => {
       device_type_name: 'neo_pixel',
       value: Object.values(values),
     };
-    if (websocket?.readyState === 1) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

@@ -15,7 +15,7 @@ interface ToggleButtonProps {
 }
 
 const ToggleButton = ({ device, indexableObject, Icon, label, settingName }: ToggleButtonProps) => {
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
   const [loading, setLoading] = useState(false);
 
   const getValue = () =>
@@ -32,8 +32,8 @@ const ToggleButton = ({ device, indexableObject, Icon, label, settingName }: Tog
       name: settingName.toLowerCase(),
       value: resendCurrentValue ? getValue() : !getValue(),
     } as PostData;
-    if (websocket) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

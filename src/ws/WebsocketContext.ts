@@ -1,5 +1,15 @@
 import { createContext } from 'react';
 
-const WebSocketContext = createContext<WebSocket | null>(null);
+type WebSocketContextType = {
+  connect: (onmessage: (msgEvent: MessageEvent) => void, retries: number) => void;
+  online: boolean;
+  websocket: React.RefObject<WebSocket | null>;
+};
+
+const WebSocketContext = createContext<WebSocketContextType>({
+  connect: () => {},
+  online: false,
+  websocket: { current: null },
+});
 
 export default WebSocketContext;

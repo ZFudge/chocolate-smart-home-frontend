@@ -19,7 +19,7 @@ const IndeterminateButton = ({
   settingName: string;
   deviceTypeName: string;
 }) => {
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
   const { color } = useAppStore();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +35,8 @@ const IndeterminateButton = ({
       name: settingName.toLowerCase(),
       value: Boolean(value),
     };
-    if (websocket) {
-      websocket.send(JSON.stringify(sendData));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(sendData));
     } else {
       postUpdate(sendData);
     }

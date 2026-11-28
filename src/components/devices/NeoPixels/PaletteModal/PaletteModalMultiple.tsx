@@ -12,7 +12,7 @@ import PalettePresets from './presets/PalettePresets';
 import SavePalette from './SavePalette';
 
 const PaletteModalMultiple = () => {
-  const websocket = useContext(WebSocketContext);
+  const { websocket, online: wsOnline } = useContext(WebSocketContext);
   const { color } = useAppStore();
   const { selectedPaletteDevices, neoPixelDevices, setSelectedPaletteDevices } = useNeoPixelStore();
   const devices = (selectedPaletteDevices as number[]).map(
@@ -36,8 +36,8 @@ const PaletteModalMultiple = () => {
       device_type_name: 'neo_pixel',
       value: Object.values(values),
     };
-    if (websocket?.readyState === 1) {
-      websocket.send(JSON.stringify(data));
+    if (wsOnline) {
+      websocket?.current?.send(JSON.stringify(data));
     } else {
       postUpdate(data);
     }

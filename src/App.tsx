@@ -25,7 +25,7 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const { connect, websocket } = useWebsocket();
+  const wsContext = useWebsocket();
   const { addDeviceData, setRequestAllDeviceDataLastSent } = useDevicesStore();
 
   useEffect(() => {
@@ -55,9 +55,9 @@ const App = () => {
       const data = JSON.parse(msgEvent.data);
       addDeviceData(data);
     };
-    connect(handleMessage);
+    wsContext.connect(handleMessage);
     return () => {
-      websocket?.close();
+      wsContext.websocket?.current?.close();
     };
   }, []);
 
@@ -65,7 +65,7 @@ const App = () => {
     <MantineProvider theme={theme}>
       <BrowserRouter>
         <Notifications />
-        <WebSocketContext.Provider value={websocket}>
+        <WebSocketContext.Provider value={wsContext}>
           <AppShell header={{ height: '5em' }} padding="md">
             <AppShell.Header
               style={{

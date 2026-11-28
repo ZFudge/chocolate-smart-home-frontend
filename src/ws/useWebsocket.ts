@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const RETRY_TIMEOUT = 3000;
 const RETRY_COUNT = 3;
 const WEBSOCKET_URL = '/ws';
 
 const useWebsocket = () => {
-  const [websocket, setWebsocket] = useState<WebSocket | null>(null);
+  const websocket = useRef<WebSocket | null>(null);
+  const [online, setOnline] = useState(false);
 
   const connect = (onmessage: (msgEvent: MessageEvent) => void, retries = RETRY_COUNT) => {
     const connectMessage = `attempting websocket connection on ${WEBSOCKET_URL}. ${retries} retries remaining...`;
@@ -25,12 +26,15 @@ const useWebsocket = () => {
 
     ws.onopen = () => {
       console.log(`opened websocket connection on ${WEBSOCKET_URL}`); // eslint-disable-line no-console
-      setWebsocket(ws);
+      setOnline(true);
+      websocket.current = ws;
       retriesReset = RETRY_COUNT;
     };
 
     ws.onclose = (ev: CloseEvent) => {
       console.log('websocket closed', ev); // eslint-disable-line no-console
+      setOnline(false);
+      websocket.current = null;
       if (retries) {
         // Retry connection.
         window.setTimeout(
@@ -42,6 +46,7 @@ const useWebsocket = () => {
   };
 
   return {
+    online,
     connect,
     websocket,
   };
